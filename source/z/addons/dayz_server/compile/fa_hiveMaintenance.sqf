@@ -76,7 +76,7 @@ fa_spawninventory = {
 	_config = configFile >> "CfgBuildingLoot" >> "HeliCrash";
 	// append parts to loot item
 	_itemType =	(getArray (_config >> "itemType"));
-	{ _itemType set [count _itemType, [_x,"object"]] } forEach _partType;;
+	{ _itemType set [count _itemType, [_x,"object"]] } forEach _partType;
 	_itemChance = getArray (_config >> "itemChance");
 	//diag_log (format["FACO _itemType:%1  _itemChance:%2", _itemType, _itemChance]);
 	// _partWeight : sum of weights of parts list
@@ -131,6 +131,10 @@ fa_populateCargo = {
 		{    
 			if (_x == "Crossbow") then { _x = "Crossbow_DZ" }; // Convert Crossbow to Crossbow_DZ
             if (_x == "BoltSteel") then { _x = "WoodenArrow" }; // Convert BoltSteel to WoodenArrow
+			// Convert to DayZ Weapons
+			if (_x == "DMR") then { _x = "DMR_DZ" };
+			if (_x == "SVD") then { _x = "SVD_DZ" }; 
+			if (_x == "SVD_CAMO") then { _x = "SVD_CAMO_DZ" };
 			if (isClass(configFile >> (_config select _i) >> _x) &&
 				getNumber(configFile >> (_config select _i) >> _x >> "stopThis") != 1) then {
 				if (_forEachIndex < count _magItemQtys) then {
@@ -274,10 +278,9 @@ fa_checkVehicles = {
 					if ((_x select 8) >= 1) then { 
 #ifdef VEH_MAINTENANCE_ADD_MISSING	
 						(_myArray select _forEachIndex) set [8, 0.9] ; // damage = 0.9 so this veh will me respawned
+						diag_log (format["fa_checkVehicles: recycling vehicle class=%1, oid=%2", _x select 2, _x select 1]);
 #endif
 					};
-					//diag_log (format["fa_checkVehicles: keeping vehicle class=%1, oid=%2, damage=%3", 
-						//	_x select 2, _x select 1, _x select 8]);
 				}
 #ifdef VEH_MAINTENANCE_IGNORE_UNKNOWN
 				else {
@@ -297,10 +300,10 @@ fa_checkVehicles = {
 		for "_y" from 1 to (_x select 1) do {
 			// create a new one at the end of _myArray list
 			_type = (_x select 0);
-			_idKey = format["%1%2",floor(random 100000),floor(random 100000)];
+			_idKey = format["%1%2",48,60000+floor(random 10000)];
 			// "1" as Character ID since if I put "0" the vehicle is not stored in hive (since january 2013)
 			_myArray set [count _myArray, ["CREATED",_idKey,_type,"1",[0,[0,0,0]],[[[],[]],[[],[]],[[],[]]],[],0,0.9]];
-			diag_log (format["fa_checkVehicles: adding vehicle class=%1, chosen oid=%2", _type, _idKey]);
+			diag_log (format["fa_checkVehicles: inserting in HIVE: vehicle class=%1, chosen oid=%2", _type, _idKey]);
 		};
 	} foreach _vehcat;
 #endif
@@ -308,10 +311,11 @@ fa_checkVehicles = {
 
 // move object to map boundary if it's out of map
 fa_staywithus = {
+
 	private["_a","_dir","_px","_py","_b","_cx","_cy","_k", "_SWcorner", "_NEcorner"];
 	
-	_dir = _this select 0;  // current position of player / vehicle
-	_a = _this select 1;  // current position of player / vehicle
+	_dir = +(_this select 0);  // current position of player / vehicle
+	_a = +(_this select 1);  // current position of player / vehicle
 
 	_SWcorner = getArray(CONFIGBASE_VEHMAINTENANCE >> (worldName) >> "SWcorner");
 	_NEcorner = getArray(CONFIGBASE_VEHMAINTENANCE >> (worldName) >> "NEcorner");
@@ -358,10 +362,36 @@ fa_staywithus = {
 	
 	// cancel the change if it is too near original pos
 	if (([(_this select 1),_a] call BIS_fnc_distance2Dsqr) <= 100) then { 
-		_dir = _this select 0; 
-		_a = _this select 1; 
+		[_this select 0, _this select 1]
+	}
+	else {
+		[ _dir, [_a select 0, _a select 1, 0]]
+	}
+};
+
+// used only by fa_server_locationCheck
+stream_locationFill = compile preprocessFileLineNumbers "\z\addons\dayz_code\compile\stream_locationFill.sqf";
+dayz_locationsActive = [];
+// used only by fa_smartlocation. Same as stream_locationCheck, but without any deletion.
+fa_server_locationCheck = {
+	_point = _this select 0;
+	_rad = _this select 1;
+	_config = configFile >> "CfgTownGeneratorChernarus";
+	
+	for "_i" from (count _config -1) to 0 step -1 do {
+		_x = _config select _i;
+	 	_location = getArray (_x >> "position");
+        _distCfg = getNumber (_x >> "size");
+		_distAct = [_point select 0, _point select 1, 0] distance [_location select 0, _location select 1, 0];
+
+		if (!(_i in dayz_locationsActive)) then {
+			if (_distAct < _distCfg + _rad) then {
+				dayz_locationsActive set [count dayz_locationsActive,_i];
+				diag_log format ["%1::fa_server_locationCheck : creating %2 objects at '%3'", __FILE__, count _x, _location];
+				[_x, false] call stream_locationFill; // create wrecks & rubbish as local objects
+			};
+		};
 	};
-	[ _dir, [_a select 0, _a select 1, 0]]
 };
 
 // used only by fa_smartlocation
@@ -432,9 +462,10 @@ private ["_type","_class","_dir","_oldpos","_action","_distance","_minAltitude",
 #endif
 		// find a safe position around current position for air vehicles
 		if (_type isKindOf "Air") then { 
+			[_point, 20] call fa_server_locationCheck; // towngenerator around spawn point, to limit collisions
 			deleteVehicle _tmpobject;
 			_tmpobject = _class createVehicleLocal _point;  
-			_point = getPos _tmpobject;
+			_point = getPosATL _tmpobject;
 		};
 		// check altitude		
 #ifdef VEH_MAINTENANCE_FIX_OUTOFMAP
@@ -452,6 +483,9 @@ private ["_type","_class","_dir","_oldpos","_action","_distance","_minAltitude",
 			_found, 
 			if (_found) then { [_oldpos, _point] call BIS_fnc_distance2D } else { "" } 
 		]);*/
+	}
+	else {
+		[_point, 20] call fa_server_locationCheck; // towngenerator around spawn point, to limit collisions
 	};
 	deleteVehicle _tmpobject;
 	sleep 0.01; // wait object destroy. nearEntities may return false info if not done.
@@ -481,6 +515,7 @@ private ["_type","_class","_dir","_oldpos","_action","_distance","_minAltitude",
 			_locpos = ATLtoASL _locpos;
 			// if location is in the sea, or on the ground and at the right altitude
 			if ((_maxAltitude<0) OR {(((_locpos select 2) < _maxAltitude+0.05*_radius) AND {((_locpos select 2) > _minAltitude-0.05*_radius)})}) then {
+				[_locpos, _radius] call fa_server_locationCheck;
 				if (count _nearObjectTypes > 0 ) then { // spawn close to an object
 					_objects = nearestObjects [_locpos, _nearObjectTypes, _radius]; 
 					//diag_log(format["fa_smartlocation: In locality loop _loc:%1  near objects count:%2  ", _pickedLocation, count _objects ]);

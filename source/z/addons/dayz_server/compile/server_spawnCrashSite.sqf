@@ -16,11 +16,12 @@ diag_log("CRASHSPAWNER: Starting spawn logic for Crash Spawner");
 
 while {true} do {
 	// Allows the variance to act as +/- from the spawn frequency timer
-	_timeAdjust = round(random(_variance * 2) - _variance);
+    _timeAdjust = ((round(random(_variance * 2))) - _variance);
 	_timeToSpawn = time + _frequency + _timeAdjust;
 
 	//Selecting random crash type
 	_crashModel = ["UH60Wreck_DZ","UH1Wreck_DZ","Mi8Wreck_DZ"] call BIS_fnc_selectRandom;
+	//_crashModel = ["UH1Wreck_DZ"] call BIS_fnc_selectRandom;
 
 	//selecting loottable
 	//Random lootables?
@@ -28,8 +29,11 @@ while {true} do {
 	//else {_lootTable = ["MilitaryWEST","HeliCrashWEST"] call BIS_fnc_selectRandom;};
 
 	//or just helicrash loottable
-	if (_crashModel == "Mi8Wreck_DZ") then {_lootTable = "HeliCrashEAST";}
-	else {_lootTable = "HeliCrashWEST";};
+	if (_crashModel == "Mi8Wreck_DZ") then {
+		_lootTable = "HeliCrashEAST";
+	} else {
+		_lootTable = "HeliCrashWEST";
+	};
 
 	_crashName = getText (configFile >> "CfgVehicles" >> _crashModel >> "displayName");
 
@@ -82,7 +86,7 @@ while {true} do {
 			_weights = dayz_CBLChances select _index;
 			_cntWeights = count _weights;
 
-			for "_x" from (round(random _randomizedLoot) + _guaranteedLoot) to 1 step -1  do {
+            for "_x" from ((round(random _randomizedLoot)) + _guaranteedLoot) to 1 step -1  do {
 				//create loot
 				_index = floor(random _cntWeights);
 				_index = _weights select _index;
@@ -91,10 +95,11 @@ while {true} do {
 				_lootpos = [];
 				for [{_y = 0}, {_y < 10 && ((count _lootpos) == 0)}, {_y = _y + 1}] do {
 					_angle = random 360;
-					_radius = 0.9 + random 0.6 ;//* (1 + random 0.3);
+					_radius = 0.9 + random 0.6;
 					_lootpos = _crash modelToWorld [_radius*_width*sin(_angle), _radius*_length*cos(_angle), 0];
 					_lootpos = _lootpos findEmptyPosition [0,_length/3, "WeaponHolder"];
 				};
+
 				if ((count _lootpos) >= 2) then {
 					_lootpos set [2,0];
 					_item = [_itemType select 0, _itemType select 1, _lootpos, 1] call spawn_loot;
@@ -103,14 +108,15 @@ while {true} do {
 					if (dayz_spawnCrashSite_clutterCutter == 1) then { // shift loot upward to 5cm
 						_lootpos set [2,0.05];
 						_item setPosATL _lootpos;
-					}
-					else { if (dayz_spawnCrashSite_clutterCutter >= 2) then { // cutterclutter
-						_clutter = createVehicle ["ClutterCutter_small_2_EP1", _lootpos, [], 0, "CAN_COLLIDE"];
-						_clutter setPos _lootpos;
-						if (dayz_spawnCrashSite_clutterCutter == 3) then { // debug
-							createVehicle ["Sign_sphere100cm_EP1", [_lootpos select 0, _lootpos select 1, 0.30], [], 0, "CAN_COLLIDE"];					
+					} else { 
+						if (dayz_spawnCrashSite_clutterCutter >= 2) then { // cutterclutter
+							_clutter = createVehicle ["ClutterCutter_small_2_EP1", _lootpos, [], 0, "CAN_COLLIDE"];
+							_clutter setPos _lootpos;
+							if (dayz_spawnCrashSite_clutterCutter == 3) then { // debug
+								createVehicle ["Sign_sphere100cm_EP1", [_lootpos select 0, _lootpos select 1, 0.30], [], 0, "CAN_COLLIDE"];					
+							};
 						};
-					};};
+					};
 					 
 					//diag_log(format["CRASHSPAWNER: Loot spawn at '%1 - %3' with loot table '%2'", _crashName, str(_itemType),_lootpos]);
 					sleep 0.001;
@@ -144,7 +150,5 @@ while {true} do {
 			};
 			_spawnOnStart = _spawnOnStart -1;
 		};
-	} else {
-		//diag_log(format["CRASHSPAWNER: %1%2 chance to spawn '%3' with loot table '%4' at %5 FAILED (chance)", round(_spawnChance * 100), '%', _crashName, _lootTable, _timeToSpawn]);
 	};
 };

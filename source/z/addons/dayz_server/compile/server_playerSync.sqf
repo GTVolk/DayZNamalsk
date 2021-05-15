@@ -57,7 +57,7 @@ if (_distance < 2000) exitWith {
 //Check for server initiated updates
 _isNewMed =		_character getVariable["medForceUpdate",false];		//Med Update is forced when a player receives some kind of med incident
 _isNewPos =		_character getVariable["posForceUpdate",false];		//Med Update is forced when a player receives some kind of med incident
-_isNewGear =	(count _magazines) > 0;
+_isNewGear =	if (!isNil "_magazines") then { true } else { false };
 
 //diag_log ("Starting Save... MED: " + str(_isNewMed) + " / POS: " + str(_isNewPos)); sleep 0.05;
 
@@ -83,11 +83,6 @@ if (_characterID != "0") then {
 			if (count _lastPos > 2 and count _charPos > 2) then {
 				if (!_isInVehicle) then {
 					_distanceFoot = round(_charPos distance _lastPos);
-					if ( _distanceFoot > 2000 ) then 
-					{
-					_distanceFoot = 0;
-					};
-					//diag_log ("debug _distanceFoot = " + str(_distanceFoot));
 				};
 				_character setVariable["lastPos",_charPos];
 			};
@@ -100,8 +95,7 @@ if (_characterID != "0") then {
 	};
 	if (_isNewGear) then {
 		//diag_log ("gear..."); sleep 0.05;
-		_playerGear = [weapons _character,_magazines];
-//diag_log ("playerGear: " +str(_playerGear));
+		_playerGear = [weapons _character, _magazines select 0, _magazines select 1];
 		_backpack = unitBackpack _character;
 		_playerBackp = [typeOf _backpack,getWeaponCargo _backpack,getMagazineCargo _backpack];
 	};

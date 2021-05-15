@@ -3,6 +3,7 @@ private ["_characterID","_playerObj","_playerID","_dummy","_worldspace","_state"
 //diag_log(format["%1 DEBUG %2", __FILE__, _this]);
 _characterID = _this select 0;
 _playerObj = _this select 1;
+_spawnSelection = _this select 3;
 _playerID = getPlayerUID _playerObj;
 
 #include "\z\addons\dayz_server\compile\server_toggle_debug.hpp"
@@ -178,39 +179,47 @@ if (_randomSpot) then {
 	if (!isDedicated) then {
 		endLoadingScreen;
 	};
-	
+
 	//spawn into random
 	_findSpot = true;
-	_mkr = "";
-	while {_findSpot} do {
-		_counter = 0;
-		while {_counter < 20 and _findSpot} do {
-			_mkr = "spawn" + str(round(random 4));
-			_position = ([(getMarkerPos _mkr),0,1500,10,0,2000,1] call BIS_fnc_findSafePos);
-			_isNear = count (_position nearEntities ["Man",100]) == 0;
-			_isZero = ((_position select 0) == 0) and ((_position select 1) == 0);
-		//Island Check		//TeeChange
-			_pos 		= _position;
-			_isIsland	= false;		//Can be set to true during the Check
-			for [{_w=0},{_w<=150},{_w=_w+2}] do {
-				_pos = [(_pos select 0),((_pos select 1) + _w),(_pos select 2)];
-				if(surfaceisWater _pos) exitWith {
-					_isIsland = true;
+	_mkr = [];
+	_position = [0,0,0];
+	for [{_j=0},{_j<=100 AND _findSpot},{_j=_j+1}] do {
+		if (_spawnSelection == 9) then {
+		// random spawn location selected, lets get the marker and spawn in somewhere
+		_mkr = getMarkerPos ("spawn" + str(floor(random 5)));
+		} else {
+			// spawn is not random, lets spawn in our location that was selected
+			_mkr = getMarkerPos ("spawn" + str(_spawnSelection));
+		};
+		_position = ([_mkr,0,1400,10,0,2,1] call BIS_fnc_findSafePos);
+		if ((count _position >= 2) // !bad returned position
+			AND {(_position distance _mkr < 1400)}) then { // !ouside the disk
+			_position set [2, 0];
+			if (((ATLtoASL _position) select 2 > 2.5) //! player's feet too wet
+			AND {({alive _x} count (_position nearEntities ["Man",150]) == 0)}) then { // !too close from other players/zombies
+				_pos = +(_position);
+				_isIsland = false;		//Can be set to true during the Check
+				// we check over a 809-meter cross line, with an effective interlaced step of 5 meters
+				for [{_w = 0}, {_w != 809}, {_w = ((_w + 17) % 811)}] do {
+					//if (_w < 17) then { diag_log format[ "%1 loop starts with _w=%2", __FILE__, _w]; };
+					_pos = [((_pos select 0) - _w),((_pos select 1) + _w),(_pos select 2)];
+					if(surfaceisWater _pos) exitWith {
+						_isIsland = true;
+					};
+				};
+				if (!(worldName in ["dzhg", "panthera2", "Sara", "Utes", "Dingor", "namalsk", "isladuala", "Tavi", "dayznogova"])) then {
+					if (!_isIsland) then {_findSpot = false};
 				};
 			};
-			
-			if ((_isNear and !_isZero) || _isIsland) then {_findSpot = false};
-			_counter = _counter + 1;
 		};
+		//diag_log format["%1: pos:%2 _findSpot:%3", __FILE__, _position, _findSpot];
 	};
-	_isZero = ((_position select 0) == 0) and ((_position select 1) == 0);
-	_position = [_position select 0,_position select 1,0];
-	if (!_isZero) then {
-		//_playerObj setPosATL _position;
-		_worldspace = [0,_position];
+	if (_findSpot) exitWith {
+		diag_log format["%1: Error, failed to find a suitable spawn spot for player. area:%2",__FILE__, _mkr];
 	};
+	_worldspace = [0,_position];
 };
-
 
 //Record player for management
 dayz_players set [count dayz_players,_playerObj];
@@ -223,9 +232,9 @@ _playerObj setVariable["humanity_CHK",_humanity];
 //_playerObj setVariable["state",_state,true];
 _playerObj setVariable["lastPos",getPosATL _playerObj];
 
-dayzPlayerLogin2 = [_worldspace,_state];
+PVCDZ_plr_Login2 = [_worldspace,_state];
 _clientID = owner _playerObj;
-_clientID publicVariableClient "dayzPlayerLogin2";
+_clientID publicVariableClient "PVCDZ_plr_Login2";
 
 //record time started
 _playerObj setVariable ["lastTime",time];

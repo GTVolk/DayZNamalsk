@@ -35,6 +35,7 @@ class CfgPatches {
 		class UH1H_DZ : Air { quantity = 1; };
 		class AH6X_DZ : Air { quantity = 1; };
 		class Mi17_DZ : Air { quantity = 2; };
+		class AN2_DZ : Air { quantity = 1; };
 		class Motorcycle : AllVehicles {};
 
 		class TT650_Civ : Motorcycle { quantity = 1; };
@@ -46,7 +47,7 @@ class CfgPatches {
 			maxAltitude = 60;
 		};
 		class Old_bike_TK_INS_EP1 : Bicycle { quantity = 4; };
-		class Old_bike_TK_CIV_EP1 : Bicycle { quantity = 4; }; 
+		class Old_bike_TK_CIV_EP1 : Bicycle { quantity = 6; };
 		class Car:AllVehicles {};
 		class Truck:Car {};
 		class Ural_TK_CIV_EP1:Truck { quantity = 1; };
@@ -58,12 +59,12 @@ class CfgPatches {
 			nearObjects[] = { "Land_seno_balik" }; // haystack
 			quantity = 4; 
 		}; 
-		class ATV_US_EP1 : Car { quantity = 4; };
+		class ATV_US_EP1 : Car { quantity = 5; };
 		class ATV_CZ_EP1 : Car { quantity = 4; };
 		class car_hatchback : Car { quantity = 1; };
 		class Volha_2_TK_CIV_EP1 : Car { quantity = 1; };
 		class Lada2 : Car { quantity = 1; };
-		class hilux1_civil_3_open : Car { quantity = 1; };
+		class hilux1_civil_3_open : Car { quantity = 2; };
 		class UAZ_CDF : Car { quantity = 1; };
 		class BAF_Offroad_W : Car { quantity = 1; };
 		class S1203_TK_CIV_EP1 : Car { quantity = 1; };
