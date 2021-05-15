@@ -121,7 +121,7 @@ if (!_isNew) then {
 
 _isHiveOk = (_hiveVer >= dayz_hiveVersionNo); //EDITED
 
-PVCDZ_plr_Login = [_charID,_inventory,_backpack,_survival,_isNew,dayz_versionNo,dayzNam_versionNo,_model,_isHiveOk,_newPlayer];
+PVCDZ_plr_Login = [_charID,_inventory,_backpack,_survival,_isNew,dayz_versionNo,_model,_isHiveOk,_newPlayer];
 (owner _playerObj) publicVariableClient "PVCDZ_plr_Login";
 
 //Make player wait until ghost timer is up.

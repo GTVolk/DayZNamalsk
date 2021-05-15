@@ -10,7 +10,6 @@ sm_done = false;
 dayz_serverIDMonitor = [];
 dayz_versionNo = getText (configFile >> "CfgMods" >> "DayZ" >> "version");
 dayz_hiveVersionNo = getNumber (configFile >> "CfgMods" >> "DayZ" >> "hiveVersion");
-dayzNam_versionNo = getText(configFile >> "CfgMods" >> "nc_dzn" >> "version");
 
 diag_log "HIVE: Starting";
 
