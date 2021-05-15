@@ -15,8 +15,7 @@ while {_counter < _amount} do {
 	//diag_log ("Spawned: " + _type);
 	//_radius = 0;
 	_method = "CAN_COLLIDE";
-		
-	//_createSafePos = getMarkerPos "center";
+	
 	_position = [getMarkerPos "center",1,6500,1] call fn_selectRandomLocation;
 	
 	//Create Zed
@@ -39,7 +38,7 @@ while {_counter < _amount} do {
 	_counter = _counter + 1;
 	
 	//Start behavior
-	//_id = [_position,_agent] execFSM "\z\AddOns\dayz_code\system\zombie_wildagent.fsm";
+	//_id = [_agent] execFSM "\z\AddOns\dayz_code\system\zombie_wildagent.fsm";
 	//_agent setVariable [ "fsmid", _id ];
 	
 	//Disable all zed systems

@@ -1,6 +1,6 @@
 #include "\z\addons\dayz_server\compile\server_toggle_debug.hpp"
 
-private ["_type ","_objectUID ","_characterID ","_object","_worldspace","_key", "_ownerArray", "_inventory"];
+private ["_type","_objectUID","_characterID","_object","_worldspace","_key","_ownerArray","_inventory"];
 
 _characterID =		_this select 0;
 _object = 		_this select 1;
@@ -20,7 +20,10 @@ if ([_object, "Server"] call check_publishobject) then {
 
 	_key call server_hiveWrite;
 
-	if (_object isKindOf "TentStorage" || _object isKindOf "CamoNet_DZ" || _object isKindOf "Land_A_tent") then {
+	if (_object isKindOf "CamoNet_DZ" || _object isKindOf "DZ_storage_base") then {
+		_object addMPEventHandler ["MPKilled",{_this call vehicle_handleServerKilled;}];
+	};
+	if (_object iskindof "DZ_buildables") then {
 		_object addMPEventHandler ["MPKilled",{_this call vehicle_handleServerKilled;}];
 	};
 
