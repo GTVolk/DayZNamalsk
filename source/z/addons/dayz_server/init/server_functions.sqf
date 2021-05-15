@@ -1,4 +1,5 @@
 #include "\z\addons\dayz_server\compile\server_toggle_debug.hpp"
+
 waituntil {!isnil "bis_fnc_init"};
 
 BIS_MPF_remoteExecutionServer = {
@@ -23,6 +24,12 @@ server_sendToClient =		compile preprocessFileLineNumbers "\z\addons\dayz_server\
 server_Wildgenerate =		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\zombie_Wildgenerate.sqf";
 server_plantSpawner =		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_plantSpawner.sqf";
 
+server_lootSpawner =      compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_lootSpawner.sqf";
+server_spawnLoot =      compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_spawnLoot.sqf";
+server_buildingLoot =    compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_buildingLoot.sqf";
+
+server_systemCleanup =    compile preprocessFileLineNumbers "\z\addons\dayz_server\system\server_cleanup.sqf";
+
 // DayZ: Namalsk functions
 server_heliCrash_dzn = 		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_heliCrash_dzn.sqf";
 server_medical_ckg_dzn = 	compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\server_medical_ckg_dzn.sqf";
@@ -31,8 +38,32 @@ server_medical_ckg_dzn = 	compile preprocessFileLineNumbers "\z\addons\dayz_serv
 fnc_instanceName = {
 	"dayz_" + str(dayz_instance) + "." + worldName
 };
+
 spawnComposition = compile preprocessFileLineNumbers "ca\modules\dyno\data\scripts\objectMapper.sqf"; //"\z\addons\dayz_code\compile\object_mapper.sqf";
 fn_bases = compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\fn_bases.sqf";
+spawn_carePackages =            compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\fnc_carePkgs.sqf";
+
+
+server_medicalSync = {
+	_player = _this select 0;
+	_array = _this select 1;
+
+	_player setVariable["USEC_isDead",(_array select 0)]; //0
+	_player setVariable["NORRN_unconscious", (_array select 1)]; //1
+	_player setVariable["USEC_infected",(_array select 2)]; //2
+	_player setVariable["USEC_injured",(_array select 3)]; //3
+	_player setVariable["USEC_inPain",(_array select 4)]; //4
+	_player setVariable["USEC_isCardiac",(_array select 5)]; //5
+	_player setVariable["USEC_lowBlood",(_array select 6)]; //6
+	_player setVariable["USEC_BloodQty",(_array select 7)]; //7
+//	_wounds; //8
+//	[_legs,_arms]; //9
+	_player setVariable["unconsciousTime",(_array select 10)]; //10
+	_player setVariable["blood_type",(_array select 11)]; //11
+	_player setVariable["rh_factor",(_array select 12)]; //12
+	_player setVariable["messing",(_array select 13)]; //13
+	_player setVariable["blood_testdone",(_array select 14)]; //14
+};
 
 vehicle_handleServerKilled = {
 	private["_unit","_killer"];
@@ -49,25 +80,32 @@ vehicle_handleServerKilled = {
 };
 
 check_publishobject = {
-	private ["_allowed","_allowedObjects","_object","_playername"];
+	private ["_saveObject","_allowed","_allowedObjects","_object","_playername"];
 
 	_object = _this select 0;
 	_playername = _this select 1;
-	_allowedObjects = ["TentStorage", "Hedgehog_DZ", "Sandbag1_DZ", "BearTrap_DZ", "Wire_cat1", "StashSmall", "StashMedium", "DomeTentStorage", "CamoNet_DZ", "Trap_Cans", "TrapTripwireFlare", "TrapBearTrapSmoke", "TrapTripwireGrenade", "TrapTripwireSmoke", "TrapBearTrapFlare"];
 	_allowed = false;
 
 #ifdef OBJECT_DEBUG
-	diag_log format ["DEBUG: Checking if Object: %1 is allowed published by %2", _object, _playername];
+	diag_log format ["DEBUG: Checking if Object: %1 is allowed, published by %2", _object, _playername];
 #endif
 
-	if ((typeOf _object) in _allowedObjects) then {
-#ifdef OBJECT_DEBUG
-		diag_log format ["DEBUG: Object: %1 published by %2 is Safe",_object, _playername];
-#endif
+	if ((typeOf _object) in DayZ_SafeObjects) then {
+		_saveObject = "DayZ_SafeObjects";
 		_allowed = true;
 	};
 
-	_allowed;
+	//Buildings
+	if (_object iskindof "DZ_buildables") then {
+		_saveObject = "DZ_buildables";
+		_allowed = true;
+	};
+
+	#ifdef OBJECT_DEBUG
+		diag_log format ["DEBUG: Object: %1 published by %2 is allowed by %3",_object, _playername, _saveObject];
+	#endif
+
+	_allowed
 };
 
 //event Handlers
@@ -113,7 +151,7 @@ server_hiveReadWrite = {
 	_data = "HiveExt" callExtension _key;
 	//diag_log ("READ/WRITE: " +str(_data));
 	_resultArray = call compile format ["%1",_data];
-	_resultArray;
+	_resultArray
 };
 
 onPlayerDisconnected 		"[_uid,_name] call server_onPlayerDisconnect;";
@@ -133,7 +171,7 @@ server_getDiff =	{
 		_result = _vNew - _vOld;
 		_object setVariable[(_variable + "_CHK"),_vNew];
 	};
-	_result;
+	_result
 };
 
 server_getDiff2 =	{
@@ -144,27 +182,41 @@ server_getDiff2 =	{
 	_vOld = 	_object getVariable[(_variable + "_CHK"),_vNew];
 	_result = _vNew - _vOld;
 	_object setVariable[(_variable + "_CHK"),_vNew];
-	_result;
+	_result
 };
 
 dayz_objectUID2 = {
-	private["_position","_dir","_key"];
-	_dir = _this select 0;
-	_key = "";
-	_position = _this select 1;
-	{
-		_x = _x * 10;
-		if ( _x < 0 ) then { _x = _x * -10 };
-		_key = _key + str(round(_x));
-	} forEach _position;
-	_key = _key + str(round(_dir));
-	_key;
+	private["_p","_d","_key"];
+	_d = _this select 0;
+	_p = _this select 1;
+	_key = format [ "%1%2%3%4",
+		abs round(10 * (_p select 0)),
+		abs round(10 * (_p select 1)),
+		abs round(100 * (_p select 2)),
+		abs round((_d * diag_tickTime) % 1000)
+	];
+	_key
 };
 
 dayz_recordLogin = {
 	private["_key"];
 	_key = format["CHILD:103:%1:%2:%3:",_this select 0,_this select 1,_this select 2];
 	_key call server_hiveWrite;
+};
+
+dayz_reseed = {
+	private ["_Loc","_i","_radius","_Ref"];
+	_Loc = _this select 0;
+	_Ref = _this select 1;
+
+	diag_log(str(_Loc));
+
+	//_lootspawner =[[10416.695, 4198.4634],[7982.2563, 1419.8256],[10795.93, 1419.8263],[7966.083, 4088.7463],[9259.7266, 2746.1985],[5200.5234, 3915.3274],[6494.1665, 2572.7798],[5216.6968, 1246.407],[2564.7244, 3915.3296],[3858.3674, 2572.782],[2580.8977, 1246.4092],[13398.995, 4400.5874],[12242.025, 2948.3196],[13551.842, 1832.2257],[14870.512, 3009.5117],[-178.19415, 1062.4478],[1099.2754, 2388.8206],[-194.36755, 3731.3679],[10394.215, 8322.1719],[7959.7759, 5543.5342],[10773.449, 5543.5342],[7943.6025, 8212.4551],[9237.2461, 6869.9063],[5178.043, 8039.0361],[6471.686, 6696.4883],[5194.2163, 5370.1152],[2542.2439, 8039.0381],[3835.887, 6696.4902],[2558.4172, 5370.1172],[13376.514, 8524.2969],[12219.544, 7072.0273],[13529.361, 5955.9336],[14848.032, 7133.2197],[-200.67474, 5186.1563],[1076.7949, 6512.5283],[-216.84814, 7855.0771],[10293.751, 12197.736],[7859.312, 9419.0996],[10672.988, 9419.0996],[7843.1387, 12088.021],[9136.7822, 10745.474],[5077.5791, 11914.601],[6371.2222, 10572.052],[5093.7524, 9245.6816],[2441.78, 11914.604],[3735.4231, 10572.055],[2457.9534, 9245.6816],[13276.053, 12399.861],[12119.08, 10947.596],[13428.897, 9831.501],[14747.566, 11008.786],[-301.13867, 9061.7207],[976.33112, 10388.096],[-317.31201, 11730.642],[10271.271, 16321.429],[7836.8315, 13542.813],[10650.506, 13542.813],[7820.6582, 16211.718],[9114.3018, 14869.175],[5055.0986, 16038.3],[6348.7417, 14695.758],[5071.272, 13369.392],[2419.2996, 16038.305],[3712.9426, 14695.76],[2435.4729, 13369.392],[13253.568, 16523.553],[12096.6, 15071.295],[13406.416, 13955.209],[14725.089, 15132.486],[-323.61914, 13185.43],[953.85059, 14511.8],[-339.79248, 15854.346]];
+	//{
+		_radius = 1500;
+		dayz_lootspawner = [_Loc,_radius,_Ref] spawn server_lootSpawner;
+		waitUntil {scriptDone dayz_lootspawner};
+	//} foreach dayz_grid;
 };
 
 call compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\fa_hiveMaintenance.sqf";

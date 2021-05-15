@@ -47,7 +47,7 @@ class CfgPatches {
 			maxAltitude = 60;
 		};
 		class Old_bike_TK_INS_EP1 : Bicycle { quantity = 4; };
-		class Old_bike_TK_CIV_EP1 : Bicycle { quantity = 6; };
+		class Old_bike_TK_CIV_EP1 : Bicycle { quantity = 6; }; 
 		class Car:AllVehicles {};
 		class Truck:Car {};
 		class Ural_TK_CIV_EP1:Truck { quantity = 1; };

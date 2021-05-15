@@ -11,9 +11,9 @@ if (isServer) then {
 		//Send request
 		_key = format["CHILD:304:%1:",_id];
 		_key call server_hiveWrite;
-		diag_log format["DELETE: Deleted by ID: %1",_id];
+		diag_log format["DELETE 1: Deleted by ID: %1",_id];
 	} else  {
-		//Send request
+		//Remove object
 		_key = format["CHILD:310:%1:",_uid];
 		_key call server_hiveWrite;
 		diag_log format["DELETE: Deleted by UID: %1",_uid];

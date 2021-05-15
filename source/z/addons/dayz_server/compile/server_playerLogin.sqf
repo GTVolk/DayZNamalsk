@@ -14,11 +14,10 @@ _worldspace = [];
 
 if (_playerName == '__SERVER__' || _playerID == '' || local player) exitWith {};
 
-// Cancel any login until server_monitor terminates. 
+// Cancel any login until server_monitor terminates.
 // This is mandatory since all vehicles must be spawned before the first players spawn on the map.
 // Otherwise, all vehicle event handlers won't be created on players' client side.
 if (isNil "sm_done") exitWith { diag_log ("Login cancelled, server is not ready. " + str(_playerObj)); };
-
 
 if (count _this > 2) then {
 	dayz_players = dayz_players - [_this select 2];
@@ -47,10 +46,38 @@ if ((_playerID == "") or (isNil "_playerID")) exitWith {
 	diag_log ("LOGIN FAILED: Player [" + _playerName + "] has no login ID");
 };
 
-//??? endLoadingScreen;
 #ifdef LOGIN_DEBUG
 diag_log ("LOGIN ATTEMPT: " + str(_playerID) + " " + _playerName);
 #endif
+
+_endMission = false;
+_timeleft = 0;
+{
+	//if ((_playerID select _i) in activePlayers) exitWith { diag_log ("Login cancelled, player has logged out within the past 2 mins. " + str(_playerObj)); };
+	_0 = _x select 0;
+	_1 = _x select 1;
+	_timeleft = diag_ticktime - _1;
+
+	if (_playerID == _0) then {
+		//If players last logoff is about the ghost timer remove player from ghost que.
+		if ((_timeleft > dayz_ghostTimer) or (_timeleft < 0)) then {
+			dayz_ghostPlayers = dayz_ghostPlayers - [_0];
+			dayz_activePlayers set[_forEachIndex, _0];
+			dayz_activePlayers = dayz_activePlayers - [_0];
+		} else {
+			//if player is in died allow them passage.
+			if (_playerID in dayz_died) then {
+				dayz_died = dayz_died - [_playerID];
+				dayz_ghostPlayers = dayz_ghostPlayers - [_0];
+				dayz_activePlayers set[_forEachIndex, _0];
+				dayz_activePlayers = dayz_activePlayers - [_0];
+			} else {
+				// Logoff time is not beyond ghost time and player didn't die
+				_endMission = true;
+			};
+		};
+	};
+}forEach dayz_activePlayers;
 
 //Do Connection Attempt
 _doLoop = 0;
@@ -69,7 +96,7 @@ if (isNull _playerObj or !isPlayer _playerObj) exitWith {
 	diag_log ("LOGIN RESULT: Exiting, player object null: " + str(_playerObj));
 };
 
-if ((_primary select 0) == "ERROR") exitWith {	
+if ((_primary select 0) == "ERROR") exitWith {
     diag_log format ["LOGIN RESULT: Exiting, failed to load _primary: %1 for player: %2 ",_primary,_playerID];
 };
 
@@ -79,23 +106,25 @@ _isNew = 		count _primary < 6; //_result select 1;
 _charID = 		_primary select 2;
 _randomSpot = false;
 
+
+
 //diag_log ("LOGIN RESULT: " + str(_primary));
 
 /* PROCESS */
 _hiveVer = 0;
 
 if (!_isNew) then {
-	//RETURNING CHARACTER		
+	//RETURNING CHARACTER
 	_inventory = 	_primary select 4;
 	_backpack = 	_primary select 5;
 	_survival =		_primary select 6;
 	_model =		_primary select 7;
 	_hiveVer =		_primary select 8;
-	
-	if (!(_model in ["SurvivorW2_DZ","Survivor2_DZ","Sniper1_DZ","Soldier1_DZ","Camo1_DZ","BanditW1_DZ","Bandit1_DZ","Survivor3_DZ","CamoWinter_DZN","CamoWinterW_DZN","Sniper1W_DZN"])) then {
+
+	if (!(_model in ["Survivor_DZ","Survivor1_DZ","SurvivorW2_DZ","Survivor2_DZ","Sniper1_DZ","Soldier1_DZ","Camo1_DZ","BanditW1_DZ","Bandit1_DZ","Survivor3_DZ","CamoWinter_DZN","CamoWinterW_DZN","Sniper1W_DZN"])) then {
 		_model = "Survivor2_DZ";
 	};
-	
+
 } else {
 	_model =		_primary select 3;
 	_hiveVer =		_primary select 4;
@@ -113,11 +142,11 @@ if (!_isNew) then {
 	_wpns = getArray (_config >> "weapons");
 	_bcpk = getText (_config >> "backpack");
 	_randomSpot = true;
-	
+
 	//Wait for HIVE to be free
 	_key = format["CHILD:203:%1:%2:%3:",_charID,[_wpns,_mags],[_bcpk,[],[]]];
 	_key call server_hiveWrite;
-	
+
 };
 #ifdef LOGIN_DEBUG
 diag_log ("LOGIN LOADED: " + str(_playerObj) + " Type: " + (typeOf _playerObj));
@@ -127,12 +156,23 @@ _isHiveOk = false;	//EDITED
 if (_hiveVer >= dayz_hiveVersionNo) then {
 	_isHiveOk = true;
 };
-//diag_log ("SERVER RESULT: " + str("X") + " " + str(dayz_hiveVersionNo));
 
-//Server publishes variable to clients and WAITS
-//_playerObj setVariable ["publish",[_charID,_inventory,_backpack,_survival,_isNew,dayz_versionNo,_model,_isHiveOk,_newPlayer],true];
-([4654,9595,0] nearestObject 145259) setDamage 1;
-([4654,9595,0] nearestObject 145260) setDamage 1;
+_patch = {}; // piece of code used to patch the client without a full mod update - for script patching only
+if (_isHiveOk) then {
+	_patch = compile preprocessFileLineNumbers '\z\addons\dayz_server\patch.sqf';
+};
 
-PVCDZ_plr_Login = [_charID,_inventory,_backpack,_survival,_isNew,dayz_versionNo,dayzNam_versionNo,_model,_isHiveOk,_newPlayer];
+PVCDZ_plr_Login = [_charID,_inventory,_backpack,_survival,_isNew,dayz_versionNo,dayzNam_versionNo,_model,_isHiveOk,_newPlayer, _patch];
+diag_log format["%1, %2, %3, %4, %5, %6, %7, %8, %9",_charID,_inventory,_backpack,_survival,_isNew,dayz_versionNo,_model,_isHiveOk,_newPlayer];
 (owner _playerObj) publicVariableClient "PVCDZ_plr_Login";
+
+//Make player wait till ghost timer is up.
+if (_endMission) exitwith {
+	_remaining = dayz_ghostTimer - _timeleft;
+	diag_log format["LOGIN CANCELLED: player: %1 is in ghost mode. Time remianing: %2 before login!!",_playerObj,_remaining];
+	PVCDZ_plr_Ghost = [_remaining];
+	(owner _playerObj) publicVariableClient "PVCDZ_plr_Ghost";
+};
+
+PVCDZ_plr_PlayerAccepted = [_playerName,diag_ticktime];
+(owner _playerObj) publicVariableClient "PVCDZ_plr_PlayerAccepted";

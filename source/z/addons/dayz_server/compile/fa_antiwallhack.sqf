@@ -82,6 +82,7 @@ _nbpatchs = 0;
 			_o = createVehicle [(_x select 3), _pos, [], 0, "CAN_COLLIDE"];
 			_o setDir ((getDir _house)+(_x select 4));
 			_o setPosATL _pos;
+			diag_log [ typeOf _o, getPosATL _o, getDir _o, 0, nil];
 			_nbpatchs = _nbpatchs +1;
 		} forEach _patchList;
 		//diag_log format["Found building %1 at %2", _houseType, getPosATL _house ];

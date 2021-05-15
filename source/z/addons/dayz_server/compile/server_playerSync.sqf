@@ -1,25 +1,12 @@
 private ["_characterID","_temp","_currentWpn","_magazines","_force","_isNewPos","_humanity","_isNewGear","_currentModel","_modelChk","_playerPos","_playerGear","_playerBackp","_backpack","_killsB","_killsH","_medical","_isNewMed","_character","_timeSince","_charPos","_isInVehicle","_distanceFoot","_lastPos","_kills","_headShots","_timeGross","_timeLeft","_onLadder","_isTerminal","_currentAnim","_muzzles","_array","_key","_lastTime","_config","_currentState","_pos"];
 //[player,array]
-//diag_log ("UPDATE: " + str(_this) );
-
-//waituntil {(typeName(_this) == "ARRAY");sleep 0.01;};	//seems to cause often infinite waits (but not for first n players)
-
-//this only happens when we don't follow the correct parameter format...
-//(like supplying just the player object instead of the array in player_eat.sqf)
-//i've fixed this in player_eat so i can comment this part out
-/*if ( typeName(_this) == "OBJECT" ) then {
-	_this = [_this,[],true];
-	//diag_log ("DW_DEBUG: #manual fix _this: " + str(_this));
-};*/
-
-//correct
-//"UPDATE: [B 1-1-B:1 (THE BEAST) REMOTE,[],true]"
-//error
-//"UPDATE: B 1-1-B:1 (THE BEAST) REMOTE"
 
 _character = 	_this select 0;
 _magazines =	_this select 1;
 _force =	_this select 2;
+
+_Achievements = _character getVariable "Achievements"; 
+
 _force =	true;
 
 _characterID =	_character getVariable ["characterID","0"];
@@ -27,13 +14,6 @@ _charPos = 		getPosATL _character;
 _isInVehicle = 	vehicle _character != _character;
 _timeSince = 	0;
 _humanity =		0;
-
-//diag_log ("DW_DEBUG: (isnil _characterID): " + str(isnil "_characterID"));
-/*
-if !(isnil "_characterID") then {
-diag_log ("DW_DEBUG: _characterID: " + str(_characterID));
-};
-*/
 
 if (_character isKindOf "Animal") exitWith {
 	diag_log ("ERROR: Cannot Sync Character " + (name _character) + " is an Animal class");
@@ -47,11 +27,17 @@ if (_characterID == "0") exitWith {
 	diag_log ("ERROR: Cannot Sync Character " + (name _character) + " as no characterID");
 };
 
+if (isNil {_Achievements}) exitWith {
+	diag_log ("ERROR: Cannot Sync Achievements " + (name _character) + " has no default Achievements");
+	_Achievements = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+};
+
+
 private["_debug","_distance"];
 _debug = getMarkerpos "respawn_west";
 _distance = _debug distance _charPos;
 if (_distance < 2000) exitWith { 
-	diag_log format["ERROR: server_playerSync: Cannot Sync Player %1 [%2]. Position in debug! %3",name _character,_characterID,_charPos];
+//	diag_log format["ERROR: server_playerSync: Cannot Sync Player %1 [%2]. Position in debug! %3",name _character,_characterID,_charPos];
 };
 
 //Check for server initiated updates
@@ -95,9 +81,13 @@ if (_characterID != "0") then {
 	};
 	if (_isNewGear) then {
 		//diag_log ("gear..."); sleep 0.05;
-		_playerGear = [weapons _character, _magazines select 0, _magazines select 1];
-		_backpack = unitBackpack _character;
-		_playerBackp = [typeOf _backpack,getWeaponCargo _backpack,getMagazineCargo _backpack];
+		 if (typeName _magazines != "ARRAY") then {
+			diag_log ("PlayerSync - Mag is not array");
+		 } else {
+			_playerGear = [weapons _character, _magazines select 0, _magazines select 1];
+			_backpack = unitBackpack _character;
+			_playerBackp = [typeOf _backpack,getWeaponCargo _backpack,getMagazineCargo _backpack];
+		};
 	};
 	if (_isNewMed or _force) then {
 		//diag_log ("medical..."); sleep 0.05;
@@ -128,8 +118,8 @@ if (_characterID != "0") then {
 		/*
 			Assess how much time has passed, for recording total time on server
 		*/
-		_lastTime = 	_character getVariable["lastTime",time];
-		_timeGross = 	(time - _lastTime);
+		_lastTime = 	_character getVariable["lastTime",diag_ticktime];
+		_timeGross = 	(diag_ticktime - _lastTime);
 		_timeSince = 	floor(_timeGross / 60);
 		_timeLeft =		(_timeGross - (_timeSince * 60));
 		/*
@@ -172,7 +162,9 @@ if (_characterID != "0") then {
 			};
 		};
 		_temp = round(_character getVariable ["temperature",100]);
-		_currentState = [_currentWpn,_currentAnim,_temp];
+				
+		_currentState = [[_currentWpn,_currentAnim,_temp],_Achievements];
+
 		/*
 			Everything is ready, now publish to HIVE
 		*/
@@ -204,12 +196,12 @@ if (_characterID != "0") then {
 		_pos = _this select 0;
 		{
 			[_x, "gear"] call server_updateObject;
-		} forEach nearestObjects [_pos, ["Car", "Helicopter", "Motorcycle", "Ship", "TentStorage", "StashSmall","StashMedium"], 10];
+		} forEach nearestObjects [_pos, DayZ_GearedObjects, 10];
 		//[_charPos] call server_updateNearbyObjects;
 
 		//Reset timer
 		if (_timeSince > 0) then {
-			_character setVariable ["lastTime",(time - _timeLeft)];
+			_character setVariable ["lastTime",(diag_ticktime - _timeLeft)];
 		};
 	};
 };

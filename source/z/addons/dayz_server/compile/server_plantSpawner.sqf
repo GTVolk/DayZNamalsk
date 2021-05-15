@@ -1,51 +1,23 @@
-private ["_amount","_totalamount","_totalamountPlant1","_Plantssupported","_type","_root","_favouritezones","_randrefpoint","_PosList","_PosSelect","_debugarea","_plant","_totalamountPlant2","_centerarea","_Pos","_onRoad"];
+private ["_SWcorner","_NEcorner","_amount","_a","_b","_c"];
 
-_amount = _this select 0;
-_totalamount = 0;
+#define CONFIGBASE_VEHMAINTENANCE configFile >> "CfgPatches" >> "vehMaint"
 
-_totalamountPlant1 = 0;
-_totalamountPlant2 = 0;
-_totalamountPlant3 = 0;
+_SWcorner = getArray(CONFIGBASE_VEHMAINTENANCE >> (worldName) >> "SWcorner");
+_NEcorner = getArray(CONFIGBASE_VEHMAINTENANCE >> (worldName) >> "NEcorner");
 
-while {_totalamount < _amount} do {
-	//Find where plant likes
-	_Plantssupported = Dayz_plants;
-	_type = (_Plantssupported select floor(random(count _Plantssupported)));
+_a = [(_SWcorner select 0), (_SWcorner select 1), (_NEcorner select 0) - (_SWcorner select 0), (_NEcorner select 1) - (_SWcorner select 1) ] call psrnd_init; 
+_b = [ -15, -15, 30, 30 ] call psrnd_init; 
+_c = [ 0, 0, 3, 360 ] call psrnd_init; 
 
-	_root = configFile >> "CfgVehicles" >> _type;
-	_favouritezones = getText ( _root >> "favouritezones");
-	_centerarea = getMarkerPos "center";
-	_randrefpoint = [_centerarea, 10, 5500, 1, 0, 50, 0] call BIS_fnc_findSafePos;
-	_PosList = selectbestplaces [_randrefpoint,dayz_plantDistance,_favouritezones,10,5];
-	_PosSelect = _PosList select (floor random (count _PosList));
-	_Pos = _PosSelect select 0;
-	_debugarea = getMarkerPos "respawn_west";
-	_onRoad = isOnRoad _Pos;
-	
-	if ((_Pos distance _debugarea > dayz_plantDistance) and (!_onRoad) and NOT surfaceIsWater _Pos) then {
-		//_clutter = createVehicle ["ClutterCutter_small_2_EP1", _Pos, [], 0, "CAN_COLLIDE"];
-		//_clutter setPos _Pos;
-		_plant = createVehicle [_type, _Pos, [], 0, "NONE"];
-		_plant setpos _Pos;
+PVCDZ_plr_plantSpawner = [ _a, _b, _c, [] ];
+//diag_log [ __FILE__, _a, _b, _c ];
 
-		switch (true) do {
-			//One
-			case (_type == "Dayz_Plant1") : {
-					_totalamountPlant1 = _totalamountPlant1 + 1;
-			};
-			case (_type == "Dayz_Plant2") : {
-				_totalamountPlant2 = _totalamountPlant2 + 1;
-			};
-			case (_type == "Dayz_Plant3") : {
-				_totalamountPlant3 = _totalamountPlant3 + 1;
-			};
-		};
-	};
+"PVDZ_objgather_Delete" addPublicVariableEventHandler {
+	private [ "_pos", "_blacklist"];
+	_pos = (_this select 1);
 
-	if ((_totalamount % 10) == 0) then {
-		sleep 5;
-	};
-	_totalamount = _totalamount + 1;
+	_blacklist = PVCDZ_plr_plantSpawner select 3;
+	_blacklist set [ count _blacklist, _pos ];
+	//diag_log [ __FILE__, _this, _blacklist ];
 };
 
-diag_log format["PLANTSPAWNER: Spawned '%1'/'%2'/'%3' - Pass's: %4", _totalamountPlant1,_totalamountPlant2,_totalamountPlant3, _totalamount];

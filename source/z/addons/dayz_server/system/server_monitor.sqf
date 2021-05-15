@@ -2,343 +2,324 @@ private ["_date","_year","_month","_day","_hour","_minute","_date1","_hiveRespon
 []execVM "\z\addons\dayz_server\system\s_fps.sqf"; //server monitor FPS (writes each ~181s diag_fps+181s diag_fpsmin*)
 #include "\z\addons\dayz_server\compile\server_toggle_debug.hpp"
 
+waitUntil{!isNil "BIS_MPF_InitDone"};
+waitUntil{initialized}; //means all the functions are now defined
+if (!isNil "sm_done") exitWith {}; // prevent server_monitor be called twice (bug during login of the first player)
+sm_done = false;
+
+dayz_serverIDMonitor = [];
+
 dayz_versionNo = 		getText(configFile >> "CfgMods" >> "DayZ" >> "version");
 dayz_hiveVersionNo = 	getNumber(configFile >> "CfgMods" >> "DayZ" >> "hiveVersion");
 dayzNam_versionNo = getText(configFile >> "CfgMods" >> "nc_dzn" >> "version");
-_script = getText(missionConfigFile >> "onPauseScript");
 
-if ((count playableUnits == 0) and !isDedicated) then {
-	isSinglePlayer = true;
-};
-
-waitUntil{initialized}; //means all the functions are now defined
 
 diag_log "HIVE: Starting";
 
 //Set the Time
-	//Send request
-	_key = "CHILD:307:";
-	_result = _key call server_hiveReadWrite;
-	_outcome = _result select 0;
-	if(_outcome == "PASS") then {
-		_date = _result select 1;
+_key = "CHILD:307:";
+_result = _key call server_hiveReadWrite;
+_outcome = _result select 0;
+if(_outcome == "PASS") then {
+	_date = _result select 1;
 
-		//date setup
-		_year = _date select 0;
-		_month = _date select 1;
-		_day = _date select 2;
-		_hour = _date select 3;
-		_minute = _date select 4;
+	//date setup
+	_year = _date select 0;
+	_month = _date select 1;
+	_day = _date select 2;
+	_hour = _date select 3;
+	_minute = _date select 4;
 
-		//Force full moon nights
-		_date1 = [2012,6,6,14,_minute];
+	if(dayz_ForcefullmoonNights) then {
+		_date = [2012,8,2,_hour,_minute];
+	};
+	diag_log [ "TIME SYNC: Local Time set to:", _date, "Fullmoon:",dayz_ForcefullmoonNights, "Date given by HiveExt.dll:", _result select 1];
+	setDate _date;
+	dayzSetDate = _date;
+	publicVariable "dayzSetDate";
+};
 
-		if(isDedicated) then {
-			//["dayzSetDate",_date] call broadcastRpcCallAll;
-			setDate _date1;
-			dayzSetDate = _date1;
-			dayz_storeTimeDate = _date1;
-			publicVariable "dayzSetDate";
+//Stream in objects
+/* STREAM OBJECTS */
+//Send the key
+_key = format["CHILD:302:%1:",dayZ_instance];
+_result = _key call server_hiveReadWrite;
+
+diag_log "HIVE: Request sent";
+
+//Process result
+_status = _result select 0;
+
+_myArray = [];
+if (_status == "ObjectStreamStart") then {
+	_val = _result select 1;
+	//Stream Objects
+	diag_log ("HIVE: Commence Object Streaming...");
+	for "_i" from 1 to _val do {
+		_result = _key call server_hiveReadWrite;
+
+		_status = _result select 0;
+		_myArray set [count _myArray,_result];
+		//diag_log ("HIVE: Loop ");
+	};
+	diag_log ("HIVE: Streamed " + str(_val) + " objects");
+};
+
+_countr = 0;
+{
+
+	//Parse Array
+	_countr = _countr + 1;
+
+	_action = 		_x select 0;
+	_idKey = 		_x select 1;
+	_type =			if ((typeName (_x select 2)) == "STRING") then { _x select 2 };
+	_ownerID = 		_x select 3;
+	_worldspace = 	if ((typeName (_x select 4)) == "ARRAY") then { _x select 4 } else { [] };
+	_inventory =	if ((typeName (_x select 5)) == "ARRAY") then { _x select 5 } else { [] };
+	_hitPoints =	if ((typeName (_x select 6)) == "ARRAY") then { _x select 6 } else { [] };
+	_fuel =			if ((typeName (_x select 7)) == "SCALAR") then { _x select 7 } else { 0 };
+	_damage = 		if ((typeName (_x select 8)) == "SCALAR") then { _x select 8 } else { 0.9 };
+
+	_dir = floor(random(360));
+	_pos = getMarkerpos "respawn_west";
+	_wsDone = false;
+
+	if (count _worldspace >= 1 && {(typeName (_worldspace select 0)) == "SCALAR"}) then {
+		_dir = _worldspace select 0;
+	};
+	if (count _worldspace == 2 && {(typeName (_worldspace select 1)) == "ARRAY"}) then {
+		_i = _worldspace select 1;
+		if (count _i == 3 &&
+			{(typeName (_i select 0)) == "SCALAR"} &&
+			{(typeName (_i select 1)) == "SCALAR"} &&
+			{(typeName (_i select 2)) == "SCALAR"}) then {
+			_pos = _i;
+			_wsDone = true;
 		};
-		diag_log ("HIVE: Local Time set to " + str(_date1));
+	};
+	if (!_wsDone) then {
+		//_pos = [,0,30,10,0,2000,0] call BIS_fnc_findSafePos;
+		if (count _pos < 3) then { _pos = [_worldspace select 0,_worldspace select 1,0]; };
+		diag_log ("MOVED OBJ: " + str(_idKey) + " of class " + _type + " to pos: " + str(_pos));
 	};
 
-waituntil{isNil "sm_done"}; // prevent server_monitor be called twice (bug during login of the first player)
+	if (_damage < 1) then {
+		//diag_log format["OBJ: %1 - %2,%3,%4,%5,%6,%7,%8", _idKey,_type,_ownerID,_worldspace,_inventory,_hitPoints,_fuel,_damage];
 
-#include "\z\addons\dayz_server\compile\fa_hiveMaintenance.hpp"
+		DayZ_nonCollide = ["TentStorage","TentStorage","TentStorage0","TentStorage1","TentStorage2","TentStorage3","TentStorage4","StashSmall","StashSmall1","StashSmall2","StashSmall3","StashSmall4","StashMedium","StashMedium1","StashMedium2","StashMedium3", "StashMedium4", "DomeTentStorage", "DomeTentStorage0", "DomeTentStorage1", "DomeTentStorage2", "DomeTentStorag3", "DomeTentStorage4", "CamoNet_DZ"];
 
-if (isServer and isNil "sm_done") then {
 
-	for "_i" from 1 to 5 do {
-		diag_log "HIVE: trying to get objects";
-		_key = format["CHILD:302:%1:", dayZ_instance];
-		_hiveResponse = _key call server_hiveReadWrite;
-		if ((((isnil "_hiveResponse") || {(typeName _hiveResponse != "ARRAY")}) || {((typeName (_hiveResponse select 1)) != "SCALAR")}) || {(_hiveResponse select 1 > 2000)}) then {
-			if (!isNil "_hiveResponse") then {
-				diag_log ("HIVE: connection problem... HiveExt response:"+str(_hiveResponse));
-			} else {
-				diag_log ("HIVE: connection problem... HiveExt NIL response:");
-			};
-			_hiveResponse = ["",0];
-		} else {
-			diag_log ("HIVE: found "+str(_hiveResponse select 1)+" objects" );
-			_i = 99; // break
-		};
-	};
+		//Create it
+		_object = createVehicle [_type, _pos, [], 0, if (_type in DayZ_nonCollide) then {"NONE"} else {"CAN_COLLIDE"}];
+		_object setVariable ["lastUpdate",time];
+		_object setVariable ["ObjectUID", _idKey, true];
+		dayz_serverIDMonitor set [count dayz_serverIDMonitor,_idKey];
+		_object setVariable ["CharacterID", _ownerID, true];
 
-	_objectArray = [];
-	if ((_hiveResponse select 0) == "ObjectStreamStart") then {
-		_objectCount = _hiveResponse select 1;
-		diag_log ("HIVE: Commence Object Streaming...");
-		for "_i" from 1 to _objectCount do {
-			_hiveResponse = _key call server_hiveReadWrite;
-			_objectArray set [_i - 1, _hiveResponse];
-			//diag_log (format["HIVE dbg %1 %2", typeName _hiveResponse, _hiveResponse]);
-		};
-		diag_log ("HIVE: got " + str(count _objectArray) + " objects");
-#ifdef EMPTY_TENTS_CHECK
-		// check empty tents, remove some of them
-		[_objectArray, EMPTY_TENTS_GLOBAL_LIMIT, EMPTY_TENTS_USER_LIMIT] call fa_removeExtraTents;
-#endif
-		// check vehicles count
-		[_objectArray] call fa_checkVehicles;
-	};
+		_object setdir _dir;
+		_object setDamage _damage;
 
-	{
-
-		_action = _x select 0; // values : "OBJ"=object got from hive  "CREATED"=vehicle just created ...
-		_ObjectID = _x select 1;
-		_class =	if ((typeName (_x select 2)) == "STRING") then { _x select 2 } else { "Old_bike_TK_CIV_EP1" };
-		_CharacterID = _x select 3;
-		_worldspace = if ((typeName (_x select 4)) == "ARRAY") then { _x select 4 } else { [] };
-		_inventory=	if ((typeName (_x select 5)) == "ARRAY") then { _x select 5 } else { [] };
-		_hitpoints=	if ((typeName (_x select 6)) == "ARRAY") then { _x select 6 } else { [] };
-		_fuel =	if ((typeName (_x select 7)) == "SCALAR") then { _x select 7 } else { 0 };
-		_damage = if ((typeName (_x select 8)) == "SCALAR") then { _x select 8 } else { 0.9 };
-		_entity = nil;
-
-		_dir = floor(random(360));
-		_point = getMarkerpos "respawn_west";
-		if (count _worldspace >= 1 && {(typeName (_worldspace select 0)) == "SCALAR"}) then {
-			_dir = _worldspace select 0;
-		};
-		if (count _worldspace == 2 && {(typeName (_worldspace select 1)) == "ARRAY"}) then {
-			_i = _worldspace select 1;
-			if (count _i == 3 &&
-				{(typeName (_i select 0)) == "SCALAR"} &&
-				{(typeName (_i select 1)) == "SCALAR"} &&
-				{(typeName (_i select 2)) == "SCALAR"}) then {
-				_point = _i;
-			};
+		if (!_wsDone) then {
+			[_object,"position",true] call server_updateObject;
 		};
 
-		// if legit vehicle
-		if ((_class isKindOf "AllVehicles") && ((_CharacterID == "0") OR (_CharacterID == "1")) && (_damage < 1)) then {
-			//_damage=0.86;//_action="CREATED";
-			_point set [2, 0]; // here _point is in ATL format
-			// check for no collision with world. Find a suitable place (depending of defined parameters)
-			_worldspace = [_class, _dir, _point, _action] call fa_smartlocation;
-			if (count _worldspace < 2) then {  // safe position NOT found
-				_action = "FAILED"; // don't worry, maybe we will find a nice spot next time :)
-			}
-			else { // found a spot for respawn
-				if ((([_worldspace select 1, _point] call BIS_fnc_distance2D) > 1)
-					AND (_action == "OBJ")) then { _action = "MOVED"; };
-				_dir = _worldspace select 0;
-				_point = _worldspace select 1;
-				_entity = createVehicle [_class, _point, [], 0,
-					if ((_class isKindOf "Air") OR {(_action != "OBJ")}) then {"NONE"} else {"CAN_COLLIDE"}
-				];
-				_entity setVariable ["ObjectID", _ObjectID, true]; // this variable must be set very early
-				_entity setVariable ["CharacterID", _CharacterID, true];
-				_entity setVariable ["lastUpdate",time]; // prevent immediate hive write when vehicle parts are set up
-				// setPos will be done again just after setDir, see below....
-				_entity setDamage _damage;
+		//Dont add inventory for traps.
+		if (!(_object isKindOf "TrapItems") And !(_object iskindof "DZ_buildables")) then {
+			_cargo = _inventory;
+			clearWeaponCargoGlobal  _object;
+			clearMagazineCargoGlobal  _object;
+			clearBackpackCargoGlobal  _object;
+			_config = ["CfgWeapons", "CfgMagazines", "CfgVehicles" ];
+			{
+				_magItemTypes = _x select 0;
+				_magItemQtys = _x select 1;
+				_i = _forEachIndex;
 				{
-					_wantExplosiveParts = _x;
-					{
-						_selection = _x select 0;
-						_dam = _x select 1;
-						if (_selection in dayZ_explosiveParts) then {
-							if (_wantExplosiveParts) then {
-								if (_dam > 0.8) then { _dam = 0.8; };
-								[_entity, _selection, _dam] call fnc_veh_handleDam;
-							};
-						}
-						else {
-							if (!_wantExplosiveParts) then {
-								[_entity, _selection, _dam] call fnc_veh_handleDam;
+					if (_x == "Crossbow") then { _x = "Crossbow_DZ" }; // Convert Crossbow to Crossbow_DZ
+					if (_x == "BoltSteel") then { _x = "WoodenArrow" }; // Convert BoltSteel to WoodenArrow
+					if (_x == "ItemBloodbag") then { _x = "bloodBagONEG" }; // Convert ItemBloodbag into universal blood type/rh bag
+					// Convert to DayZ Weapons
+					if (_x == "DMR") then { _x = "DMR_DZ" };
+					//if (_x == "M14_EP1") then { _x = "M14_DZ" };
+					if (_x == "SVD") then { _x = "SVD_DZ" };
+					if (_x == "SVD_CAMO") then { _x = "SVD_CAMO_DZ" };
+					if (_x == "ItemMatchbox") then { _x = "Item5Matchbox" };
+					if ((isClass(configFile >> (_config select _i) >> _x)) &&
+						{(getNumber(configFile >> (_config select _i) >> _x >> "stopThis") != 1)}) then {
+						if (_forEachIndex < count _magItemQtys) then {
+							switch (_i) do {
+								case 0: { _object addWeaponCargoGlobal [_x,(_magItemQtys select _forEachIndex)]; };
+								case 1: { _object addMagazineCargoGlobal [_x,(_magItemQtys select _forEachIndex)]; };
+								case 2: { _object addBackpackCargoGlobal [_x,(_magItemQtys select _forEachIndex)]; };
 							};
 						};
-					} forEach _hitpoints;
-				} forEach [false, true]; // we set non explosive part first, then explosive parts
-				_entity setvelocity [0,0,1];
-				_entity setFuel _fuel;
-				_entity call fnc_veh_ResetEH;
-			};
-#ifdef OBJECT_DEBUG
-			diag_log (format["VEHICLE %1 %2 at %3, original damage=%4, effective damage=%6, fuel=%5",
-				 _action, _entity call fa_veh2str, (getPosASL _entity) call fa_coor2str, _damage, _fuel, damage _entity]); // , hitpoints:%6, inventory=%7"  , _hitpoints, _inventory
-#endif
-		}
-		else { // else for object or non legit vehicle
-			if (!(_class in SafeObjects )) then {
-				_damage = 1;
-			};
-			if (_damage < 1) then {
-				// Rule #1: Tents will be always spawned if non empty.
-				// Rule #2: Objects are not spawned if inside/close to building.
-				// Rule #3: Rule #1 is higher priority
-				_booleans=[];
-				_worldspace = [_class, _point, _booleans] call fn_niceSpot;
-				if (_booleans select 3) then { // is in building
-					if ((_class != "TentStorage") OR {(_inventory call fa_tentEmpty)}) then {
-						_action = "FAILED";
-						_damage = 5;
-#ifdef OBJECT_DEBUG
-						diag_log(format["Won't spawn object #%1(%4) in/close to a building, _point:%3, inventory: %5 booleans:%2",_ObjectID, _booleans, _point, _class, _inventory]);
-#endif
 					};
-				};
-			};
-			if (_damage < 1) then { // create object
-				// for tents: non colliding position
-				_entity = createVehicle [_class, _point, [], 0,
-					if (_class=="TentStorage") then {"NONE"} else {"CAN_COLLIDE"}
-				];
-				_entity setVariable ["ObjectUID", _ObjectID, true];
-				_entity setVariable ["CharacterID", _CharacterID, true];
-				_entity setVariable ["lastUpdate",time];
-				_entity setDamage _damage;
+				} forEach _magItemTypes;
+			} forEach _cargo;
+		};
 
-				if (_class == "TentStorage" || _class == "CamoNet_DZ") then {
-					_entity addMPEventHandler ["MPKilled",{_this call vehicle_handleServerKilled;}];
-				};
-				//diag_log ("DW_DEBUG " + _class + " #" + str(_ObjectID) + " pos=" +  	(_point call fa_coor2str) + ", damage=" + str(_damage)  );
+		if (_object isKindOf "AllVehicles") then {
+			{
+				_selection = _x select 0;
+				_dam = _x select 1;
+				if ((_selection in dayZ_explosiveParts and _dam > 0.8) && (!(_object isKindOf "Air"))) then {_dam = 0.8};
+
+				[_object,_selection,_dam] call fnc_veh_setFixServer;
+			} forEach _hitpoints;
+			_object setvelocity [0,0,1];
+			_object setFuel _fuel;
+			_object call fnc_veh_ResetEH;
+		}
+		else {
+			if (_type in DayZ_nonCollide) then {
+				_pos set [2,0];
+				_object addMPEventHandler ["MPKilled",{_this call vehicle_handleServerKilled;}];
+			};
+			if (_pos select 2 == 0 or 0 == getNumber (configFile >> "CfgVehicles" >> _type >> "canbevertical")) then {
+				_object setVectorUp surfaceNormal _pos;
 			}
-			else { // delete object -- this has been comented out: object are never really deleted from hive
-			/*	_key = format["CHILD:306:%1:%2:%3:", _ObjectID, [], 1];
-				_rawData = "HiveEXT" callExtension _key;
-				_key = format["CHILD:304:%1:",_ObjectID]; // delete by ID (not UID which is handler 310)
-				_rawData = "HiveEXT" callExtension _key;*/
-#ifdef OBJECT_DEBUG
-				diag_log (format["IGNORED %1 oid#%2 cid:%3 ",
-					_class, _ObjectID, _CharacterID ]);
-#endif
+			else {
+				_object setVectorUp [0,0,1];
+			};
+			_object setPosATL _pos;
+			if (_object iskindof "DZ_buildables") then {
+				_object allowDamage false;
+			};
+			if (_object isKindOf "TrapItems" or _object isKindOf "DZ_buildables") then {
+				{
+					if (typeName _x != "ARRAY") then {
+						// old method
+						if (typeName _x == "STRING") then { _object setVariable ["ownerArray", [_x], true]; };
+						if (typeName _x == "BOOLEAN") then { _object setVariable ["armed", _x, true]; };
+					}
+					else { // new method: array of variables to set
+						switch (_x select 0) do {
+							case "ownerArray" : { _object setVariable ["ownerArray", _x select 1, true]; };
+							case "armed" : { _object setVariable ["armed", _x select 1, true]; };
+							//etc
+						};
+					};
+				} forEach _inventory;
 			};
 		};
-//diag_log(format["VEH MAINTENANCE DEBUG %1 %2", __FILE__, __LINE__]);
 
-		// common code (vehicle or not)
-		if (_damage < 1 AND !(isNil ("_entity"))) then {
-			_entity setdir _dir;
-			_entity setPos _point;
+		//Monitor the object
+		//_object enableSimulation false;
+		dayz_serverObjectMonitor set [count dayz_serverObjectMonitor,_object];
+	};
+} forEach _myArray;
 
-			if (_entity isKindOf "TrapItems") then {
-				_entity setVariable ["armed", _inventory select 0, false];
-			} else {
-				[_entity, _inventory] call fa_populateCargo;
-			};
+// # END OF STREAMING #
 
-			dayz_serverObjectMonitor set [count dayz_serverObjectMonitor, _entity];
+// Draw the pseudo random seeds
+call server_plantSpawner;
 
-			// UPDATE MODIFIED OBJECTS TO THE HIVE
-			if (_action == "CREATED") then {
-				// insert className damage characterId  worldSpace inventory  hitPoints  fuel uniqueId
-				_key = format["CHILD:308:%1:%2:%3:%4:%5:%6:%7:%8:%9:", dayZ_instance,
-					_class, _damage , 1,
-					[_dir, _point],
-					[getWeaponCargo _entity, getMagazineCargo _entity ,getBackpackCargo _entity],
-					_hitpoints, _fuel, _ObjectID
-				];
-				//diag_log (_key);
-				_rawData = "HiveEXT" callExtension _key;
-			};
-			if (_action == "SPAWNED" || _action == "DAMAGED") then {
-				// update hitpoint,damage   -- already done by needupdate
-				/*_key = format["CHILD:306:%1:%2:%3:", _ObjectID, _hitpoints, _damage];
-				_rawData = "HiveEXT" callExtension _key;*/
-			};
-			if (_action == "SPAWNED") then {
-				// update inventory
-				_key = format["CHILD:309:%1:%2:", _ObjectID,
-					[getWeaponCargo _entity, getMagazineCargo _entity, getBackpackCargo _entity]];
-				_rawData = "HiveEXT" callExtension _key;
-			};
-			if (_action == "MOVED" || _action == "SPAWNED") then {
-				// update position,fuel in Hive
-				// already done by server_updateObject?
-				/*_key = format["CHILD:305:%1:%2:%3:", _ObjectID, [_dir, _point], _fuel];
-				_rawData = "HiveEXT" callExtension _key;*/
-							//Updated object position if moved
-				[_entity, "position"] call server_updateObject;
-			};
-		}; // not damaged
-		sleep 0.01; // yield to connecting players.
-	} forEach _objectArray;
+// launch the legacy task scheduler
+[] execFSM "\z\addons\dayz_server\system\server_cleanup.fsm";
 
-	createCenter civilian;
-	if (isDedicated) then {
-		endLoadingScreen;
+// launch the new task scheduler
+[] execVM "\z\addons\dayz_server\system\scheduler\sched_init.sqf";
+
+// remove annoying benches
+if (toLower(worldName) == "chernarus") then {
+	([4654,9595,0] nearestObject 145259) setDamage 1;
+	([4654,9595,0] nearestObject 145260) setDamage 1;
+};
+
+createCenter civilian;
+if (isDedicated) then {
+	endLoadingScreen;
+};
+allowConnection = true;
+sm_done = true;
+publicVariable "sm_done";
+
+
+
+//Spawn camps and carepak once
+[] spawn {
+	if(isNil "dayz_spawnInfectedSite_clutterCutter") then {
+		dayz_spawnInfectedSite_clutterCutter = 0;
 	};
 
-	if (isDedicated) then {
-		_id = [] execFSM "\z\addons\dayz_server\system\server_cleanup.fsm";
+	// quantity, marker, radius, min distance between 2 camps
+	// Server_InfectedCamps = [3, "center", 4500, 300] call fn_bases;
+	//dayzInfectedCamps = Server_InfectedCamps;
+	//publicVariable "dayzInfectedCamps";
+
+	if(isNil "dayz_spawncarepkgs_clutterCutter") then {
+		dayz_spawncarepkgs_clutterCutter = 0;
 	};
 
-	allowConnection = true;
+	//Packages
+	[6,["Misc_cargo_cont_net1","Misc_cargo_cont_net2","Misc_cargo_cont_net3"],["Industrial","Supermarket","Hospital","CarePackages"]] call spawn_carePackages;
+
+	// Spawn medical care packages - DayZ: Namalsk
+    for "_x" from 1 to 6 do {
+        _id = [] spawn server_medical_ckg_dzn;
+    };
+};
+
+//Spawn helicopter crashes periodically
+[] spawn {
+	if(isNil "dayz_spawnCrashSite_clutterCutter") then {
+		dayz_spawnCrashSite_clutterCutter = 0;
+	};
 
 	// [_guaranteedLoot, _randomizedLoot, spawnOnStart, _frequency, _variance, _spawnChance, _spawnMarker, _spawnRadius, _spawnFire, _fadeFire]
-	// [3, 4, 3, (40 * 60), (15 * 60), 0.75, 'center', 4000, true, false] spawn server_spawnCrashSite;
-
-	// antiwallhack
-	call compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\fa_antiwallhack.sqf";
+	// [3, 4, 3, (40 * 60), (15 * 60), 0.75, 'center', 4000, true, false] call server_spawnCrashSite;
 
 	//Spawn static helicrash loot - DayZ: Namalsk
-	for "_x" from 1 to 9 do {
-		_id = [_x] spawn server_heliCrash_dzn;
-	};
-	
-	// Spawn medical care packages - DayZ: Namalsk
-	for "_x" from 1 to 6 do {
-		_id = [] spawn server_medical_ckg_dzn;
-	};
-	
-	//Spawn camps
-	// quantity, marker, radius, min distance between 2 camps
-	/*Server_InfectedCamps = [3, "center", 4500, 2000] call fn_bases;
-	dayzInfectedCamps = Server_InfectedCamps;
-	publicVariable "dayzInfectedCamps";*/
+    for "_x" from 1 to 9 do {
+    	_id = [_x] spawn server_heliCrash_dzn;
+    };
+};
 
-	sm_done = true;
-	publicVariable "sm_done";
+[] execVM "\z\addons\dayz_server\system\lit_fireplaces.sqf";
 
-	[300] call server_plantSpawner;
-
-	//if (isDedicated) then {
+/*
+if (isDedicated) then {
 	//Wild Zeds Ownership isnt working as expected yet
-	//	execFSM "\z\addons\dayz_server\system\zombie_wildagent.fsm";
-	//};
-	// Trap loop
-	[] call {
-		private ["_array","_array2","_array3","_script","_armed"];
-		_array = str dayz_traps;
-		_array2 = str dayz_traps_active;
-		_array3 = str dayz_traps_trigger;
+	execFSM "\z\addons\dayz_server\system\zombie_wildagent.fsm";
+};
+*/
 
-		while { true } do {
-			if ((str dayz_traps != _array) || (str dayz_traps_active != _array2) || (str dayz_traps_trigger != _array3)) then {
-				_array = str dayz_traps;
-				_array2 = str dayz_traps_active;
-				_array3 = str dayz_traps_trigger;
+/*
+if (dayz_serversideloot) then {
+	//looot
+	_i = 0;
+	{
+		_radius = 1500;
+		//_nearByPlayer = (count (_x nearEntities ["CAManBase",_radius])) > 0;
+		//if (_nearByPlayer) then {
+			dayz_i = [_x,_radius,_i,1800] call server_lootSpawner;
+			_i = _i + 1;
+		//};
+	} foreach dayz_grid;
+};
+*/
 
-				diag_log "DEBUG: traps";
-				diag_log format["dayz_traps (%2) -> %1", dayz_traps, count dayz_traps];
-				diag_log format["dayz_traps_active (%2) -> %1", dayz_traps_active, count dayz_traps_active];
-				diag_log format["dayz_traps_trigger (%2) -> %1", dayz_traps_trigger, count dayz_traps_trigger];
-				diag_log "DEBUG: end traps";
+"PVDZ_sec_atp" addPublicVariableEventHandler {
+	_x = _this select 1;
+	switch (1==1) do {
+		case (typeName _x == "STRING") : { // just some logs from the client
+			diag_log _x;
+		};
+		case (count _x == 2) : { // wrong side
+			diag_log Format [ "P1ayer %1 reports possible 'side' hack... Server may be comprised!", (_x select 1) call fa_plr2Str ];
+		};
+		default { // player hit
+			_unit = _x select 0;
+			_source = _x select 1;
+			if (((!(isNil {_source})) AND {(!(isNull _source))}) AND {((_source isKindOf "CAManBase") AND {(owner _unit != owner _source)})}) then {
+				diag_log format ["P1ayer %1 hit by %2 %3 from %4 meters",
+					_unit call fa_plr2Str,  _source call fa_plr2Str, _x select 2, _x select 3];
+				if (_unit getVariable["processedDeath", 0] == 0) then {
+					_unit setVariable [ "attacker", name _source ];
+					_unit setVariable [ "noatlf4", diag_ticktime ]; // server-side "not in combat" test, if player is not already dead
+				};
 			};
-
-			{
-				if (isNull _x) then {
-					dayz_traps = dayz_traps - [_x];
-				};
-
-				_script = call compile getText (configFile >> "CfgVehicles" >> typeOf _x >> "script");
-				_armed = _x getVariable ["armed", false];
-
-				if (_armed) then {
-					if !(_x in dayz_traps_active) then {
-						["arm", _x] call _script;
-					};
-				} else {
-					if (_x in dayz_traps_active) then {
-						["disarm", _x] call _script;
-					};
-				};
-
-				//sleep 0.01;
-			} forEach dayz_traps;
 		};
 	};
 };

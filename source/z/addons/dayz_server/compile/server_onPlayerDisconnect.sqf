@@ -28,7 +28,7 @@ if (!isNull _playerObj) then {
 	diag_log format["Player UID#%1 CID#%2 %3 as %4, logged off at %5%6", 
 		getPlayerUID _playerObj, _characterID, _playerObj call fa_plr2str, typeOf _playerObj, 
 		(getPosATL _playerObj) call fa_coor2str,
-		if ((_lastDamage > 5 AND {(_lastDamage < 30)}) AND {((alive _playerObj) AND {(_playerObj distance (getMarkerpos "respawn_west") >= 2000)})}) then {" while in combat ("+str(_lastDamage)+" seconds left)"} else {""}
+		if ((_lastDamage > 5 AND (_lastDamage < 30)) AND ((alive _playerObj) AND (_playerObj distance (getMarkerpos "respawn_west") >= 2000))) then {" while in combat ("+str(_lastDamage)+" seconds left)"} else {""}
 	]; 
 #endif
 	//Update Vehicle
@@ -41,7 +41,16 @@ if (!isNull _playerObj) then {
 		_myGroup = group _playerObj;
 		deleteVehicle _playerObj;
 		deleteGroup _myGroup;
+		
+		if (dayz_enableGhosting) then {
+			//diag_log format["GhostPlayers: %1, ActivePlayers: %2",dayz_ghostPlayers,dayz_activePlayers];
+			if (!(_playerUID in dayz_ghostPlayers)) then { 
+				dayz_ghostPlayers set [count dayz_ghostPlayers, _playerUID];
+				dayz_activePlayers set [count dayz_activePlayers, [_playerUID,diag_ticktime]];
+				
+				//diag_log format["playerID %1 added to ghost list",_playerUID];
+			};
+		};
 	};
-	{ [_x,"gear"] call server_updateObject } foreach 
-		(nearestObjects [_playerPos, ["Car", "Helicopter", "Motorcycle", "Ship", "TentStorage", "StashSmall", "StashMedium"], 10]);
+	{ [_x,"gear"] call server_updateObject } foreach (nearestObjects [_playerPos, DayZ_GearedObjects, 10]);
 };

@@ -1,6 +1,7 @@
 private ["_characterID","_playerObj","_playerID","_dummy","_worldspace","_state","_doLoop","_key","_primary","_medical","_stats","_humanity","_randomSpot","_position","_debug","_distance","_fractures","_score","_findSpot","_mkr","_j","_isIsland","_w","_clientID"];//diag_log ("SETUP: attempted with " + str(_this));
 
-//diag_log(format["%1 DEBUG %2", __FILE__, _this]);
+diag_log(format["%1 DEBUG %2", __FILE__, _this]);
+
 _characterID = _this select 0;
 _playerObj = _this select 1;
 _spawnSelection = _this select 3;
@@ -55,7 +56,23 @@ if (isNull _playerObj or !isPlayer _playerObj) exitWith {
 
 _medical = _primary select 1;
 _stats = _primary select 2;
-_state = _primary select 3;
+_statearray = if (count _primary >= 4) then { _primary select 3 } else {[""]};
+if (count _statearray == 0) then { _statearray = [""]; };
+//diag_log ("StateNew: "+str(_statearray));
+
+if (typeName ((_statearray) select 0) == "STRING") then { 
+	_statearray = [_statearray,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]; 
+};
+
+_state = ((_statearray) select 0);
+//diag_log ("State: "+str(_state));
+_Achievements = ((_statearray) select 1);
+
+if (count _Achievements == 0) then {
+	_Achievements = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+};
+//diag_log ("Achievements: "+str(_Achievements));
+
 _worldspace = _primary select 4;
 _humanity = _primary select 5;
 
@@ -76,7 +93,7 @@ if (count _worldspace > 0) then {
 	if (_distance < 2000) then {
 		_randomSpot = true;
 	};
-	
+
 	_distance = [0,0,0] distance _position;
 	if (_distance < 500) then {
 		_randomSpot = true;
@@ -99,43 +116,46 @@ if (count _medical > 0) then {
 	_playerObj setVariable["USEC_isCardiac",(_medical select 5),true];
 	_playerObj setVariable["USEC_lowBlood",(_medical select 6),true];
 	_playerObj setVariable["USEC_BloodQty",(_medical select 7),true];
-	
-	_playerObj setVariable["unconsciousTime",(_medical select 10),true];
-	
-//	if (_playerID in dayz_disco) then {
-//		_playerObj setVariable["NORRN_unconscious",true, true];
-//		_playerObj setVariable["unconsciousTime",300,true];
-//	} else {
-//		_playerObj setVariable["unconsciousTime",(_medical select 10),true];
-//	};
-	
+
 	//Add bleeding Wounds
 	{
 		_playerObj setVariable["hit_"+_x,true, true];
 	} forEach (_medical select 8);
-	
+
 	//Add fractures
 	_fractures = (_medical select 9);
 	_playerObj setVariable ["hit_legs",(_fractures select 0),true];
 	_playerObj setVariable ["hit_hands",(_fractures select 1),true];
-	
-	if (count _medical > 11) then {
-		//Additional medical stats
-		_playerObj setVariable ["messing",(_medical select 11),true];
+
+	_playerObj setVariable["unconsciousTime",(_medical select 10),true];
+	_playerObj setVariable["messing",if (count _medical >= 14) then {(_medical select 13)} else {[0,0,0]},true];
+	_playerObj setVariable["blood_testdone",if (count _medical >= 15) then {(_medical select 14)} else {false},true];
+	if (count _medical >= 12) then {
+		_playerObj setVariable["blood_type",(_medical select 11),true];
+		_playerObj setVariable["rh_factor",(_medical select 12),true];
+		diag_log [ "Character data: blood_type,rh_factor,testdone=",
+			_playerObj getVariable ["blood_type", "?"],_playerObj getVariable ["rh_factor", "?"], _playerObj getVariable["blood_testdone", false]
+		];
+	}
+	else {
+		_playerObj call player_bloodCalc;
+		diag_log [ "Character upgrade to 1.8.3: blood_type,rh_factor=",_playerObj getVariable ["blood_type", "?"],_playerObj getVariable ["rh_factor", "?"]];
 	};
-	
 } else {
-	//Reset bleedings wounds
+	//Reset bleeding wounds
 	call fnc_usec_resetWoundPoints;
 	//Reset Fractures
 	_playerObj setVariable ["hit_legs",0,true];
 	_playerObj setVariable ["hit_hands",0,true];
 	_playerObj setVariable ["USEC_injured",false,true];
 	_playerObj setVariable ["USEC_inPain",false,true];
-	_playerObj setVariable ["messing",[0,0],true];
+	_playerObj call player_bloodCalc; // will set blood_type and rh_factor according to real population statitics
+	diag_log [ "New character setup: blood_type,rh_factor=",_playerObj getVariable ["blood_type", "?"],_playerObj getVariable ["rh_factor", "?"]];
+	_playerObj setVariable ["messing",[0,0,0],true];
+	_playerObj setVariable ["blood_testdone",false,true];
 };
-	
-if (count _stats > 0) then { 
+
+if (count _stats > 0) then {
 	//register stats
 	_playerObj setVariable["zombieKills",(_stats select 0),true];
 	_playerObj setVariable["headShots",(_stats select 1),true];
@@ -146,12 +166,11 @@ if (count _stats > 0) then {
 	//Save Score
 	_score = score _playerObj;
 	_playerObj addScore ((_stats select 0) - _score);
-	
+
 	//record for Server JIP checks
 	_playerObj setVariable["zombieKills_CHK",(_stats select 0)];
 	_playerObj setVariable["headShots_CHK",(_stats select 1)];
-	//_playerObj setVariable["humanKills_CHK",(_stats select 2)]; // not used???
-	//_playerObj setVariable["banditKills_CHK",(_stats select 3)]; // not used????
+
 	if (count _stats > 4) then {
 		if (!(_stats select 3)) then {
 			_playerObj setVariable["selectSex",true,true];
@@ -166,11 +185,9 @@ if (count _stats > 0) then {
 	_playerObj setVariable["humanKills",0,true];
 	_playerObj setVariable["banditKills",0,true];
 	_playerObj setVariable["headShots",0,true];
-	
+
 	//record for Server JIP checks
 	_playerObj setVariable["zombieKills_CHK",0];
-	//_playerObj setVariable["humanKills_CHK",0,true]; // not used??
-	//_playerObj setVariable["banditKills_CHK",0,true]; // not used????
 	_playerObj setVariable["headShots_CHK",0];
 };
 
@@ -179,6 +196,7 @@ if (_randomSpot) then {
 	if (!isDedicated) then {
 		endLoadingScreen;
 	};
+	if (worldName in ["dzhg", "panthera2", "Sara", "Utes", "Dingor", "namalsk", "isladuala", "Tavi", "dayznogova","tasmania2010"]) then { _IslandMap = true; } else { _IslandMap = false; };
 
 	//spawn into random
 	_findSpot = true;
@@ -187,7 +205,7 @@ if (_randomSpot) then {
 	for [{_j=0},{_j<=100 AND _findSpot},{_j=_j+1}] do {
 		if (_spawnSelection == 9) then {
 		// random spawn location selected, lets get the marker and spawn in somewhere
-		_mkr = getMarkerPos ("spawn" + str(floor(random 5)));
+			if (dayz_spawnselection == 1) then { _mkr = getMarkerPos ("spawn" + str(floor(random 6))); } else { _mkr = getMarkerPos ("spawn" + str(floor(random 5))); };
 		} else {
 			// spawn is not random, lets spawn in our location that was selected
 			_mkr = getMarkerPos ("spawn" + str(_spawnSelection));
@@ -204,18 +222,16 @@ if (_randomSpot) then {
 				for [{_w = 0}, {_w != 809}, {_w = ((_w + 17) % 811)}] do {
 					//if (_w < 17) then { diag_log format[ "%1 loop starts with _w=%2", __FILE__, _w]; };
 					_pos = [((_pos select 0) - _w),((_pos select 1) + _w),(_pos select 2)];
-					if(surfaceisWater _pos) exitWith {
+					if((surfaceisWater _pos) and (!_IslandMap)) exitWith {
 						_isIsland = true;
 					};
 				};
-				if (!(worldName in ["dzhg", "panthera2", "Sara", "Utes", "Dingor", "namalsk", "isladuala", "Tavi", "dayznogova"])) then {
-					if (!_isIsland) then {_findSpot = false};
-				};
+				if (!_isIsland) then {_findSpot = false};
 			};
 		};
 		//diag_log format["%1: pos:%2 _findSpot:%3", __FILE__, _position, _findSpot];
 	};
-	if (_findSpot) exitWith {
+	if ((_findSpot) and (!_IslandMap)) exitWith {
 		diag_log format["%1: Error, failed to find a suitable spawn spot for player. area:%2",__FILE__, _mkr];
 	};
 	_worldspace = [0,_position];
@@ -228,23 +244,23 @@ dayz_players set [count dayz_players,_playerObj];
 _playerObj setVariable["characterID",_characterID,true];
 _playerObj setVariable["humanity",_humanity,true];
 _playerObj setVariable["humanity_CHK",_humanity];
-//_playerObj setVariable["worldspace",_worldspace,true];
-//_playerObj setVariable["state",_state,true];
 _playerObj setVariable["lastPos",getPosATL _playerObj];
 
-PVCDZ_plr_Login2 = [_worldspace,_state];
+if (!isNil "faco_hook_playerSetup") then {
+	[_worldspace,_state,_playerObj, _characterID] call faco_hook_playerSetup;
+	_playerObj call faco_sendSecret;
+};
+
+PVCDZ_plr_Login2 = [_worldspace,_state,_Achievements];
 _clientID = owner _playerObj;
 _clientID publicVariableClient "PVCDZ_plr_Login2";
+_clientID publicVariableClient "PVCDZ_plr_plantSpawner";
+
 
 //record time started
 _playerObj setVariable ["lastTime",time];
-//_playerObj setVariable ["model_CHK",typeOf _playerObj];
 
-#ifdef LOGIN_DEBUG
 diag_log format["LOGIN PUBLISHING: UID#%1 CID#%2 %3 as %4 should spawn at %5", getPlayerUID _playerObj, _characterID, _playerObj call fa_plr2str, typeOf _playerObj, (_worldspace select 1) call fa_coor2str];
-#endif
 
 PVDZ_plr_Login1 = null;
 PVDZ_plr_Login2 = null;
-
-//Save Login
