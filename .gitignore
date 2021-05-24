@@ -163,4 +163,4 @@ pip-log.txt
 
 .idea
 .vs
-source/mission/config.sqf
+mission/config.sqf
