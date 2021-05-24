@@ -29,7 +29,7 @@ sched_townGenerator_init = {
 	sched_tg_pos=getMarkerpos "respawn_west";
 	_maxX=-50000;
 	_maxY=-50000;
-	_townarray = missionConfigFile >> "CfgTownGeneratorNamalsk";
+	_townarray = configFile >> "CfgTownGeneratorNamalsk";
 	// Compute the area size
 	for "_i" from (count _townarray)-1 to 0 step -1 do {
 		_objectarray = (_townarray select _i);

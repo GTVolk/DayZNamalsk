@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project name="DayZNamalsk">
+	<Package name="dayz_namalsk">
+		<Container name="DZN_TranslatedStrings">
+			<Key ID="str_dzn_unknown_v">
+				<Original>You are running an incorrect version of DayZ: Namalsk, please download newest version from http://www.nightstalkers.cz/ (You are running version %1 and the server is running version %2)</Original>
+				<Russian>У вас запущена некорректная версия мода DayZ: Namalsk, пожалуйста, скачайте свежую версию с сайта http://www.nightstalkers.cz/ (У вас версия %1, на сервере установлена %2)</Russian>
+			</Key>
+			<Key ID="str_dzn_unknown_sv">
+				<Original>Server is running on incorrect dayz_server.pbo, please contact server owner to correct this problem.</Original>
+				<Russian>На сервере установлена неверная версия dayz_server.pbo, пожалуйста, свяжитесь с владельцем сервера, чтобы исправить эту проблему.</Russian>
+			</Key>
+			<Key ID="STR_DZN_SPECNAZ_OPERATOR_WINTER">
+				<Original>Soldier</Original>
+				<Russian>Солдат</Russian>
+			</Key>
+			<Key ID="STR_DZN_CAMOWINTER_SHORT">
+				<Original>Warm clothes</Original>
+				<Russian>Утепленная одежда</Russian>
+			</Key>
+			<Key ID="STR_DZN_CAMOWINTER_DESC">
+				<Original>Warm clothes, which can protect you from a cold weather.</Original>
+				<Russian>Утепленная одежда, которая может защитить вас в холодную погоду.</Russian>
+			</Key>
+			<Key ID="STR_DZN_REPAIR_TOOLBOX_NEEDED">
+				<Original>You need to have a tool box to combine and repair the broken equipment.</Original>
+				<Russian>Вам необходим ящик с инструментами, чтобы совмещать и чинить сломанное снаряжение.</Russian>
+			</Key>
+			<Key ID="STR_DZN_REPAIR_SOLDER_NEEDED">
+				<Original>You need to have a solder to combine and repair the broken equipment.</Original>
+				<Russian>Вам необходим паяльный инструмент, чтобы совмещать и чинить сломанное снаряжение.</Russian>
+			</Key>
+			<Key ID="STR_DZN_REPAIR_SUCCESS">
+				<Original>You successfully combined and repaired 2 broken %1 into 1 functional.</Original>
+				<Russian>Вы успешно совместили 2 сломанных предмета (%1) в 1 исправный.</Russian>
+			</Key>
+			<Key ID="STR_DZN_REPAIR_FAIL_NO_ITEMS">
+				<Original>You don't have enough broken %1 to create one functional. (make sure the broken equipment is in backpack)</Original>
+				<Russian>У вас недостаточно сломанных предметов (%1), чтобы создать один исправный. (убедитесь, что сломанное снаряжение в инвентаре)</Russian>
+			</Key>
+			<Key ID="str_dzn_bad_blood_transfused">
+				<Original>An incompatible group of blood was transfused, which led to rejection!</Original>
+				<Russian>Была перелита несовместимая группа крови, что привело к отторжению!</Russian>
+			</Key>
+			<Key ID="str_dzn_exit_outbound">
+				<Original>You located outside the map. If you leave from server - your character will be respawned after restart.</Original>
+				<Russian>Вы находитесь за пределами карты. Если вы покинете сервер - ваш персонаж будет удален после рестарта.</Russian>
+			</Key>
+			<Key ID="str_dzn_exit_a2">
+				<Original>You located on the A2. If you leave from server - your character will be respawned after restart.</Original>
+				<Russian>Вы находитесь на территории объекта А2. Если вы покинете сервер - ваш персонаж будет удален после рестарта.</Russian>
+			</Key>
+			<Key ID="str_dzn_exit_blowout">
+				<Original>EVR underway. Find cover! If you leave from server - your character will be respawned after restart.</Original>
+				<Russian>Выброс в процессе. Найдите укрытие! Если вы покинете сервер - ваш персонаж будет удален после рестарта.</Russian>
+			</Key>
+			<Key ID="str_dzn_faint_from_hypothermia">
+				<Original>You faint from hypothermia.</Original>
+				<Russian>Вы потеряли сознание от переохлаждения.</Russian>
+			</Key>
+			<Key ID="str_dzn_actions_suicide">
+				<Original>Commit suicide</Original>
+				<Russian>Совершить самоубийство</Russian>
+			</Key>
+		</Container>
+	</Package>
+</Project>

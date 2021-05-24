@@ -1,5 +1,5 @@
 #include "\z\addons\dayz_code\util\math.hpp"
-#include "Loot.hpp"
+#include "\z\addons\dayz_code\loot\Loot.hpp"
 
 //If defined, minimizes memory usage at the expense of initialization time.
 //#define MINIMIZE_MEMORY
@@ -54,7 +54,7 @@ dz_loot_groups = [];
 dz_loot_weighted = [];
 dz_loot_definitions = [];
 
-_cfgGroups = (configFile >> "CfgLoot" >> "Groups");
+_cfgGroups = (configFile >> dayz_nc_lootTable >> "Groups");
 
 for "_i" from 0 to (count _cfgGroups) - 1 do
 {

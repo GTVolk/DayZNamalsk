@@ -728,7 +728,7 @@ class FSM
        "" \n
        "if ((_isNew) OR (count _inventory == 0)) then {" \n
        "	//player is new, add initial loadout" \n
-       "	_config = (missionConfigFile >> ""CfgSurvivalNamalsk"" >> ""Inventory"" >> ""Default"");" \n
+       "	_config = (configFile >> ""CfgSurvivalNamalsk"" >> ""Inventory"" >> ""Default"");" \n
        "	_totalrndmags = getNumber (_config >> ""RandomMagazines"");" \n
        "	_rndmags = getArray (_config >> ""RandomPossibilitieMagazines"");" \n
        "	_countmags = 0; " \n

@@ -2,7 +2,7 @@ private ["_amount","_animalbody","_rawfoodtype","_qty"];
 
 _animalbody = _this select 0;
 _qty = _this select 1;
-_rawfoodtype = getText (missionConfigFile >> "CfgSurvivalNamalsk" >> "Meat" >> typeOf _animalbody >> "rawfoodtype");
+_rawfoodtype = getText (configFile >> "CfgSurvivalNamalsk" >> "Meat" >> typeOf _animalbody >> "rawfoodtype");
 
 if (local _animalbody) then {
 	for "_i" from 1 to _qty do {

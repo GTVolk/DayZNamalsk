@@ -28,7 +28,7 @@ _vectorUp = vectorUp _this;
 if (Vector_Angle(Vector_UP,_vectorUp) > 20) exitWith { 0 };
 
 _type = typeOf _this;
-_config = (missionConfigFile >> dayz_nc_lootTable >> "Buildings" >> _type);
+_config = (configFile >> dayz_nc_lootTable >> "Buildings" >> _type);
 
 if (!isClass _config) exitWith {};
 

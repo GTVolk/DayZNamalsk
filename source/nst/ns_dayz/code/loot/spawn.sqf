@@ -14,7 +14,7 @@ Author:
 
 #include "\z\addons\dayz_code\util\debug.hpp"
 #include "\z\addons\dayz_code\util\vector.hpp"
-#include "Loot.hpp"
+#include "\z\addons\dayz_code\loot\Loot.hpp"
 
 //Maximum number of magazines spawned along with weapons
 #define MAX_WEAPON_MAGAZINES 2

@@ -31,7 +31,7 @@ if ((count _knifeArray > 0) and !_hasHarvested) then {
 	_activeKnife = _knifeArray select 0; 
 	
 	//Get Animal Type
-	_isListed = isClass (missionConfigFile >> "CfgSurvivalNamalsk" >> "Meat" >> _type);
+	_isListed = isClass (configFile >> "CfgSurvivalNamalsk" >> "Meat" >> _type);
 	_text = getText (configFile >> "CfgVehicles" >> _type >> "displayName");
 
 	_dis=10;
@@ -47,7 +47,7 @@ if ((count _knifeArray > 0) and !_hasHarvested) then {
 
 	_item setVariable ["meatHarvested",true,true];
 
-	_qty = if (_isListed) then {getNumber (missionConfigFile >> "CfgSurvivalNamalsk" >> "Meat" >> _type >> "yield")} else {2};
+	_qty = if (_isListed) then {getNumber (configFile >> "CfgSurvivalNamalsk" >> "Meat" >> _type >> "yield")} else {2};
 	if (_activeKnife == "ItemKnifeBlunt") then { _qty = round(_qty / 2); };
 
 	if (local _item) then {

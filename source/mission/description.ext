@@ -1,8 +1,10 @@
+#include "ExtraRC.hpp"
+
 respawn = "BASE";
 respawnDelay = 0;
 respawnDialog = 0;
-onLoadMission= "DayZ Chernarus";
-OnLoadIntro = "Welcome to Chernarus";
+onLoadMission= "DayZ Namalsk";
+OnLoadIntro = "Welcome to Namalsk";
 OnLoadIntroTime = False;
 OnLoadMissionTime = False;
 disabledAI = true;
@@ -25,7 +27,7 @@ onPauseScript = "";
 briefing = 0;
 debriefing = 0;
 
-loadScreen = "\z\addons\dayz_code\gui\loadingscreen.paa";
+loadScreen = "\nst\ns_dayz\data\dayznamalsk_logo_ca.paa";
 
 class Header
 {

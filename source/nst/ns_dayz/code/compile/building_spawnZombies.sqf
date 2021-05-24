@@ -10,7 +10,7 @@ if (count _this > 1) then {
 };
 
 _type = 		typeOf _obj;
-_config = 		missionConfigFile >> dayz_nc_lootTable >> "Buildings" >> _type;
+_config = 		configFile >> dayz_nc_lootTable >> "Buildings" >> _type;
 _canLoot = 		isClass (_config);
 _originalPos = 	getPosATL _obj;
 
