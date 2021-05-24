@@ -1,2025 +1,4 @@
-class CfgPatches
-{
-	class ns_dayz
-	{
-		units[] =
-		{
-			"Mi17_Civilian_Nam",
-			"Ka60_GL_NAC",
-			"Ka60_NAC"
-		};
-		weapons[] =
-		{
-			"57mmLauncher_NAC",
-			"M32_heli_NAC"
-		};
-		
-		requiredVersion = 0.100000;
-		requiredAddons[] = 
-		{
-			//"dayz_code"
-		};
-		
-		author[] = {
-			"Sumrak"
-		};
-	};
-};
-
-class CfgMods {
-  class nc_dzn {
-   dir = "@NC";
-   name = "DayZ: Namalsk";
-   picture = "nst\ns_dayz\data\dayznamalsk_logo_ca.paa";
-   hidePicture = "false";
-   hideName = "false";
-   action = "http://www.nightstalkers.cz/en_index_dn.php";
-   version = "0.75";
-  };
-};
-/*
-
-INSERT INTO `spawns` (`pos`, `otype`, `uuid`, `world`, `chance`) VALUES
-	('[219,[4148.12,6579.55,3.866]]', 'Ka60_GL_NAC', 4578512, 'namalsk',0.25),
-	('[182,[4127.6,6703.51,0.00146484]]', 'UAZ_RU', 4578513, 'namalsk',0.65),
-	('[93,[3552.5,6675.55,0.00143433]]', 'UAZ_RU', 4578514, 'namalsk',0.65),
-	('[220,[3941.47,7595.37,0.00143814]]', 'UralCivil2', 4578515, 'namalsk',0.55),
-	('[180,[5849.93,8659.4,0.00143814]]', 'UralCivil2', 4578516, 'namalsk',0.55),
-	('[90,[4837.61,6145.8,0.00143814]]', 'UralCivil', 4578517, 'namalsk',0.55),
-	('[90,[7051.95,5777.77,0.00144196]]', 'hilux1_civil_3_open_EP1', 4578518, 'namalsk',0.55),
-	('[180,[7894.81,7718.42,0.00142384]]', 'UralCivil', 4578519, 'namalsk',0.55),
-	('[52,[7358.11,7984.73,0.00138092]]', 'hilux1_civil_3_open_EP1', 4578520, 'namalsk',0.55),
-	('[351,[7685.47,8729.3,0.00157166]]', 'UralCivil2', 4578521, 'namalsk',0.55),
-	('[23,[5975.07,6690.23,0.00141525]]', 'UAZ_RU', 4578522, 'namalsk',0.65),
-	('[255,[5748.33,9844.07,0.00140762]]', 'hilux1_civil_3_open_EP1', 4578523, 'namalsk',0.55),
-	('[296,[8252.9,10792.1,0.00143909]]', 'tractor', 4578524, 'namalsk',0.75),
-	('[22,[8957.08,10629.1,0.00132465]]', 'Old_bike_TK_CIV_EP1', 4578525, 'namalsk',0.95),
-	('[110,[9134.51,10091.7,4.11368]]', 'Fishing_Boat', 4578526, 'namalsk',0.55),
-	('[81,[7209.53,10848.4,0.00142956]]', 'Old_bike_TK_CIV_EP1', 4578527, 'namalsk',0.95),
-	('[270,[6739.51,11323.5,0.00143909]]', 'UralCivil', 4578528, 'namalsk',0.55),
-	('[74,[7029.23,11540.7,0.00143909]]', 'hilux1_civil_3_open_EP1', 4578529, 'namalsk',0.55),
-	('[11,[6665.94,11022.5,0.00143909]]', 'Old_bike_TK_CIV_EP1', 4578530, 'namalsk',0.95),
-	('[278,[5796.78,10761.3,0.00142288]]', 'hilux1_civil_3_open_EP1', 4578532, 'namalsk',0.55),
-	('[203,[4849.06,10858.9,0.00143909]]', 'UAZ_RU', 4578533, 'namalsk',0.65),
-	('[280,[4418.92,10748.9,0.00143909]]', 'UAZ_RU', 4578534, 'namalsk',0.65),
-	('[47,[4521,11230,3.81583]]', 'Mi17_Civilian_Nam', 4578535, 'namalsk',0.25),
-	('[55,[4525.93,11255.1,0.001692]]', 'PBX', 4578536, 'namalsk',0.55),
-	('[92,[4387.41,11293.1,7.2188]]', 'Fishing_Boat', 4578537, 'namalsk',0.55),
-	('[0,[4430.48,11303.5,8.4149]]', 'Fishing_Boat', 4578538, 'namalsk',0.55),
-	('[250,[4090.02,9225.91,0.00144958]]', 'UAZ_RU', 4578539, 'namalsk',0.65),
-	('[180,[4306.51,4719.16,5.83564]]', 'Fishing_Boat', 4578540, 'namalsk',0.55),
-	('[34,[2197.75,5762.33,0.00141096]]', 'Old_bike_TK_CIV_EP1', 4578541, 'namalsk',0.95),
-	('[88,[2144.77,5754.73,1.84505]]', 'PBX', 4578541, 'namalsk',0.55),
-	('[245,[5031.6,6100.52,5.8214]]', 'PBX', 4578542, 'namalsk',0.55),
-	('[6,[4877.88,6215.15,0.00143814]]', 'Old_bike_TK_CIV_EP1', 4578543, 'namalsk',0.95),
-	('[228,[6044.81,6760.48,2.24013]]', 'PBX', 4578544, 'namalsk',0.55),
-	('[126,[7647.15,7406.74,0.00144958]]', 'UralCivil2', 4578545, 'namalsk',0.55),
-	('[1,[4991.09,8165.97,0.00148773]]', 'UralCivil', 4578546, 'namalsk',0.55),
-*/
-
-/*class CfgVehicleClasses {
- class zombie {
-  displayName = "Zombie";
- };
-};*/
-
-class CfgAmmo {
- class Default;
- class RocketCore_NAC: Default
- {
-  simulation = "shotRocket";
-  simulationStep = 0.05;
-  timeToLive = 20;
-  maneuvrability = 0.0;
-  maxControlRange = 0;
-  initTime = 0.05;
-  thrustTime = 1;
-  thrust = 1500;
-  visibleFire = 32;
-  audibleFire = 32;
-  visibleFireTime = 20;
-  cost = 2000;
-  deflecting = 5;
- };
- class RocketBase_NAC: RocketCore_NAC
- {
-	model = "\ca\weapons\AT1";
-	hit = 500;
-	indirectHit = 150;
-	indirectHitRange = 2;
-	soundHit[] = {"Ca\sounds\Weapons\explosions\explosion_large1",44.668358,1,1800};
-	soundFly[] = {"Ca\sounds\Weapons\explosions\rocket_fly1",0.1,1.5,400};
-	soundEngine[] = {"Ca\sounds\Weapons\explosions\noise",0.0031622776,1,20};
-	supersonicCrackNear[] = {"Ca\sounds\Weapons\explosions\supersonic_crack_close",1,1,150};
-	supersonicCrackFar[] = {"Ca\sounds\Weapons\explosions\supersonic_crack_50meters",1,1,250};
-	maxSpeed = 1;
-	initTime = 0;
-	thrustTime = 0.2;
-	thrust = 2000;
-	CraterEffects = "HERocketCrater";
-	explosionEffects = "HERocketExplosion";
-	muzzleEffect = "BIS_Effects_Rocket";
-	effectsMissile = "missile1";
- };
- class R_x57mm_HE_NAC: RocketBase_NAC
- {
-	model = "\ca\air\70mmRocket";
-	hit = 150;
-	indirectHit = 40;
-	indirectHitRange = 12;
-	cost = 200;
-	maxSpeed = 580;
-	thrustTime = 1.1;
-	thrust = 450;
-	sideAirFriction = 0.15;
-	fuseDistance = 40;
-		timeToLive = 20;
-		whistleDist = 24;
-	};
-};
-
-class CfgMagazines {
-	class 1Rnd_HE_M203;
-	class 6Rnd_HE_M203_NAC: 1Rnd_HE_M203 {
-		count = 6;
-		displayName = "$STR_EP1_DN_6Rnd_HE_M203";
-		descriptionShort = "$STR_EP1_DSS_6Rnd_HE_M203";
-		type = "2*		256";
-		picture = "\CA\weapons_E\Data\icons\m_6x40mmHP_CA.paa";
-	};
-	class 6Rnd_HE_M203_heli_NAC: 6Rnd_HE_M203_NAC {
-		maxLeadSpeed = 170;
-	};
-
-	class VehicleMagazine;
-	class 64Rnd_57mm_NAC: VehicleMagazine {
-		scope = 2;
-		displayName = "$STR_MN_S5KO";
-		ammo = "R_x57mm_HE_NAC";
-		initSpeed = 44;
-		maxLeadSpeed = 200;
-		nameSound = "rockets";
-		sound[] = {"\ca\Weapons\Data\Sound\Rockets\rocketLauncher_Shot21",1.0,1};
-		reloadSound[] = {"\ca\Weapons\Data\Sound\missload",0.00031622776,1};
-		count = 64;
-	};
-	class 14Rnd_57mm_NAC: 64Rnd_57mm_NAC {
-		count = 14;
-	};
-	
-	class SkinBase;
-	class Skin_CamoWinter_DZN: SkinBase {
-		scope = 2;
-		displayName = "$STR_DZN_CAMOWINTER_SHORT";
-		descriptionShort = "$STR_DZN_CAMOWINTER_DESC";
-	};
-	class Skin_CamoWinterW_DZN: SkinBase {
-		scope = 2;
-		displayName = "$STR_DZN_CAMOWINTER_SHORT";
-		descriptionShort = "$STR_DZN_CAMOWINTER_DESC";
-	};
-	class Skin_Sniper1W_DZN: SkinBase {
-		scope = 2;
-		displayName = "$STR_EQUIP_NAME_43";
-		descriptionShort = "$STR_EQUIP_DESC_43";
-	};
-};
-
-class Mode_SemiAuto;
-class Mode_Burst;
-class Mode_FullAuto;
-
-class CfgWeapons {
- class Default;
- class MGunCore: Default
- {
-  type = "1	+	4";
-  dexterity = 0.5;
-  aiRateOfFire = 0.5;
-  aiRateOfFireDistance = 400;
- };
- class MGun: MGunCore
- {
-  type = 65536;
-  cursor = "MGCursor";
-  cursoraim = "\ca\Weapons\Data\clear_empty";
-  cursorSize = 1;
-  displayName = "$STR_DN_MGUN";
-  nameSound = "mgun";
-  reloadTime = 0.25;
-  autoFire = 1;
-  reloadAction = "ManActReloadMagazine";
-  sound[] = {"\ca\Weapons\Data\Sound\M60_SS",1.0,1,1400};
-  soundContinuous = 0;
-  reloadSound[] = {"",1,1};
-  initSpeed = 900;
-  flash = "gunfire";
-  flashSize = 0.5;
-  optics = 0;
- };
- class M32_heli_NAC: MGun
- {
-  scope = 1;
-  displayName = "$STR_EP1_DN_M32_EP1";
-  magazines[] = {"6Rnd_HE_M203_heli_NAC"};
-  reloadTime = 0.5;
-  magazineReloadTime = 3;
-  cursor = "Vehicle_Grenade_E";
-  cursoraim = "\ca\Weapons\Data\clear_empty";
-  cursorSize = 2;
-  sound[] = {"\Ca\sounds\Weapons\cannon\AGS30_shot1_a",3.1622777,1,1200};
-  dispersion = 0.007;
-  minRange = 8;
-  minRangeProbab = 0.6;
-  midRange = 450;
-  midRangeProbab = 0.7;
-  maxRange = 1500;
-  maxRangeProbab = 0.1;
-  aiRateOfFire = 2.0;
-  aiRateOfFireDistance = 500;
-  canLock = 0;
- };
-
-
- class LauncherCore;
- class RocketPods_NAC: LauncherCore {
-  scope = 1;
-  cursorAim = "\ca\Weapons\Data\clear_empty";
-  cursor = "Rocket";
-  cursorSize = 1;
-  type = 65536;
-  reloadTime = 0.2;
-  autoFire = 1;
-  minRange = 50;
-  minRangeProbab = 0.1;
-  midRange = 600;
-  midRangeProbab = 0.25;
-  maxRange = 2500;
-  maxRangeProbab = 0.05;
-  canLock = 2;
-  nameSound = "rockets";
- };
- class 57mmLauncher_NAC: RocketPods_NAC {
-  magazines[] = {"14Rnd_57mm_NAC"};
-  modes[] = {"Far_AI","Burst"};
-  
-  class Far_AI: RocketPods_NAC {
-   displayName = "$STR_DN_57MMLAUNCHER_SINGLE";
-   minRange = 50;
-   minRangeProbab = 0.15;
-   midRange = 600;
-   midRangeProbab = 0.25;
-   maxRange = 2500;
-   maxRangeProbab = 0.05;
-   reloadTime = 0.08;
-   sound[] = {"\ca\Sounds\weapons\cannon\S_5",31.622776,1,1000};
-   soundFly[] = {"\ca\Sounds\weapons\cannon\rocket_fly_x2",1.0,1.2,800};
-   burst = 2;
-   autoFire = 0;
-   showToPlayer = 0;
-  };
-  class Burst: RocketPods_NAC {
-   displayName = "$STR_DN_57MMLAUNCHER_BURST";
-   burst = 2;
-   reloadTime = 0.08;
-   autoFire = 1;
-   sound[] = {"\ca\Sounds\weapons\cannon\S_5",31.622776,1,1000};
-   soundFly[] = {"\ca\Sounds\weapons\cannon\rocket_fly_x2",1.0,1.2,800};
-   soundContinuous = 0;
-   minRange = 250;
-   minRangeProbab = 0.25;
-   midRange = 400;
-   midRangeProbab = 0.5;
-   maxRange = 600;
-   maxRangeProbab = 0.1;
-  };
- };
- 
- // 1.7.5.1 banning!
- class RifleCore;
- class Rifle;
- class KSVK_DZN: Rifle {
-  scope = 2;
-  type = "1";
-  model = "\ca\weapons\ksvk\ksvk";
-  picture = "\CA\weapons\data\Equip\W_ksvk_CA.paa";
-  UiPicture = "\CA\weapons\data\Ico\i_sniper_CA.paa";
-  magazines[] = {"5Rnd_127x108_KSVK"};
-  dexterity = 0.48;
-  modelOptics = "\ca\weapons\ksvk\pso3_optics";
-  opticsPPEffects[] = {"OpticsCHAbera1","OpticsBlur2"};
-  handAnim[] = {"OFP2_ManSkeleton","\Ca\weapons\data\Anim\KSVK.rtm"};
-  opticsFlare = 1;
-  opticsDisablePeripherialVision = 1;
-  opticsZoomMin = 0.0311;
-  opticsZoomMax = 0.0311;
-  distanceZoomMin = 200;
-  distanceZoomMax = 200;
-  autoFire = 0;
-  reloadTime = 2;
-  displayname = "$STR_DN_KSVK";
-  begin1[] = {"ca\sounds\weapons\rifles\sniper_single_05",1.7782794,1,1000};
-  soundBegin[] = {"begin1",1};
-  reloadMagazineSound[] = {"Ca\sounds\Weapons\rifles\reload-ak-2ivan",0.031622775,1,20};
-  dispersion = 0.0005;
-  minRange = 0;
-  minRangeProbab = 0.1;
-  midRange = 1000;
-  midRangeProbab = 0.7;
-  maxRange = 1600;
-  maxRangeProbab = 0.05;
-  recoil = "recoil_single_primary_9outof10";
-  recoilProne = "recoil_single_primary_prone_7outof10";
-  class Library
-  {
-   libTextDesc = "$STR_LIB_KSVK";
-  };
-  descriptionShort = "$STR_DSS_KSVK";
- };
- class PK: Rifle {
-  class manual: Mode_FullAuto {};
-  class close: manual {};
-  class short: close {};
-  class medium: close {};
-  class far: close {};
- };
- class PK_DZN: PK {
-  type = "1";
- };
- 
- class Pecheneg_DZN: PK {
-  model = "\ca\weapons\Pecheneg_MG_proxy";
-  displayName = "$STR_DN_PECHENEG";
-  dexterity = 0.7;
-  type = "1";
-  picture = "\CA\weapons\data\equip\w_pecheneg_mg_ca.paa";
-  modelOptics = "\ca\weapons\2Dscope_Pecheneg";
-  opticsPPEffects[] = {"OpticsCHAbera2","OpticsBlur3"};
-  opticsFlare = 1;
-  opticsDisablePeripherialVision = 1;
-  opticsZoomInit = 0.0623;
-  opticsZoomMin = 0.0623;
-  opticsZoomMax = 0.0623;
-  distanceZoomMin = 300;
-  distanceZoomMax = 300;
-  modes[] = {"manual","close","short","medium","far"};
-  class manual: manual
-  {
-   minRange = 0;
-   minRangeProbab = 0.3;
-   midRange = 5;
-   midRangeProbab = 0.58;
-   maxRange = 10;
-   maxRangeProbab = 0.04;
-  };
-  class close: close 
-  {
-   minRange = 10;
-   minRangeProbab = 0.05;
-   midRange = 20;
-   midRangeProbab = 0.58;
-   maxRange = 50;
-   maxRangeProbab = 0.04;
-  };
-  class short: short
-  {
-   minRange = 50;
-   minRangeProbab = 0.05;
-   midRange = 200;
-   midRangeProbab = 0.58;
-   maxRange = 400;
-   maxRangeProbab = 0.04;
-  };
-  class medium: medium
-  {
-   minRange = 200;
-   minRangeProbab = 0.05;
-   midRange = 400;
-   midRangeProbab = 0.58;
-   maxRange = 600;
-   maxRangeProbab = 0.04;
-  };
-  class far: far
-  {
-   minRange = 400;
-   minRangeProbab = 0.05;
-   midRange = 600;
-   midRangeProbab = 0.4;
-   maxRange = 1000;
-   maxRangeProbab = 0.01;
-  };
-  class Library
-  {
-   libTextDesc = "$STR_LIB_PECHENEG";
-  };
-  descriptionShort = "$STR_DSS_PECHENEG";
- };
- 
- // MakarovSD -> MakarovSD_DZN
- class Makarov;
- class MakarovSD_DZN: Makarov {
-  model = "\ca\weapons\makarov_silenced";
-  fireLightDuration = 0.0;
-  fireLightIntensity = 0.0;
-  displayName = "$STR_DN_MAKAROVSD";
-  picture = "\CA\weapons\data\equip\w_makarovSD_ca.paa";
-  begin1[] = {"ca\sounds\weapons\pistols\makarovSD_single1",0.31622776,1,200};
-  soundBegin[] = {"begin1",1};
-  reloadMagazineSound[] = {"\ca\Weapons\Data\Sound\pistol_reload",0.031622775,1,20};
-  minRange = 0;
-  minRangeProbab = 0.1;
-  midRange = 15;
-  midRangeProbab = 0.3;
-  maxRange = 20;
-  maxRangeProbab = 0.04;
-  class Library
-  {
-   libTextDesc = "$STR_LIB_MAKAROVSD";
-  };
-  descriptionShort = "$STR_DSS_MAKAROVSD";
- };
- 
- // AKS_GOLD -> AKS_GOLD_DZN
- class AK_47_S;
- class AKS_GOLD_DZN: AK_47_S
- {
-  model = "\ca\weapons\AK\ak47s_gold";
-  picture = "\ca\weapons\AK\Data\Equip\W_AK47s_gold_CA.paa";
- };
- 
- // AK_107_GL_pso -> AK_107_GL_pso_DZN
- class AK_BASE;
- class AK_107_BASE: AK_BASE {
- 	class Single: Mode_SemiAuto {};
- 	class Burst: Mode_Burst {};
- 	class FullAuto: Mode_FullAuto {};
- };
- class AK_107_GL_pso_DZN: AK_107_BASE {
-  scope = 2;
-  dexterity = 1.5;
-  model = "\ca\weapons\AK\AK107_GL_pso";
-  displayName = "$STR_DN_AK_107_GL_PSO";
-  picture = "\ca\weapons\AK\Data\Equip\w_AK107_GL_pso_CA.paa";
-  UiPicture = "\CA\weapons\data\Ico\i_regular_CA.paa";
-  handAnim[] = {"OFP2_ManSkeleton","\Ca\weapons\data\Anim\M16GL.rtm"};
-  muzzles[] = {"this","GP25Muzzle"};
-  modelOptics = "\ca\weapons\AK\pso_optics";
-  opticsPPEffects[] = {"OpticsCHAbera2","OpticsBlur3"};
-  opticsFlare = 1;
-  opticsDisablePeripherialVision = 1;
-  opticsZoomInit = 0.0623;
-  opticsZoomMin = 0.0623;
-  opticsZoomMax = 0.0623;
-  distanceZoomMin = 200;
-  distanceZoomMax = 200;
-  class Library
-  {
-   libTextDesc = "$STR_LIB_AK107_GL_pso";
-  };
-  descriptionShort = "$STR_DSS_AK107_GL_pso";
-  class Single: Single
-  {
-   minRange = 2;
-   minRangeProbab = 0.3;
-   midRange = 300;
-   midRangeProbab = 0.7;
-   maxRange = 600;
-   maxRangeProbab = 0.04;
-  };
-  class Burst: Burst
-  {
-   minRange = 1;
-   minRangeProbab = 0.3;
-   midRange = 150;
-   midRangeProbab = 0.7;
-   maxRange = 300;
-   maxRangeProbab = 0.05;
-  };
-  class FullAuto: FullAuto
-  {
-   minRange = 0;
-   minRangeProbab = 0.1;
-   midRange = 150;
-   midRangeProbab = 0.7;
-   maxRange = 300;
-   maxRangeProbab = 0.05;
-  };
- };
- 
- // AKS_74_UN_kobra -> AKS_74_UN_kobra_DZN
- class AKS_BASE: AK_BASE {
-  class Single: Mode_SemiAuto {};
-  class Burst: Mode_Burst {};
-  class FullAuto: Mode_FullAuto {};
- };
- class AKS_74_UN_kobra_DZN: AKS_BASE {
-  scope = 2;
-  model = "\ca\weapons\AK\aks74un_kobra";
-  displayName = "$STR_DN_AKS_74_UN_KOBRA";
-  picture = "\ca\weapons\AK\Data\Equip\w_aks74un_kobra_CA.paa";
-  UiPicture = "\CA\weapons\data\Ico\i_regular_CA.paa";
-  handAnim[] = {"OFP2_ManSkeleton","\Ca\weapons\Data\Anim\AK.rtm"};
-  magazines[] = {"30Rnd_545x39_AKSD"};
-  distanceZoomMin = 100;
-  distanceZoomMax = 100;
-  class Single: Single
-  {
-   begin1[] = {"ca\sounds\weapons\rifles\rifle-silence-single1",1.7782794,1,50};
-   soundBegin[] = {"begin1",1};
-   minRange = 2;
-   minRangeProbab = 0.3;
-   midRange = 40;
-   midRangeProbab = 0.7;
-   maxRange = 150;
-   maxRangeProbab = 0.04;
-  };
-  class FullAuto: FullAuto
-  {
-   minRange = 0;
-   minRangeProbab = 0.1;
-   midRange = 20;
-   midRangeProbab = 0.7;
-   maxRange = 40;
-   maxRangeProbab = 0.05;
-   begin1[] = {"ca\sounds\weapons\rifles\rifle-silence-single1",1.7782794,1,50};
-   soundBegin[] = {"begin1",1};
-  };
-  class Library
-  {
-   libTextDesc = "$STR_LIB_AKS74_UN_kobra";
-  };
-  descriptionShort = "$STR_DSS_AKS74_UN_kobra";
- };
- 
- // RPK_74 -> RPK_74_DZN
- class RPK_74_DZN: AK_BASE {
-  scope = 2;
-  model = "\ca\weapons\AK\RPK_74";
-  picture = "\CA\weapons\AK\data\Equip\w_RPK_74_CA.paa";
-  UiPicture = "\CA\weapons\data\Ico\i_regular_CA.paa";
-  magazines[] = {"75Rnd_545x39_RPK","30Rnd_545x39_AK","30Rnd_545x39_AKSD"};
-  displayname = "$STR_DN_RPK_74";
-  aiDispersionCoefY = 14.0;
-  aiDispersionCoefX = 14.0;
-  dexterity = 1.21;
-  handAnim[] = {"OFP2_ManSkeleton","\Ca\weapons\Data\Anim\AK.rtm"};
-  modes[] = {"manual","close","short","medium","Single"};
-  class FullAuto: Mode_FullAuto
-  {
-   begin1[] = {"ca\sounds\weapons\rifles\AK74_single1",1.7782794,1,1000};
-   soundBegin[] = {"begin1",1};
-   reloadTime = 0.1;
-   ffCount = 30;
-   recoil = "recoil_auto_primary_4outof10";
-   recoilProne = "recoil_auto_primary_prone_4outof10";
-   dispersion = 0.00125;
-   minRange = 0;
-   minRangeProbab = 0.1;
-   midRange = 25;
-   midRangeProbab = 0.7;
-   maxRange = 70;
-   maxRangeProbab = 0.05;
-  };
-  class manual: Mode_FullAuto
-  {
-   reloadTime = 0.1;
-   recoil = "recoil_auto_primary_4outof10";
-   recoilProne = "recoil_auto_machinegun_prone_3outof10";
-   dispersion = 0.0012;
-   begin1[] = {"ca\sounds\weapons\rifles\AK74_single1",1.7782794,1,1000};
-   soundBegin[] = {"begin1",1};
-   soundContinuous = 0;
-   soundBurst = 0;
-   minRange = 0;
-   minRangeProbab = 0.3;
-   midRange = 5;
-   midRangeProbab = 0.58;
-   maxRange = 10;
-   maxRangeProbab = 0.04;
-   showToPlayer = 1;
-  };
-  class close: manual
-  {
-   burst = 10;
-   aiRateOfFire = 0.5;
-   aiRateOfFireDistance = 50;
-   minRange = 10;
-   minRangeProbab = 0.05;
-   midRange = 20;
-   midRangeProbab = 0.58;
-   maxRange = 50;
-   maxRangeProbab = 0.04;
-   showToPlayer = 0;
-  };
-  class short: close
-  {
-   burst = 8;
-   aiRateOfFire = 1.5;
-   aiRateOfFireDistance = 300;
-   minRange = 50;
-   minRangeProbab = 0.05;
-   midRange = 200;
-   midRangeProbab = 0.58;
-   maxRange = 400;
-   maxRangeProbab = 0.04;
-  };
-  class medium: close
-  {
-   burst = 12;
-   aiRateOfFire = 2.5;
-   aiRateOfFireDistance = 600;
-   minRange = 200;
-   minRangeProbab = 0.05;
-   midRange = 400;
-   midRangeProbab = 0.58;
-   maxRange = 600;
-   maxRangeProbab = 0.04;
-  };
-  class Single: Mode_SemiAuto
-  {
-   begin1[] = {"ca\sounds\weapons\rifles\AK74_single1",1.7782794,1,1000};
-   soundBegin[] = {"begin1",1};
-   reloadTime = 0.1;
-   recoil = "recoil_single_primary_4outof10";
-   recoilProne = "recoil_single_primary_prone_4outof10";
-   dispersion = 0.00125;
-   aiRateOfFireDistance = 400;
-   minRange = 2;
-   minRangeProbab = 0.3;
-   midRange = 250;
-   midRangeProbab = 0.5;
-   maxRange = 400;
-   maxRangeProbab = 0.04;
-  };
-  class Library
-  {
-   libTextDesc = "$STR_LIB_RPK_74";
-  };
-  descriptionShort = "$STR_DSS_RPK_74";
- };
- 
- // Saiga12K -> Saiga12K_DZN
- class Saiga12K_DZN: Rifle {
-  scope = 2;
-  model = "\ca\weapons\Saiga12K\Saiga12K";
-  picture = "\CA\weapons\data\Equip\W_Saiga12K_CA.paa";
-  UiPicture = "\CA\weapons\data\Ico\i_regular_CA.paa";
-  magazines[] = {"8Rnd_B_Saiga12_74Slug"};
-  optics = 1;
-  modelOptics = "-";
-  displayname = "$STR_DN_SAIGA12K";
-  modes[] = {"Single"};
-  distanceZoomMin = 50;
-  distanceZoomMax = 50;
-  class Single: Mode_SemiAuto {
-   begin1[] = {"ca\sounds\weapons\rifles\sniper_single_05",1.7782794,1,1200};
-   soundBegin[] = {"begin1",1};
-   dispersion = 0.003;
-   soundContinuous = 0;
-   reloadTime = 0.1;
-   recoil = "recoil_single_primary_9outof10";
-   recoilProne = "recoil_single_primary_prone_8outof10";
-   minRange = 0;
-   minRangeProbab = 0.5;
-   midRange = 60;
-   midRangeProbab = 0.2;
-   maxRange = 100;
-   maxRangeProbab = 0.03;
-  };
-  class Library
-  {
-   libTextDesc = "$STR_LIB_SAIGA12K";
-  };
-  descriptionShort = "$STR_DSS_SAIGA12K";
- };
- 
- // VSS_vintorez -> VSS_vintorez_DZN
- class VSS_vintorez_DZN: Rifle {
-  scope = 2;
-  model = "\ca\weapons\VSS_vintorez\VSS_vintorez";
-  picture = "\CA\weapons\data\Equip\W_VSS_vintorez_CA.paa";
-  UiPicture = "\CA\weapons\data\Ico\i_regular_CA.paa";
-  magazines[] = {"10Rnd_9x39_SP5_VSS","20Rnd_9x39_SP5_VSS"};
-  dexterity = 1.7;
-  modelOptics = "\ca\weapons\VSS_vintorez\VSS_optics";
-  opticsPPEffects[] = {"OpticsCHAbera2","OpticsBlur3"};
-  opticsFlare = 1;
-  opticsDisablePeripherialVision = 1;
-  opticsZoomMin = 0.0623;
-  opticsZoomMax = 0.0623;
-  distanceZoomMin = 200;
-  distanceZoomMax = 200;
-  displayname = "$STR_DN_VSS";
-  modes[] = {"Single","Full"};
-  class Single: Mode_SemiAuto
-  {
-   dispersion = 0.0018;
-   soundContinuous = 0;
-   reloadTime = 0.1;
-   recoil = "recoil_single_primary_4outof10";
-   recoilProne = "recoil_single_primary_prone_4outof10";
-   begin1[] = {"ca\sounds\weapons\rifles\rifle-silence-single1",1.0,1,50};
-   begin2[] = {"ca\sounds\weapons\rifles\rifle-silence-single2",1.0,1,50};
-   soundBegin[] = {"begin1",0.5,"begin2",0.5};
-   minRange = 2;
-   minRangeProbab = 0.1;
-   midRange = 250;
-   midRangeProbab = 0.7;
-   maxRange = 500;
-   maxRangeProbab = 0.05;
-  };
-  class Full: Mode_FullAuto
-  {
-   dispersion = 0.0018;
-   soundContinuous = 0;
-   reloadTime = 0.08;
-   recoil = "recoil_auto_primary_3outof10";
-   recoilProne = "recoil_auto_primary_prone_3outof10";
-   begin1[] = {"ca\sounds\weapons\rifles\rifle-silence-single1",1.0,1,50};
-   begin2[] = {"ca\sounds\weapons\rifles\rifle-silence-single2",1.0,1,50};
-   soundBegin[] = {"begin1",0.5,"begin2",0.5};
-   minRange = 0;
-   minRangeProbab = 0.1;
-   midRange = 60;
-   midRangeProbab = 0.7;
-   maxRange = 100;
-   maxRangeProbab = 0.05;
-  };
-  class Library
-  {
-   libTextDesc = "$STR_LIB_VSS";
-  };
-  descriptionShort = "$STR_DSS_VSS";
- };
- 
- // G36_C_SD_eotech -> G36_C_SD_eotech_DZN
- class G36C: Rifle {
-  class Single: Mode_SemiAuto {};
-  class Burst: Mode_Burst {};
-  class FullAuto: Mode_FullAuto {};
- };
- class G36_C_SD_eotech_DZN: G36C
- {
-  value = 6;
-  model = "\ca\weapons\G36\G36_C_SD_eotech";
-  displayName = "$STR_DN_G36_C_SD_EOTECH";
-  picture = "\ca\weapons\G36\Data\Equip\w_G36_C_SD_eotech_ca.paa";
-  UiPicture = "\CA\weapons\data\Ico\i_regular_CA.paa";
-  magazines[] = {"30Rnd_556x45_G36SD","30Rnd_556x45_StanagSD"};
-  fireLightDuration = 0.0;
-  fireLightIntensity = 0.0;
-  distanceZoomMin = 100;
-  distanceZoomMax = 100;
-  modes[] = {"Single","Burst","Fullauto"};
-  class Single: Single {
-   begin1[] = {"ca\sounds\weapons\rifles\rifle-silence-single2",1.0,1,300};
-   soundBegin[] = {"begin1",1};
-   minRange = 2;
-   minRangeProbab = 0.1;
-   midRange = 150;
-   midRangeProbab = 0.7;
-   maxRange = 300;
-   maxRangeProbab = 0.05;
-  };
-  class Burst: Burst {
-   begin1[] = {"ca\sounds\weapons\rifles\rifle-silence-single2",1.0,1,300};
-   soundBegin[] = {"begin1",1};
-   minRange = 1;
-   minRangeProbab = 0.1;
-   midRange = 30;
-   midRangeProbab = 0.7;
-   maxRange = 50;
-   maxRangeProbab = 0.05;
-  };
-  class FullAuto: FullAuto {
-   begin1[] = {"ca\sounds\weapons\rifles\rifle-silence-single2",1.0,1,300};
-   soundBegin[] = {"begin1",1};
-   minRange = 0;
-   minRangeProbab = 0.1;
-   midRange = 10;
-   midRangeProbab = 0.7;
-   maxRange = 30;
-   maxRangeProbab = 0.05;
-  };
-  class Library
-  {
-   libTextDesc = "$STR_LIB_G36C_SD_eotech";
-  };
-  descriptionShort = "$STR_DSS_G36C_SD_eotech";
- };
- 
- // MG36 -> MG36_DZN
- class MG36_DZN: G36C {
-  value = 12;
-  dexterity = 1.6;
-  model = "\ca\weapons\G36\MG36";
-  picture = "\ca\weapons\G36\Data\Equip\w_MG36_ca.paa";
-  UiPicture = "\CA\weapons\data\Ico\i_regular_CA.paa";
-  displayName = "$STR_DN_MG36";
-  magazines[] = {"100Rnd_556x45_BetaCMag","30Rnd_556x45_G36","30Rnd_556x45_G36SD","30Rnd_556x45_Stanag","30Rnd_556x45_StanagSD","20Rnd_556x45_Stanag"};
-  handAnim[] = {"OFP2_ManSkeleton","\Ca\weapons\data\Anim\SAW.rtm"};
-  modes[] = {"Single","Burst","Fullauto","close","medium","far"};
-  modelOptics = "-";
-  class Single: Mode_SemiAuto
-  {
-   begin1[] = {"ca\sounds\weapons\rifles\g36_single1",2.2387211,1,1100};
-   begin2[] = {"ca\sounds\weapons\rifles\g36_single2",2.2387211,1,1100};
-   soundBegin[] = {"begin1",0.5,"begin2",0.5};
-   reloadTime = 0.1;
-   recoil = "recoil_single_primary_3outof10";
-   dispersion = 0.0007;
-   recoilProne = "recoil_single_primary_prone_1outof10";
-   minRange = 400;
-   minRangeProbab = 0.05;
-   midRange = 500;
-   midRangeProbab = 0.4;
-   maxRange = 600;
-   maxRangeProbab = 0.01;
-   showToPlayer = 1;
-  };
-  class Burst: Mode_Burst
-  {
-   begin1[] = {"ca\sounds\weapons\rifles\g36_single1",2.2387211,1,1100};
-   begin2[] = {"ca\sounds\weapons\rifles\g36_single2",2.2387211,1,1100};
-   soundBegin[] = {"begin1",0.5,"begin2",0.5};
-   soundBurst = 0;
-   reloadTime = 0.1;
-   ffCount = 3;
-   recoil = "recoil_auto_primary_2outof10";
-   minRange = 1;
-   minRangeProbab = 0.2;
-   midRange = 80;
-   midRangeProbab = 0.7;
-   maxRange = 120;
-   maxRangeProbab = 0.05;
-   dispersion = 0.0007;
-   recoilProne = "recoil_auto_primary_prone_1outof10";
-  };
-  class FullAuto: Mode_FullAuto
-  {
-   recoilProne = "recoil_auto_primary_prone_2outof10";
-   soundContinuous = 0;
-   soundBurst = 0;
-   minRange = 0;
-   minRangeProbab = 0.3;
-   midRange = 5;
-   midRangeProbab = 0.58;
-   maxRange = 10;
-   maxRangeProbab = 0.04;
-   showToPlayer = 1;
-   begin1[] = {"ca\sounds\weapons\rifles\g36_single1",2.2387211,1,1100};
-   begin2[] = {"ca\sounds\weapons\rifles\g36_single2",2.2387211,1,1100};
-   soundBegin[] = {"begin1",0.5,"begin2",0.5};
-   recoil = "recoil_auto_primary_3outof10";
-   reloadTime = 0.1;
-   dispersion = 0.0007;
-  };
-  class close: FullAuto
-  {
-   burst = 10;
-   aiRateOfFire = 0.5;
-   aiRateOfFireDistance = 50;
-   minRange = 10;
-   minRangeProbab = 0.05;
-   midRange = 20;
-   midRangeProbab = 0.58;
-   maxRange = 50;
-   maxRangeProbab = 0.04;
-   showToPlayer = 0;
-  };
-  class medium: close
-  {
-   burst = 6;
-   aiRateOfFire = 2;
-   aiRateOfFireDistance = 200;
-   minRange = 50;
-   minRangeProbab = 0.05;
-   midRange = 100;
-   midRangeProbab = 0.58;
-   maxRange = 200;
-   maxRangeProbab = 0.04;
-  };
-  class far: close
-  {
-   burst = 8;
-   aiRateOfFire = 4;
-   aiRateOfFireDistance = 400;
-   minRange = 200;
-   minRangeProbab = 0.05;
-   midRange = 300;
-   midRangeProbab = 0.58;
-   maxRange = 400;
-   maxRangeProbab = 0.04;
-  };
-  class Library
-  {
-   libTextDesc = "$STR_LIB_MG36";
-  };
-  descriptionShort = "$STR_DSS_MG36";
-  bullet1[] = {"ca\sounds\weapons\shells\small_shell_metal_04",0.17782794,1,20};
-  bullet2[] = {"ca\sounds\weapons\shells\small_shell_metal_03",0.17782794,1,20};
-  bullet3[] = {"ca\sounds\weapons\shells\small_shell_metal_02",0.17782794,1,20};
-  bullet4[] = {"ca\sounds\weapons\shells\small_shell_metal_01",0.17782794,1,20};
-  bullet5[] = {"ca\sounds\weapons\shells\small_shell_dirt_07",0.31622776,1,20};
-  bullet6[] = {"ca\sounds\weapons\shells\small_shell_dirt_09",0.31622776,1,20};
-  bullet7[] = {"ca\sounds\weapons\shells\small_shell_dirt_10",0.31622776,1,20};
-  bullet8[] = {"ca\sounds\weapons\shells\small_shell_dirt_12",0.31622776,1,20};
-  bullet9[] = {"ca\sounds\weapons\shells\small_shell_soft_05",0.17782794,1,20};
-  bullet10[] = {"ca\sounds\weapons\shells\small_shell_soft_09",0.17782794,1,20};
-  bullet11[] = {"ca\sounds\weapons\shells\small_shell_soft_10",0.17782794,1,20};
-  bullet12[] = {"ca\sounds\weapons\shells\small_shell_soft_13",0.17782794,1,20};
-  soundBullet[] = {"bullet1",0.083,"bullet2",0.083,"bullet3",0.083,"bullet4",0.083,"bullet5",0.083,"bullet6",0.083,"bullet7",0.083,"bullet8",0.083,"bullet9",0.083,"bullet10",0.083,"bullet11",0.083,"bullet12",0.083};
- };
- 
- // BAF_L85A2_UGL_ACOG -> BAF_L85A2_UGL_ACOG_DZN
- class L85A2_base_BAF;
- class BAF_L85A2_RIS_ACOG_DZN: L85A2_base_BAF
- {
-  scope = 2;
-  model = "\ca\weapons_BAF\L85A2_RIS_ACOG_BAF";
-  picture = "\CA\weapons_baf\data\UI\L85A2_RIS_ACOG_ca.paa";
-  UiPicture = "\CA\weapons\data\Ico\i_regular_CA.paa";
-  optics = 1;
-  visionMode[] = {"Normal"};
-  modelOptics = "\ca\Weapons_baf\ACOG_optic";
-  class OpticsModes
-  {
-   class ACOG
-   {
-    opticsID = 1;
-    useModelOptics = 1;
-    opticsPPEffects[] = {"OpticsCHAbera1","OpticsBlur1"};
-    opticsZoomMin = 0.0623;
-    opticsZoomMax = 0.0623;
-    opticsZoomInit = 0.0623;
-    memoryPointCamera = "opticView";
-    visionMode[] = {"Normal"};
-    opticsFlare = 1;
-    opticsDisablePeripherialVision = 1;
-    distanceZoomMin = 300;
-    distanceZoomMax = 300;
-    cameraDir = "";
-   };
-   class Kolimator: ACOG
-   {
-    opticsID = 2;
-    useModelOptics = 0;
-    opticsFlare = 0;
-    opticsDisablePeripherialVision = 0;
-    opticsZoomMin = 0.25;
-    opticsZoomMax = 1.5;
-    opticsZoomInit = 0.8;
-    memoryPointCamera = "eye";
-    visionMode[] = {};
-   };
-  };
-  displayName = "$STR_BAF_CFGWEAPONS_BAF_L85A2_RIS_ACOG0";
-  class Library
-  {
-   libTextDesc = "$STR_BAF_CFGWEAPONS_BAF_L85A2_RIS_ACOG_LIBRARY0";
-  };
- };
- class BAF_L85A2_UGL_ACOG_DZN: BAF_L85A2_RIS_ACOG_DZN {
-  displayName = "$STR_BAF_CFGWEAPONS_BAF_L85A2_UGL_ACOG0";
-  model = "\ca\weapons_BAF\L85A2_UGL_ACOG_BAF";
-  picture = "\CA\weapons_baf\data\UI\L85A2_UGL_ACOG_ca.paa";
-  UiPicture = "\CA\weapons\data\Ico\i_regular_CA.paa";
-  muzzles[] = {"this","BAF_L17_40mm"};
-  handAnim[] = {"OFP2_ManSkeleton","\ca\weapons_baf\data\Anim\L85A2_UGL.rtm"};
-  dexterity = 1.46;
-  class Library
-  {
-   libTextDesc = "$STR_BAF_CFGWEAPONS_BAF_L85A2_UGL_ACOG_LIBRARY0";
-  };
-  descriptionShort = "$STR_BAF_CFGWEAPONS_BAF_L85A2_UGL_ACOG0_0";
- };
- 
-	class ItemCore;
-	class ItemSolder: ItemCore {
-		scope = 2;
-		displayName = "Portable solder";
-		model = "\nst\ns_dayz\items\solder\solder_dzn.p3d";
-		picture = "\nst\ns_dayz\items\solder\data\icon_solder_dzn_ca.paa";
-		descriptionShort = "Soldering tool used for repairing broken electronic parts. Can be used together with toolbox to repair broken equipment such as GPS, NVG.";
-		
-		class ItemActions {
-			class RepairGPS {
-				text = "Repair broken GPS";
-				script = "spawn player_repairEquipment_dzn;";
-				outputOriented = "true";
-				output[] = {"GPS"};
-			};
-			class RepairNVG {
-				text = "Repair broken NVG";
-				script = "spawn player_repairEquipment_dzn;";
-				outputOriented = "true";
-				output[] = {"NVG"};
-			};
-			class RepairRadio {
-				text = "Repair broken radio";
-				script = "spawn player_repairEquipment_dzn;";
-				outputOriented = "true";
-				output[] = {"RAD"};
-			};
-		};
-	};
-};
-
-class WeaponCloudsMGun;
-class CfgVehicles {
- class ReammoBox;
- class CardboardBox: ReammoBox {
-   accuracy = 1000;
-   vehicleClass = "Survival";
- };
- class MedBox0_DZN: CardboardBox {
-  scope = 2;
-  displayName = "$STR_DAYZ_OBJ_2";
-  model = "\dayz_equip\models\cardboard_box_med.p3d";
-  class transportmagazines {
-  	class _xx_ItemBandage {
-  		magazine = "ItemBandage";
-  		count = 5;
-  	};
-  	class _xx_ItemEpinephrine {
-  		magazine = "ItemEpinephrine";
-  		count = 2;
-  	};
-  	class _xx_ItemMorphine {
-  		magazine = "ItemMorphine";
-  		count = 2;
-  	};
-  	class _xx_ItemBloodbag {
-  		magazine = "ItemBloodbag";
-  		count = 2;
-  	};
-  	class _xx_ItemPainkiller {
-  		magazine = "ItemPainkiller";
-  		count = 5;
-  	};
-  };
- };
- 
- class Bag_Base_BAF;
- class BAF_AssaultPack_DZN: Bag_Base_BAF {
-  scope = 2;
-  transportMaxMagazines = 18;
- };
- 
- class Man;
- class CAManBase: Man
- {
-  class TalkTopics;
-  class HitPoints
-  {
-   class HitHead;
-   class HitBody;
-  };
- };
- class SoldierEB: CAManBase {
-  class TalkTopics: TalkTopics{};
- };
- class CamoWinter_DZNBase: SoldierEB {
-  scope = 1;
-  faction = "RU";
-  genericNames = "RussianMen";
-  vehicleClass = "MenRUS";
-  cost = 200000;
-  enableGPS = 1;
-  camouflage = 0.8;
-  accuracy = 2.0;
-  minFireTime = 2.5;
-  class SpeechVariants
-  {
-   class Default
-   {
-    speechSingular[] = {"veh_SpecialForce"};
-    speechPlural[] = {"veh_SpecialForces"};
-   };
-   class EN: Default{};
-   class CZ
-   {
-    speechSingular[] = {"veh_SpecialForce_CZ"};
-    speechPlural[] = {"veh_SpecialForces_CZ"};
-   };
-   class CZ_Akuzativ
-   {
-    speechSingular[] = {"veh_SpecialForce_CZ4P"};
-    speechPlural[] = {"veh_SpecialForces_CZ4P"};
-   };
-   class RU
-   {
-    speechSingular[] = {"veh_SpecialForce_RU"};
-    speechPlural[] = {"veh_SpecialForces_RU"};
-   };
-  };
-  TextPlural = "$STR_DN_SpecialForces";
-  TextSingular = "$STR_DN_SpecialForce";
-  nameSound = "veh_SpecialForce";
-  picture = "\Ca\characters\data\Ico\i_SF_CA.paa";
-  icon = "\Ca\characters2\data\icon\i_special_CA.paa";
-  portrait = "\Ca\characters\data\portraits\comBarHead_ru_spec_ca";
-  identityTypes[] = {"Head_RU_Camo","RU_Glasses"};
-  faceType = "Man";
-  model = "\ca\characters2\Rus\Specnaz";
-  threat[] = {1,0.5,0.1};
-  class HitPoints: HitPoints
-  {
-   class HitHead: HitHead
-   {
-    armor = 0.85;
-   };
-   class HitBody: HitBody
-   {
-    armor = 1;
-    passThrough = 0.8;
-   };
-  };
-  class Wounds
-  {
-   tex[] = {};
-   mat[] = {"ca\characters2\rus\data\soldier_specnaz_partizan.rvmat","ca\characters2\rus\data\soldier_specnaz_partizan_w1.rvmat","ca\characters2\rus\data\soldier_specnaz_partizan_w2.rvmat","ca\characters2\rus\data\soldier_specnaz_back_partizan.rvmat","ca\characters2\rus\data\soldier_specnaz_back_partizan_w1.rvmat","ca\characters2\rus\data\soldier_specnaz_back_partizan_w2.rvmat","ca\characters2\rus\data\soldier_specnaz_back_partizan.rvmat","ca\characters2\rus\data\soldier_specnaz_back_partizan_w1.rvmat","ca\characters2\rus\data\soldier_specnaz_back_partizan_w2.rvmat","ca\characters2\rus\data\soldier_speccom.RVmat","ca\characters2\rus\data\soldier_speccom_w1.RVmat","ca\characters2\rus\data\soldier_speccom_w2.RVmat"};
-  };
-  class TalkTopics: TalkTopics
-  {
-   core_en = "Core_Full";
-   core_cz = "Core_Full";
-   core_ru = "Core_Full";
-  };
-  languages[] = {"RU","CZ","EN"};
- };
- 
- class CamoWinter_DZN: CamoWinter_DZNBase {
-  scope = 2;
-  side = 1;
-  accuracy = 3.9;
-  displayName = "Survivor";
-  model = "\nst\ns_dayz\characters\cw\camowinter_dzn.p3d";
-  faceType = "HeadMask1Black";
-  
-  class HitPoints: HitPoints
-  {
-   class HitHead: HitHead
-   {
-    armor = 0.6;
-   };
-  };
-  canCarryBackPack = 1;
-  weapons[] = {"Throw","Put"};
-  backpack = "";
-  magazines[] = {};
-  respawnWeapons[] = {"Throw","Put"};
-  respawnMagazines[] = {};
-  weaponSlots = "1	 + 	4	 + 12*		256	 + 2*	4096	 + 	2	 + 8*	16  + 12*131072";
-  canHideBodies = 1;
- };
- class CamoWinterW_DZN: CamoWinter_DZN {
-  model = "\nst\ns_dayz\characters\cw\camowinterw_dzn.p3d";
- };
-
- // WINTER GHILLIE
- class SoldierWB: CAManBase {
-  class TalkTopics: TalkTopics{};
- };
- class USMC_Soldier_Base: SoldierWB {};
- class USMC_SoldierS_Sniper_DZN: USMC_Soldier_Base
- {
-  scope = 1;
-  displayName = "$STR_DN_SNIPER";
-  picture = "\Ca\characters\data\Ico\i_null_CA.paa";
-  model = "\ca\characters2\Ghillie_Overall";
-  portrait = "\Ca\characters\data\portraits\comBarHead_common_sniper_ca";
-  class SpeechVariants
-  {
-   class Default
-   {
-    speechSingular[] = {"veh_Sniper"};
-    speechPlural[] = {"veh_Snipers"};
-   };
-   class EN: Default{};
-   class CZ
-   {
-    speechSingular[] = {"veh_Sniper_CZ"};
-    speechPlural[] = {"veh_Snipers_CZ"};
-   };
-   class CZ_Akuzativ
-   {
-    speechSingular[] = {"veh_Sniper_CZ4P"};
-    speechPlural[] = {"veh_Snipers_CZ4P"};
-   };
-   class RU
-   {
-    speechSingular[] = {"veh_Sniper_RU"};
-    speechPlural[] = {"veh_Snipers_RU"};
-   };
-  };
-  TextPlural = "$STR_DN_Snipers";
-  TextSingular = "$STR_DN_Sniper";
-  nameSound = "veh_Sniper";
-  accuracy = 3.9;
-  camouflage = 0.5;
-  cost = 350000;
-  threat[] = {1,0.5,0.1};
-  weapons[] = {"Throw","Put"};
-  magazines[] = {};
-  respawnWeapons[] = {"Throw","Put"};
-  respawnMagazines[] = {};
-  class HitPoints: HitPoints
-  {
-   class HitHead: HitHead
-   {
-    armor = 0.6;
-   };
-   class HitBody: HitBody
-   {
-    armor = 0.8;
-    passThrough = 1;
-   };
-  };
-  class Wounds
-  {
-   tex[] = {};
-   mat[] = {"ca\characters\data\us_hhl.rvmat","ca\characters\data\us_hhl_wound1.rvmat","ca\characters\data\us_hhl_wound2.rvmat"};
-  };
-  hiddenSelections[] = {"Camo"};
-  hiddenSelectionsTextures[] = {"\ca\characters2\data\ghillie_overall1_co.paa"};
- };
- class Sniper1W_DZN: USMC_SoldierS_Sniper_DZN {
-  displayName = "Survivor";
-  scope = 2;
-  side = 1;
-  weapons[] = {"Throw","Put"};
-  backpack = "";
-  magazines[] = {};
-  respawnWeapons[] = {"Throw","Put"};
-  respawnMagazines[] = {};
-  weaponSlots = "1	 + 	4	 + 12*		256	 + 2*	4096	 + 	2	 + 8*	16  + 12*131072";
-  canHideBodies = 1;
-  canCarryBackPack = 1;
-  hiddenSelections[] = {"Camo"};
-  hiddenSelectionsTextures[] = {"\nst\ns_dayz\characters\gw\data\ghillie_overall1w_co.paa"};
- };
- 
- 
- class Air;
- class Helicopter: Air
- {
-  class Turrets
-  {
-   class MainTurret;
-  };
-  class AnimationSources;
-  class HitPoints
-  {
-   class HitVRotor;
-  };
- };
- 
- class Mi17_Civilian_base_Ru;
- class Mi17_Civilian_Nam: Mi17_Civilian_base_Ru
- {
-  scope = 2;
-  vehicleClass = "Air";
-  side = 3;
-  displayName = "$STR_DN_MI17CIV";
-  faction = "CIV";
-  model = "\ca\air\Mi_8AMT";
-  crew = "Pilot";
-  typicalCargo[] = {"Pilot"};
-  weapons[] = {};
-  accuracy = 1000;
-  magazines[] = {};
-  hasGunner = 0;
-  class Turrets{};
-  threat[] = {0.0,0.0,0.0};
-  hiddenSelectionsTextures[] = {"\CA\air\data\mi8civil_body_g_CO.paa","\CA\air\data\mi8civil_det_g_CO.paa","ca\air\data\clear_empty.paa","ca\air\data\mi8_decals_ca.paa"};
- };
- 
- class Ka60_Base_NAC: Helicopter
- {
-  expansion = 4;
-  destrType = "DestructWreck";
-  armor = 30;
-  displayName = "$STR_PMC_DN_KA60";
-  model = "\Ca\Air_PMC\Ka60\Ka60_PMC.p3d";
-  icon = "\Ca\Air_PMC\data\ui\Icon_ka60_PMC_ca.paa";
-  picture = "\Ca\Air_PMC\data\ui\picture_ka60_PMC_ca.paa";
-  driverAction = "UH1H_Pilot_EP1";
-  driverInAction = "UH1H_Pilot_EP1";
-  transportSoldier = 8;
-  cargoAction[] = {"UH1H_Cargo_EP1","UH60_Cargo02"};
-  cargoIsCoDriver[] = {1,0};
-  weapons[] = {"57mmLauncher_NAC"};
-  magazines[] = {"14Rnd_57mm_NAC"};
-  enableManualFire = 0;
-  class HitPoints: HitPoints
-  {
-   class HitVRotor: HitVRotor
-   {
-    armor = 1;
-   };
-  };
-  class Turrets: Turrets
-  {
-   class MainTurret: MainTurret
-   {
-    body = "mainTurret";
-    gun = "mainGun";
-    minElev = -50;
-    maxElev = 30;
-    initElev = 11;
-    minTurn = 20;
-    maxTurn = 155;
-    initTurn = 80;
-    soundServo[] = {"",0.01,1.0};
-    animationSourceHatch = "";
-    stabilizedInAxes = "StabilizedInAxesNone";
-    gunBeg = "muzzle_1";
-    gunEnd = "chamber_1";
-    weapons[] = {"M32_heli_NAC"};
-    maxHorizontalRotSpeed = 1.6;
-    maxVerticalRotSpeed = 1.6;
-    magazines[] = {"6Rnd_HE_M203_heli_NAC","6Rnd_HE_M203_heli_NAC","6Rnd_HE_M203_heli_NAC","6Rnd_HE_M203_heli_NAC","6Rnd_HE_M203_heli_NAC","6Rnd_HE_M203_heli_NAC","6Rnd_HE_M203_heli_NAC","6Rnd_HE_M203_heli_NAC","6Rnd_HE_M203_heli_NAC","6Rnd_HE_M203_heli_NAC"};
-	//magazines[] = {"6Rnd_HE_M203_heli","6Rnd_HE_M203_heli","6Rnd_HE_M203_heli","6Rnd_HE_M203_heli","6Rnd_HE_M203_heli","6Rnd_HE_M203_heli","6Rnd_HE_M203_heli","6Rnd_HE_M203_heli","6Rnd_HE_M203_heli","6Rnd_HE_M203_heli"};
-    gunnerName = "$STR_POSITION_DOORGUNNER";
-    gunnerOpticsModel = "\ca\weapons\optika_empty";
-    gunnerAction = "Mi8_Gunner";
-    gunnerInAction = "Mi8_Gunner";
-    commanding = -2;
-    primaryGunner = 1;
-    class GunFire: WeaponCloudsMGun
-    {
-     interval = 0.01;
-    };
-    class ViewOptics
-    {
-     initAngleX = 0;
-     minAngleX = -30;
-     maxAngleX = 30;
-     initAngleY = 0;
-     minAngleY = -100;
-     maxAngleY = 100;
-     initFov = 0.7;
-     minFov = 0.25;
-     maxFov = 1.1;
-    };
-    gunnerCompartments = "Compartment2";
-   };
-  };
-  class Damage
-  {
-   tex[] = {};
-   mat[] = {"Ca\Air_PMC\Ka60\Data\ka60_ext.rvmat","Ca\Air_PMC\Ka60\Data\ka60_ext_damage.rvmat","Ca\Air_PMC\Ka60\Data\ka60_ext_destruct.rvmat","Ca\Air_PMC\Ka60\Data\ka60_glass.rvmat","Ca\Air_PMC\Ka60\Data\ka60_glass_damage.rvmat","Ca\Air_PMC\Ka60\Data\ka60_glass_destruct.rvmat","Ca\Ca_E\data\default.rvmat","Ca\Ca_E\data\default.rvmat","Ca\Ca_E\data\default_destruct.rvmat"};
-  };
-  soundGetIn[] = {"Ca\Sounds_PMC\Air_PMC\Ka_door",0.31622776,1};
-  soundGetOut[] = {"Ca\Sounds_PMC\Air_PMC\Ka_door",0.31622776,1,40};
-  soundDammage[] = {"Ca\Sounds_PMC\Air_PMC\int-alarm_loop",0.56234133,1};
-  soundEngineOnInt[] = {"Ca\Sounds_PMC\Air_PMC\Ka_start_int_1",0.1,1.0};
-  soundEngineOnExt[] = {"Ca\Sounds_PMC\Air_PMC\Ka_start_ext_1",0.56234133,1.0,800};
-  soundEngineOffInt[] = {"Ca\Sounds_PMC\Air_PMC\Ka_stop_int_1",0.1,1.0};
-  soundEngineOffExt[] = {"Ca\Sounds_PMC\Air_PMC\Ka_stop_ext_1",0.56234133,1.0,800};
-  class Sounds
-  {
-   class Engine
-   {
-    sound[] = {"Ca\Sounds_PMC\Air_PMC\Ka_engi_r_ext",3.1622777,1.4,800};
-    frequency = "rotorSpeed";
-    volume = "camPos*((rotorSpeed-0.72)*4)";
-   };
-   class RotorLowOut
-   {
-    sound[] = {"Ca\Sounds_PMC\Air_PMC\KA_rotor_orig",3.1622777,1.0,1400};
-    frequency = "rotorSpeed";
-    volume = "camPos*(0 max (rotorSpeed-0.1))";
-    cone[] = {1.8,3.14,2.0,0.9};
-   };
-   class RotorHighOut
-   {
-    sound[] = {"Ca\Sounds_PMC\Air_PMC\KA_rotor_orig_high_swist",5.623413,1.0,1500};
-    frequency = "rotorSpeed";
-    volume = "camPos*10*(0 max (rotorThrust-0.95))";
-    cone[] = {1.1,3.14,2.0,0.9};
-   };
-   class EngineIn
-   {
-    sound[] = {"Ca\Sounds_PMC\Air_PMC\Ka_engi_int_1",3.1622777,1.0};
-    frequency = "rotorSpeed";
-    volume = "(1-camPos)*((rotorSpeed-0.75)*4)";
-   };
-   class RotorLowIn
-   {
-    sound[] = {"Ca\Sounds_PMC\Air_PMC\KA_rotor_orig",0.56234133,1.0};
-    frequency = "rotorSpeed";
-    volume = "2*(1-camPos)*((rotorSpeed factor[0.3, 1.1]) min (rotorSpeed factor[1.1, 0.3]))";
-   };
-   class RotorHighIn
-   {
-    sound[] = {"Ca\Sounds_PMC\Air_PMC\KA_rotor_orig_high_swist",0.31622776,1.0};
-    frequency = "rotorSpeed";
-    volume = "(1-camPos)*3*(rotorThrust-0.9)";
-   };
-  };
-  class Library
-  {
-   libTextDesc = "$STR_PMC_LIB_KA60";
-  };
-  class AnimationSources: AnimationSources
-  {
-   class Doors
-   {
-    source = "user";
-    animPeriod = 1;
-    initPhase = 0;
-   };
-   class HideWeapon
-   {
-    source = "user";
-    animPeriod = 1e-005;
-    initPhase = 0;
-   };
-  };
- };
- class Ka60_GL_BASE_NAC: Ka60_Base_NAC
- {
-  side = 2;
-  faction = "NAC";
-  crew = "nac_soldier_crew";
-  class AnimationSources: AnimationSources
-  {
-   class ReloadAnim
-   {
-    source = "reload";
-    weapon = "M32_heli_NAC";
-   };
-   class ReloadMagazine
-   {
-    source = "reloadmagazine";
-    weapon = "M32_heli_NAC";
-   };
-   class Revolving
-   {
-    source = "revolving";
-    weapon = "M32_heli_NAC";
-   };
-   class Doors: Doors
-   {
-    initPhase = 1;
-   };
-  };
- };
- class Ka60_GL_NAC: Ka60_GL_BASE_NAC
- {
-  scope = 2;
-  displayName = "$STR_PMC_DN_KA60_GL";
-  accuracy = 1000;
- };
- class Ka60_NAC: Ka60_Base_NAC {
-  scope = 2;
-  side = 2;
-  faction = "NAC";
-  crew = "nac_soldier_crew";
-  displayName = "Ka-60";
-  class AnimationSources: AnimationSources
-  {
-   class HideWeapon: HideWeapon
-   {
-    initPhase = 1;
-   };
-   class MainTurret
-   {
-    source = "user";
-    animPeriod = 1e-007;
-    initPhase = 0;
-   };
-   class MainGun
-   {
-    source = "user";
-    animPeriod = 1e-007;
-    initPhase = 0;
-   };
-   class ReloadAnim
-   {
-    source = "user";
-    animPeriod = 1e-005;
-    initPhase = 0;
-   };
-   class ReloadMagazine
-   {
-    source = "user";
-    animPeriod = 1e-005;
-    initPhase = 0;
-   };
-   class Revolving
-   {
-    source = "user";
-    animPeriod = 1e-005;
-    initPhase = 0;
-   };
-  };
-  class Turrets{};
-  transportSoldier = 9;
- };
-
- class Citizen1;
- class zZombie_Base: Citizen1
- {
-  scope = 1;
-  glassesEnabled = 0;
-  //vehicleClass = "Zombie";
-  displayName = "Zombie";
-  fsmDanger = "";
-  fsmFormation = "";
-  zombieLoot = "civilianNamalsk";
-  moves = "CfgMovesZombie";
-  isMan = 0;
-  weapons[] = {};
-  magazines[] = {};
-  sensitivity = 4;
-  sensitivityEar = 2;
-  identityTypes[] = {"zombie1","zombie2"};
-  class TalkTopics{};
-  languages[] = {};
-  class Eventhandlers
-  {
-   init = "_this call zombie_initialize;";
-   local = "diag_log ('Locality Event');if(_this select 1) then {[(position (_this select 0)),(_this select 0),true] execFSM '\z\AddOns\dayz_code\system\zombie_agent.fsm'};";
-  };
-  class HitPoints
-  {
-   class HitHead
-   {
-    armor = 0.3;
-    material = -1;
-    name = "head_hit";
-    passThrough = 1;
-    memoryPoint = "pilot";
-   };
-   class HitBody: HitHead
-   {
-    armor = 1.6;
-    name = "body";
-    memoryPoint = "aimPoint";
-   };
-   class HitSpine: HitHead
-   {
-    armor = 1.6;
-    name = "Spine2";
-    memoryPoint = "aimPoint";
-   };
-   class HitHands: HitHead
-   {
-    armor = 0.5;
-    material = -1;
-    name = "hands";
-    passThrough = 1;
-   };
-   class HitLArm: HitHands
-   {
-    name = "LeftArm";
-    memoryPoint = "lelbow";
-   };
-   class HitRArm: HitHands
-   {
-    name = "RightArm";
-    memoryPoint = "relbow";
-   };
-   class HitLForeArm: HitHands
-   {
-    name = "LeftForeArm";
-    memoryPoint = "lwrist";
-   };
-   class HitRForeArm: HitHands
-   {
-    name = "RightForeArm";
-    memoryPoint = "rwrist";
-   };
-   class HitLHand: HitHands
-   {
-    name = "LeftHand";
-    memoryPoint = "LeftHandMiddle1";
-   };
-   class HitRHand: HitHands
-   {
-    name = "RightHand";
-    memoryPoint = "RightHandMiddle1";
-   };
-   class HitLegs: HitHands
-   {
-    name = "legs";
-    memoryPoint = "pelvis";
-   };
-   class HitLLeg: HitHands
-   {
-    name = "LeftLeg";
-    memoryPoint = "lknee";
-   };
-   class HitLLegUp: HitHands
-   {
-    name = "LeftUpLeg";
-    memoryPoint = "lfemur";
-   };
-   class HitRLeg: HitHands
-   {
-    name = "RightLeg";
-    memoryPoint = "rknee";
-   };
-   class HitRLegUp: HitHands
-   {
-    name = "RightUpLeg";
-    memoryPoint = "rfemur";
-   };
-  };
-  class HitDamage {
-   class Group0 {
-    hitSounds[] = {
-     { 
-      { "dayz_sfx\zombie\chase_0.ogg",0.17782794,1,120 },0.1 },
-     { 
-      { "dayz_sfx\zombie\chase_1.ogg",0.17782794,1,120 },0.1 },
-     { 
-      { "dayz_sfx\zombie\chase_2.ogg",0.17782794,1,120 },0.1 },
-     { 
-      { "dayz_sfx\zombie\chase_3.ogg",0.17782794,1,120 },0.1 },
-     { 
-      { "dayz_sfx\zombie\chase_4.ogg",0.17782794,1,120 },0.1 },
-     { 
-      { "dayz_sfx\zombie\chase_5.ogg",0.17782794,1,120 },0.1 },
-     { 
-      { "dayz_sfx\zombie\chase_6.ogg",0.17782794,1,120 },0.1 },
-     { 
-      { "dayz_sfx\zombie\chase_7.ogg",0.17782794,1,120 },0.1 },
-     { 
-      { "dayz_sfx\zombie\chase_8.ogg",0.17782794,1,120 },0.1 },
-     { 
-      { "dayz_sfx\zombie\chase_9.ogg",0.17782794,1,120 },0.1 }};
-    damageSounds[] = {
-     { "body",
-      { "dayz_sfx\zombie\chase_0.ogg",0.056234132,1,120,0.125,20,40,60 } },
-     { "body",
-      { "dayz_sfx\zombie\chase_1.ogg",0.056234132,1,120,0.125,20,40,60 } },
-     { "body",
-      { "dayz_sfx\zombie\chase_2.ogg",0.056234132,1,120,0.125,20,40,60 } },
-     { "body",
-      { "dayz_sfx\zombie\chase_3.ogg",0.056234132,1,120,0.125,20,40,60 } },
-     { "body",
-      { "dayz_sfx\zombie\chase_4.ogg",0.056234132,1,120,0.125,20,40,60 } },
-     { "body",
-      { "dayz_sfx\zombie\chase_5.ogg",0.056234132,1,120,0.125,20,40,60 } },
-     { "body",
-      { "dayz_sfx\zombie\chase_6.ogg",0.056234132,1,120,0.125,20,40,60 } },
-     { "body",
-      { "dayz_sfx\zombie\chase_7.ogg",0.056234132,1,120,0.125,20,40,60 } },
-     { "hands",
-      { "dayz_sfx\zombie\chase_8.ogg",0.056234132,1,120,0.25,20,40,60 } },
-     { "hands",
-      { "dayz_sfx\zombie\chase_9.ogg",0.056234132,1,120,0.25,20,40,60 } },
-     { "hands",
-      { "dayz_sfx\zombie\chase_10.ogg",0.056234132,1,120,0.25,20,40,60 } },
-     { "hands",
-      { "dayz_sfx\zombie\chase_11.ogg",0.056234132,1,120,0.25,20,40,60 } },
-     { "legs",
-      { "dayz_sfx\zombie\chase_12.ogg",0.056234132,1,120,20,40,60 } },
-     { "legs",
-      { "dayz_sfx\zombie\chase_13.ogg",0.056234132,1,120,20,40,60 } }};
-   };
-  };
- };
- class z_soldier: zZombie_Base
- {
-  displayName = "Zombie Soldier";
-  model = "\ca\characters2\Blufor\Soldier_Light";
-  zombieLoot = "militaryNamalsk";
-  class HitPoints: HitPoints
-  {
-   class HitHead
-   {
-    armor = 0.3;
-    material = -1;
-    name = "head_hit";
-    passThrough = 1;
-   };
-   class HitBody
-   {
-    armor = 2.4;
-    material = -1;
-    name = "body";
-    passThrough = 1;
-   };
-   class HitHands
-   {
-    armor = 1;
-    material = -1;
-    name = "hands";
-    passThrough = 1;
-   };
-   class HitLegs
-   {
-    armor = 1;
-    material = -1;
-    name = "legs";
-    passThrough = 1;
-   };
-  };
-  class Wounds
-  {
-   tex[] = {};
-   mat[] = {"ca\characters2\Blufor\data\Soldier.RVmat","ca\characters2\Blufor\data\Soldier_W1.RVmat","ca\characters2\Blufor\data\Soldier_W2.RVmat","ca\characters2\Blufor\data\Soldier_Light.RVmat","ca\characters2\Blufor\data\Soldier_Light_W1.RVmat","ca\characters2\Blufor\data\Soldier_Light_W2.RVmat","ca\characters2\Blufor\data\Soldier_EQUIP_Light.RVmat","ca\characters2\Blufor\data\Soldier_Light_EQUIP_W2.RVmat","ca\characters2\Blufor\data\Soldier_Light_EQUIP_W1.RVmat","ca\characters2\Blufor\data\Soldier_GL.RVmat","ca\characters2\Blufor\data\Soldier_GL_W1.RVmat","ca\characters2\Blufor\data\Soldier_GL_W2.RVmat","ca\characters2\Blufor\data\Soldier_NCO.RVmat","ca\characters2\Blufor\data\Soldier_NCO_W1.RVmat","ca\characters2\Blufor\data\Soldier_NCO_W2.RVmat","ca\characters2\Blufor\data\Soldier_MG.RVmat","ca\characters2\Blufor\data\Soldier_MG_W1.RVmat","ca\characters2\Blufor\data\Soldier_MG_W2.RVmat","ca\characters2\Blufor\data\Soldier_AT.RVmat","ca\characters2\Blufor\data\Soldier_AT_W1.RVmat","ca\characters2\Blufor\data\Soldier_AT_W2.RVmat","ca\characters2\Blufor\data\Soldier_CO.RVmat","ca\characters2\Blufor\data\Soldier_CO_W1.RVmat","ca\characters2\Blufor\data\Soldier_CO_W2.RVmat","ca\characters2\Blufor\data\Soldier_CO_EQUIP.RVmat","ca\characters2\Blufor\data\Soldier_CO_EQUIP_W1.RVmat","ca\characters2\Blufor\data\Soldier_CO_EQUIP_W2.RVmat","ca\characters2\Blufor\data\Soldier_Pilot.RVmat","ca\characters2\Blufor\data\Soldier_Pilot_W1.RVmat","ca\characters2\Blufor\data\Soldier_Pilot_W2.RVmat","ca\characters2\Blufor\data\Soldier_Pilot_EQUIP.RVmat","ca\characters2\Blufor\data\Soldier_Pilot_EQUIP_W1.RVmat","ca\characters2\Blufor\data\Soldier_Pilot_EQUIP_W2.RVmat","ca\characters2\Blufor\data\Soldier_Guard.RVmat","ca\characters2\Blufor\data\Soldier_Guard_W1.RVmat","ca\characters2\Blufor\data\Soldier_Guard_W2.RVmat","ca\characters2\Blufor\data\Soldier_Crew.RVmat","ca\characters2\Blufor\data\Soldier_Crew_W1.RVmat","ca\characters2\Blufor\data\Soldier_Crew_W2.RVmat","ca\characters2\Blufor\data\Soldier_Crew_EQUIP.RVmat","ca\characters2\Blufor\data\Soldier_Crew_EQUIP_W1.RVmat","ca\characters2\Blufor\data\Soldier_Crew_EQUIP_W2.RVmat","ca\characters2\Blufor\data\Soldier_Guard_EQUIP.RVmat","ca\characters2\Blufor\data\Soldier_Guard_EQUIP_W1.RVmat","ca\characters2\Blufor\data\Soldier_Guard_EQUIP_W2.RVmat"};
-  };
- };
- 
- class z_soldier_heavy: z_soldier
- {
-  displayName = "Zombie Soldier (Heavy)";
-  model = "\ca\characters2\Blufor\Soldier";
-  class HitPoints: HitPoints
-  {
-   class HitHead
-   {
-    armor = 1;
-    material = -1;
-    name = "head_hit";
-    passThrough = 1;
-   };
-   class HitBody
-   {
-    armor = 2.4;
-    material = -1;
-    name = "body";
-    passThrough = 1;
-   };
-   class HitHands
-   {
-    armor = 1;
-    material = -1;
-    name = "hands";
-    passThrough = 1;
-   };
-   class HitLegs
-   {
-    armor = 1;
-    material = -1;
-    name = "legs";
-    passThrough = 1;
-   };
-  };
- };
- // US
- class z_us_soldier: z_soldier_heavy {
-  displayName = "Zombie Soldier USMC (Heavy)";
-  model = "\CA\characters2\USMC\USMC_soldier";
- };
- class z_us_soldier_light: z_soldier {
-  displayName = "Zombie Soldier USMC (Light)";
-  model = "\CA\characters2\USMC\USMC_soldier_Light";
- };
- 
- // RU
- class z_ru_soldier: z_soldier_heavy {
-  displayName = "Zombie Soldier RU (Heavy)";
-  model = "\CA\characters2\Rus\Soldier";
- };
- class z_ru_soldier_light: z_soldier {
-  displayName = "Zombie Soldier RU (Light)";
-  model = "\CA\characters2\Rus\Soldier_Light";
- };
- class z_ru_soldier_pilot: z_soldier {
-  displayName = "Zombie Pilot RU (Light)";
-  model = "\CA\characters2\Rus\Soldier_Pilot";
- };
- 
- // NAC
- class z_nac_soldier: z_soldier {
-  displayName = "Zombie Soldier NAC (Light)";
-  model = "\nst\ns_fraction\nac\nac_soldier_2";
- };  
-  class z_nac_soldier_heavy: z_soldier_heavy {
-  displayName = "Zombie Soldier NAC (Heavy)";
-  model = "\nst\ns_fraction\nac\nac_soldier_1";
- };
- 
- //Classic
- class z_suit1: zZombie_Base {
-  zombieLoot = "genericNamalskNoFood";
- };
- class z_suit2: z_suit1 {};
- 
- class z_worker1: zZombie_Base {
-  zombieLoot = "genericNamalskNoFood";
- };
- class z_worker2: z_worker1 {};
- class z_worker3: z_worker1 {};
- 
- class z_doctor: zZombie_Base {
-  zombieLoot = "medicalNamalsk";
- };
- 
- class z_teacher: z_doctor {
-  zombieLoot = "civilianNamalsk";
- };
- 
- class z_villager1: zZombie_Base {
-  zombieLoot = "genericNamalskNoFood";
- };
- class z_villager2: z_villager1 {};
- class z_villager3: z_villager1 {};
- 
- //new zeds
-	class zZombie_new_Base : zZombie_Base {
-		scope = public;
-		glassesEnabled = 0;
-		identityTypes[] = {"Zombie3"};
-		class TalkTopics {};
-		languages[] = {};
-		//Armor * hitpointArmor = Total Armor
-		armor = 10; 
-		
-		class Eventhandlers {
-			init = "_this call zombie_initialize;";
-			local = "if(_this select 1) then {[(position (_this select 0)),(_this select 0),true] execFSM '\z\AddOns\dayz_code\system\zombie_agent.fsm'};";
-		};
-		
-		class HitPoints {
-			class HitHead {
-				armor = 0.1;
-				material = -1;
-				name = "head_hit";
-				passThrough = true;
-				memoryPoint = "pilot";
-			};
-			
-			class HitBody : HitHead {
-				armor = 2;
-				name = "body";
-				memoryPoint = "aimPoint";
-			};
-			
-			class HitSpine : HitHead {
-				armor = 2;
-				name = "Spine2";
-				memoryPoint = "aimPoint";
-			};
-			
-			class HitHands : HitHead {
-				armor = 0.5;
-				material = -1;
-				name = "hands";
-				passThrough = true;
-			};
-			class HitLArm : HitHands {
-				name = "LeftArm";
-				memoryPoint = "lelbow";
-			};
-			
-			class HitRArm : HitHands {
-				name = "RightArm";
-				memoryPoint = "relbow";
-			};
-			
-			class HitLForeArm : HitHands {
-				name = "LeftForeArm";
-				memoryPoint = "lwrist";
-			};
-			
-			class HitRForeArm : HitHands {
-				name = "RightForeArm";
-				memoryPoint = "rwrist";
-			};
-			
-			class HitLHand : HitHands {
-				name = "LeftHand";
-				memoryPoint = "LeftHandMiddle1";
-			};
-			
-			class HitRHand : HitHands {
-				name = "RightHand";
-				memoryPoint = "RightHandMiddle1";
-			};
-			
-			class HitLegs : HitHands {
-				armor = 10;
-				name = "legs";
-				memoryPoint = "pelvis";
-			};
-			
-			class HitLLeg : HitHands {
-				name = "LeftLeg";
-				memoryPoint = "lknee";
-			};
-			
-			class HitLLegUp : HitHands {
-				name = "LeftUpLeg";
-				memoryPoint = "lfemur";
-			};
-			
-			class HitRLeg : HitHands {
-				name = "RightLeg";
-				memoryPoint = "rknee";
-			};
-			
-			class HitRLegUp : HitHands {
-				name = "RightUpLeg";
-				memoryPoint = "rfemur";
-			};
-		};
-	};
-	
-	class z_milNewBase : zZombie_new_Base {
-		zombieLoot = "militaryNamalsk";
-		model = "\ca\characters2\civil\Villager\Villager";
-		//hiddenSelections[] = {"Camo"};
-		//hiddenSelectionsTextures[] = {"\ca\characters2\civil\villager\data\villager_co.paa"};
-		
-		class Wounds {
-			tex[] = {};
-			mat[] = {"ca\characters\heads\male\defaulthead\data\hhl.rvmat", "ca\characters\heads\male\defaulthead\data\hhl_Wounds.rvmat", "ca\characters\heads\male\defaulthead\data\hhl_Wounds.rvmat", "ca\characters2\Civil\Villager\Data\villager.RVmat", "ca\characters2\Civil\Villager\Data\villager_w1.RVmat", "ca\characters2\Civil\Villager\Data\villager_w2.RVmat"};
-		};
-	};
-	class z_new_milSoldier2 : z_milNewBase {
-		model = "\CA\characters2\USMC\USMC_soldier";
-	};
-	class z_new_milSoldier3 : z_milNewBase {
-		model = "\CA\characters2\USMC\USMC_soldier_Light";
-	};
-	class z_new_milSoldier4 : z_milNewBase {
-		model = "\CA\characters2\Rus\Soldier";
-	};
-	class z_new_milSoldier5 : z_milNewBase {
-		model = "\CA\characters2\Rus\Soldier_Light";
-	};
-	
-	class z_new_milWorker_base : zZombie_new_Base {
-		zombieLoot = "genericNamalskNoFood";
-		model = "\Ca\characters_E\Overall\Overall";
-		hiddenSelections[] = {"Camo"};
-		hiddenSelectionsTextures[] = {"\Ca\characters_E\Overall\Data\Overall_4_co.paa"};
-		
-		class Wounds {
-			tex[] = {};
-			mat[] = {"Ca\characters_E\Overall\Data\Overall.rvmat", "Ca\characters_E\Overall\Data\W1_Overall.rvmat", "Ca\characters_E\Overall\Data\W2_Overall.rvmat"};
-		};
-	};
-	
-	class z_new_milWorker2 : z_new_milWorker_base {
-		hiddenSelectionsTextures[] = {"z\addons\dayz_communityassets\zeds\overall\overall_2_co.paa"};
-	};
-	class z_new_milworker3 : z_new_milWorker_base {
-		hiddenSelectionsTextures[] = {"z\addons\dayz_communityassets\zeds\overall\Overall_3_co.paa"};
-	};
-	class z_new_milworker4 : z_new_milWorker_base {
-		hiddenSelectionsTextures[] = {"z\addons\dayz_communityassets\zeds\overall\Overall_4_co.paa"};
-	};
-};
-
-class CfgSurvivalNamalsk {
-	class Inventory {
-		class Default {
-			RandomMagazines = 3;
-			//weapons[] = {"Makarov"}; //8Rnd_9x18_Makarov
-			GuaranteedMagazines[] = {"ItemBandage","ItemHeatPack","HandRoadFlare"};
-			RandomPossibilitieMagazines[] = {"ItemBandage","ItemHeatPack","ItemPainkiller"};
-			//weapons[] = {"HandRoadFlare"};
-			backpackWeapon = "";
-			//backpack = "DZ_Patrol_Pack_EP1";
-		};
-	};
-	class Meat {
-		class Default {
-			yield = 1; //2
-			rawfoodtype = "FoodmeatRaw";
-		};
-		class Cow: Default {
-			yield = 6; //8
-			rawfoodtype = "FoodbeefRaw";
-		};
-		class Cow01: Cow{};
-		class Cow02: Cow{};
-		class Cow03: Cow{};
-		class Cow04: Cow{};
-		class Goat: Default {
-			yield = 2; //3
-			rawfoodtype = "FoodgoatRaw";
-		};
-		class Sheep: Default {
-			yield = 4; //5
-			rawfoodtype = "FoodmuttonRaw";
-		};
-		class WildBoar: Default {
-			yield = 4; //4
-			rawfoodtype = "FoodbaconRaw";
-		};
-		class Hen: Default {
-			yield = 1;
-			rawfoodtype = "FoodchickenRaw";
-		};
-		class Rabbit: Default {
-			yield = 1;
-			rawfoodtype = "FoodrabbitRaw";
-		};
-	};
-};
-
-
-class CfgLoot {
+class CfgLootDeprecated {
 	bloodsucker[] = {
 		{"ItemBloodbag", 0.08}
 	};
@@ -2041,7 +20,7 @@ class CfgLoot {
 		{"ItemBandage", 0.06},
 		{"ItemPainkiller", 0.06}
 	};
-	
+
 	foodNamalsk[] = {
 		{"TrashTinCan",0.13},
 		{"TrashJackDaniels",0.13},
@@ -2051,11 +30,11 @@ class CfgLoot {
 		{"ItemSodaMtngreen",0.01},
 		{"ItemSodaR4z0r",0.01},
 		{"ItemSodaClays",0.01},
-		{"ItemSodaSmasht",0.01}, 
-		{"ItemSodaDrwaste",0.01}, 
-		{"ItemSodaLemonade",0.01}, 
-		{"ItemSodaLvg",0.01}, 
-		{"ItemSodaMzly",0.01}, 
+		{"ItemSodaSmasht",0.01},
+		{"ItemSodaDrwaste",0.01},
+		{"ItemSodaLemonade",0.01},
+		{"ItemSodaLvg",0.01},
+		{"ItemSodaMzly",0.01},
 		{"ItemSodaRabbit",0.01},
 		{"FoodCanBakedBeans",0.05},
 		{"FoodCanSardines",0.05},
@@ -2140,7 +119,7 @@ class CfgLoot {
 		{"HandChemBlue", 0.03},
 		{"HandChemRed", 0.03},
 		{"ItemHeatPack", 0.04},
-		{"ItemNails", 0.01}		
+		{"ItemNails", 0.01}
 	};
 
 	militaryNAC[] = {
@@ -2190,7 +169,7 @@ class CfgLoot {
 		{"10Rnd_9x39_SP5_VSS", 0.01},
 		{"20Rnd_9x39_SP5_VSS", 0.01}
 	};
-	
+
 	militaryNamalsk[] = {
 		{"TrashTinCan", 0.18},
 		{"ItemSodaEmpty", 0.09},
@@ -2246,7 +225,7 @@ class CfgLoot {
 		{"ItemHeatPack", 0.2},
 		{"ItemAntibiotic", 0.1}
 	};
-	
+
 	hospitalNamalsk[] = {
 		{"ItemBandage", 0.43},
 		{"ItemPainkiller", 0.17},
@@ -2257,7 +236,7 @@ class CfgLoot {
 	};
 };
 
-class CfgBuildingLoot {
+class CfgBuildingLootDeprecated {
 	// Original loot tables
 	class Default;
 	class Residential;
@@ -2271,9 +250,9 @@ class CfgBuildingLoot {
 	class Church;
 };
 
-class CfgBuildingLootNamalsk: CfgBuildingLoot {
+class CfgBuildingLootNamalskDeprecated: CfgBuildingLootDeprecated {
 	//LOOT TABLES FOR DAYZ NAMALSK
-	
+
 	/* RESIDENTIAL */
 	class ResidentialNamalsk: Residential {
 		zombieChance = 0.6;
@@ -2311,13 +290,13 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{"MR43","weapon", 0.03},
 			{"","militaryNamalsk", 0.03},
 			{"","trash", 0.5},
-			{"","genericNamalsk", 0.06}  
+			{"","genericNamalsk", 0.06}
 		};
 	};
 	class OfficeNamalsk: ResidentialNamalsk {
 		maxRoaming = 6;
 	};
-	
+
 	/* INDUSTRIAL */
 	class IndustrialNamalsk: Industrial {
 		zombieChance = 0.8;
@@ -2344,7 +323,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{"","militaryNamalsk", 0.04}
 		};
 	};
-	
+
 	/* FARM */
 	class FarmNamalsk: Farm {
 		zombieChance = 0.5;
@@ -2404,7 +383,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{"","trash", 0.50}
 		};
 	};
-	
+
 	/* HOSPITAL */
 	class HospitalNamalsk: Hospital {
 		zombieChance = 1;
@@ -2419,8 +398,8 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{"MedBox0_DZN","object", 0.01}
 		};
 	};
-	
-	
+
+
 	/* HELICRASH */
 	class HeliCrash {
 		zombieChance = 1;
@@ -3296,7 +1275,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{ 5.46362,2.57813,-1.09824 }
 		};
 	};
-	
+
 	//--------------------------------------------------------------------------
 	// ns.pbo
 	//--------------------------------------------------------------------------
@@ -3329,12 +1308,12 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{4.63672,3.35547,-5.00836}
 		};
 	};
-	
-	
+
+
 	//--------------------------------------------------------------------------
 	// ns2.pbo
 	//--------------------------------------------------------------------------
-	
+
 	class Land_seb_bouda_plech: FarmNamalsk {
 		zombieChance = 0;
 		maxRoaming = 4;
@@ -3348,7 +1327,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-4.87939,0.0661621,-1.11251}
 		};
 	};
-	
+
 	class land_domek_podhradi_1: FarmNamalsk {
 		zombieChance = 1;
 		maxRoaming = 7;
@@ -3367,7 +1346,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-0.842651,-1.51709,-2.73916}
 		};
 	};
-	
+
 	class Land_cast2: IndustrialNamalsk {
 		zombieChance = 0.25;
 		maxRoaming = 6;
@@ -3380,9 +1359,9 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{ -1.29297,-6.37109,-4.38393 },
 			{ -3.73047,-7.50098,-4.38393 },
 			{ 1.15723,0.933105,-1.07131 }
-		};		
+		};
 	};
-	
+
 	class Land_cast1: IndustrialNamalsk {
 		zombieChance = 0.25;
 		maxRoaming = 6;
@@ -3397,10 +1376,10 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-1.69482,-10.4023,-4.38393},
 			{1.13867,-4.04297,-1.06585},
 			{1.052,0.420898,-1.06585}
-			
+
 		};
 	};
-	
+
 	class Land_vstup: IndustrialNamalsk {
 		zombieChance = 0.95;
 		maxRoaming = 6;
@@ -3415,7 +1394,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-12.7603,-1.41406,-1.53312}
 		};
 	};
-	
+
 	class Land_trubice: IndustrialNamalsk {
 		lootChance = 0.1;
 		lootPos[] = {
@@ -3424,7 +1403,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{3.47534,1.54102,2.59438}
 		};
 	};
-	
+
 	class Land_tovarna1: IndustrialNamalsk {
 		zombieChance = 0.95;
 		maxRoaming = 10;
@@ -3453,7 +1432,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-2.53125,6.92676,-3.07503},
 		};
 	};
-	
+
 	class Land_velkyjerab: IndustrialNamalsk {
 		lootPos[] = {
 			{-15.6653,1.33887,23.8359},
@@ -3462,7 +1441,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-12.8218,-5.68262,-31.0777}
 		};
 	};
-	
+
 	class Land_panelova: IndustrialNamalsk {
 		zombieChance = 0.55;
 		maxRoaming = 10;
@@ -3492,7 +1471,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{5.87695,9.61719,-11.0965}
 		};
 	};
-	
+
 	class Land_garaze: IndustrialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 5;
@@ -3505,7 +1484,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-0.548828,5.15161,-2.12658}
 		};
 	};
-	
+
 	class Land_part1: IndustrialNamalsk {
 		lootPos[] = {
 			{-0.632324,-6.71582,-9.17198},
@@ -3519,7 +1498,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-3.59668,4.22949,-4.402}
 		};
 	};
-	
+
 	class Land_vez: MilitaryNamalsk {
 		lootChance = 0.1;
 		zombieChance = 0;
@@ -3532,7 +1511,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-0.188965,-3.07129,-4.75002}
 		};
 	};
-	
+
 	class Land_mil_barracks_l: MilitaryNamalsk {
 		lootChance = 0.1;
 		maxRoaming = 12;
@@ -3542,13 +1521,13 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{ -6.55469,-8.65381,-2.19978 }
 		};
 	};
-	
+
 	class Land_mol_cr: FarmNamalsk {
 		lootPos[] = {
 			{7.45459,4.25195,-3.66339}
 		};
 	};
-	
+
 	class Land_marsh1: FarmNamalsk {
 		zombieChance = 0;
 		maxRoaming = 6;
@@ -3567,7 +1546,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-5.04639,-1.68945,-4.14698}
 		};
 	};
-	
+
 	class Land_marsh2: FarmNamalsk {
 		zombieChance = 0;
 		maxRoaming = 6;
@@ -3589,7 +1568,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-3.77588,-8.55469,-4.2973}
 		};
 	};
-	
+
 	class Land_fuelstation_w: IndustrialNamalsk {
 		maxRoaming = 6;
 		minRoaming = 4;
@@ -3599,7 +1578,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-6.00586,2.67871,-2.28091}
 		};
 	};
-	
+
 	class Land_nadrazi_nastupiste: IndustrialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 0;
@@ -3609,7 +1588,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{17.5366,-0.0385742,1.04783}
 		};
 	};
-	
+
 	class Land_leseni2x: IndustrialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 0;
@@ -3622,7 +1601,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{0.705566,-2.94971,-1.50913}
 		};
 	};
-	
+
 	class Land_nasypka: IndustrialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 0;
@@ -3630,7 +1609,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-1.25977,-0.0585938,6.56824}
 		};
 	};
-	
+
 	class Land_aii_upper_part: IndustrialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 0;
@@ -3640,7 +1619,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-2.30322,2.0415,-2.32196}
 		};
 	};
-	
+
 	class Land_AII_middle_floor: MilitarySpecialNAC {
 		zombieChance = 1;
 		maxRoaming = 0;
@@ -3678,7 +1657,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-4.37793,0.299316,-4.63377}
 		};
 	};
-	
+
 	class Land_aii_last_floor: MilitarySpecialNAC {
 		zombieChance = 1;
 		maxRoaming = 0;
@@ -3702,13 +1681,13 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-6.53662,11.2119,4.60709}
 		};
 	};
-	
+
 	class Land_misc_waterstation: IndustrialNamalsk {
 		lootPos[] = {
 			{-0.213623,3.01855,-1.59381}
 		};
 	};
-	
+
 	class Land_vys_antena: MilitaryNamalskWinter {
 		maxRoaming = 10;
 		minRoaming = 7;
@@ -3730,7 +1709,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-0.741211,0.0454102,-5.58041}
 		};
 	};
-	
+
 	class Land_vys_budova_p1: MilitarySpecialNamalskWinter {
 		maxRoaming = 10;
 		minRoaming = 7;
@@ -3759,7 +1738,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-1.81348,-6.23584,4.70062}
 		};
 	};
-	
+
 	class Land_vys_budova_p2: IndustrialNamalsk {
 		lootPos[] = {
 			{-0.838379,3.53467,-0.755798},
@@ -3770,7 +1749,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-5.02344,2.15869,-0.755829}
 		};
 	};
-	
+
 	class Land_seb_mine_near: IndustrialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 8;
@@ -3784,7 +1763,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{1.85156,3.29785,-1.60105}
 		};
 	};
-	
+
 	class Land_seb_mine_main_opt: IndustrialNamalsk {
 		maxRoaming = 8;
 		minRoaming = 4;
@@ -3808,7 +1787,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{2.94971,-0.760254,14.6913}
 		};
 	};
-	
+
 	class Land_seb_near_fac: IndustrialNamalsk {
 		maxRoaming = 10;
 		minRoaming = 7;
@@ -3831,14 +1810,14 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-8.28271,-23.8257,1.75552}
 		};
 	};
-	
+
 	class Land_bouda2_vnitrek: IndustrialNamalsk {
 		lootPos[] = {
 			{-1.78613,0.463867,-0.610508},
 			{0.900391,-0.374023,-0.610508}
 		};
 	};
-	
+
 	class Land_seb_main_fac: IndustrialNamalsk {
 		maxRoaming = 10;
 		minRoaming = 7;
@@ -3865,14 +1844,14 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{3.62695,23.0591,4.16873}
 		};
 	};
-	
+
 	class Land_dulni_bs: IndustrialNamalsk {
 		lootPos[] = {
 			{0.535156,1.83887,-1.75205},
 			{0.625,-1.51367,-1.75205}
 		};
 	};
-	
+
 	class Land_mil_guardhouse: MilitaryNamalsk {
 		lootChance = 0.40;
 		lootPos[] = {
@@ -3882,7 +1861,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-6.59766,0.202148,-1.99591}
 		};
 	};
-	
+
 	class Land_hut_old01: IndustrialNamalsk {
 		zombieChance = 0.85;
 		maxRoaming = 10;
@@ -3895,7 +1874,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-6.63477,6.00146,-3.02272}
 		};
 	};
-	
+
 	class Land_dum_ras: FarmNamalsk {
 		lootPos[] = {
 			{-0.838867,-2.70898,-2.66958},
@@ -3911,7 +1890,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-5.0791,-1.52637,-2.86098}
 		};
 	};
-	
+
 	class Land_vysoky2: ResidentialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 8;
@@ -3930,7 +1909,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{10.3818,11.2988,13.0916}
 		};
 	};
-	
+
 	class Land_dlouhy2: ResidentialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 8;
@@ -3941,7 +1920,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{0.761719,3.16992,-9.32053}
 		};
 	};
-	
+
 	class Land_kolotoc: ResidentialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 2;
@@ -3950,7 +1929,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-0.0869141,0.144531,-0.66162}
 		};
 	};
-	
+
 	class Land_panelova3: ResidentialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 6;
@@ -3965,9 +1944,9 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{1.54248,-3.46875,0.0510063},
 			{3.4834,-6.48828,0.00221825}
 		};
-		
+
 	};
-	
+
 	class Land_panelova2: ResidentialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 6;
@@ -3980,13 +1959,13 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-2.61084,-2.92578,-6.53967}
 		};
 	};
-	
+
 	class Land_misc_gcontainer_big: IndustrialNamalsk {
 		lootPos[] = {
 			{-3.91504,0.296875,-0.68811}
 		};
 	};
-	
+
 	class Land_hotel_p1: ResidentialNamalsk {
 		zombieChance = 0.75;
 		maxRoaming = 12;
@@ -4006,7 +1985,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-14.8115,-0.187012,-4.89486}
 		};
 	};
-	
+
 	class Land_hotel_p2: ResidentialNamalsk {
 		zombieChance = 0.75;
 		maxRoaming = 12;
@@ -4023,7 +2002,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{4.45898,7.17822,6.06893}
 		};
 	};
-	
+
 	class Land_kostelik_final_2122: Church {
 		zombieChance = 0.75;
 		maxRoaming = 4;
@@ -4039,7 +2018,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-0.166016,7.44531,1.55548}
 		};
 	};
-	
+
 	class Land_dum_zboreny_total: FarmNamalsk {
 		lootPos[] = {
 			{-3.94531,2.23975,-2.41236},
@@ -4047,7 +2026,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{4.71484,-1.97314,-2.31708}
 		};
 	};
-	
+
 	class Land_jzd_stodola2: FarmNamalsk {
 		zombieChance = 0.25;
 		maxRoaming = 10;
@@ -4064,13 +2043,13 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{3.90332,1.81006,1.31123}
 		};
 	};
-	
+
 	class Land_jzd_vodojem: IndustrialNamalsk {
 		lootPos[] = {
 			{-1.08301,1.00488,-6.87932}
 		};
 	};
-	
+
 	class Land_jzd_bezstrechy: IndustrialNamalsk {
 		zombieChance = 0.25;
 		maxRoaming = 10;
@@ -4085,7 +2064,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{0.856445,2.25195,-3.02945}
 		};
 	};
-	
+
 	class Land_jzd_silo_tes: IndustrialNamalsk {
 		zombieChance = 0.25;
 		maxRoaming = 10;
@@ -4108,7 +2087,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-2.31738,-0.688477,10.224}
 		};
 	};
-	
+
 	class Land_jzd_kr2: FarmNamalsk {
 		zombieChance = 0.75;
 		maxRoaming = 10;
@@ -4155,7 +2134,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{5.146,23.9922,1.47602}
 		};
 	};
-	
+
 	class Land_rozvodna: IndustrialNamalsk {
 		lootPos[] = {
 			{-6.86133,-1.61133,-0.369419},
@@ -4168,7 +2147,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 		lootPos[] = {
 			{-2.60498,0.757813,-1.51656},
 			{-2.47778,-4.64063,-1.51656},
-			{0.00610352,-3.22168,-1.51656}, 
+			{0.00610352,-3.22168,-1.51656},
 			{0.382324,-4.0332,2.71902},
 			{-2.32227,-1.91699,2.71902},
 			{0.0273438,1.84277,2.71902}
@@ -4302,7 +2281,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 		lootPos[] = {
 			{-19.3564,3.39258,15.7188},
 			{-26.459,-3.23242,15.6942},
-			{-1.98145,-3.05176,15.6783}, 
+			{-1.98145,-3.05176,15.6783},
 			{5.47461,3.15381,15.7188}
 		};
 	};
@@ -4471,7 +2450,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{2.07031,-2.79541,-2.7193},
 			{4.58203,10.9131,-2.17065}
 		};
-		
+
 		hangPos[] = {
 			{-2.0332,-5.49414,-2.0021}
 		};
@@ -4680,7 +2659,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-2.90771,11.5244,-6.35588},
 			{1.45459,1.76074,-6.27279},
 			{3.70752,-10.7207,-6.35588},
-			{0.917969,-18.1875,-6.33955}, 
+			{0.917969,-18.1875,-6.33955},
 			{-2.9541,-15.7461,-6.35588},
 			{-2.95703,-5.04688,-6.35588},
 			{-4.36377,13.6768,-6.40935},
@@ -4715,7 +2694,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-2.59229,1.21387,1.27995}
 		};
 	};
-	
+
 	class Land_molovabud2: IndustrialNamalsk {
 		maxRoaming = 6;
 		minRoaming = 4;
@@ -4731,13 +2710,13 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-4.29248,7.1123,-1.79699}
 		};
 	};
-	
+
 	class Land_kontejner_des: IndustrialNamalsk {
 		lootPos[] = {
 			{-0.518555,-0.0117188,-0.625989}
 		};
 	};
-	
+
 	class Land_bunka: ResidentialNamalsk {
 		zombieChance = 0;
 		maxRoaming = 6;
@@ -4750,7 +2729,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-1.94531,6.04883,-1.73301}
 		};
 	};
-	
+
 	class Land_dum_zboreny: FarmNamalsk {
 		lootPos[] = {
 			{-4.8252,-1.85547,-2.37674},
@@ -4772,7 +2751,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{2.02393,-0.520508,1.39534}
 		};
 	};
-	
+
 	class Land_bud2: FarmNamalsk {
 		lootPos[] = {
 			{-1.46094,1.78418,-1.79692},
@@ -4781,7 +2760,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-3.6936,-1.18359,-1.79216}
 		};
 	};
-	
+
 	class Land_mi8_crashed: HeliCrashNamalsk {
 		lootChance = 0;
 		maxRoaming = 12;
@@ -4791,7 +2770,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{ -0.245117,-6.06982,-1.74091 }
 		};
 	};
-	
+
 	class Land_wreck_c130j_ep1: HeliCrashNamalsk {
 		lootChance = 0;
 		maxRoaming = 20;
@@ -4808,7 +2787,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-0.520508,3.19873,-6.151}
 		};
 	};
-	
+
 	class Land_provoz2: IndustrialNamalsk {
 		lootPos[] = {
 			{-5.49414,-0.737305,-2.51849},
@@ -4819,7 +2798,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{5.30078,1.33984,-2.51849}
 		};
 	};
-	
+
 	class Land_provoz1: IndustrialNamalsk {
 		lootPos[] = {
 			{-2.69238,2.81836,-2.31387},
@@ -4830,7 +2809,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-4.25,-1.30371,-2.31387}
 		};
 	};
-	
+
 	class Land_sklad2: IndustrialNamalsk {
 		lootPos[] = {
 			{-3.52637,-3.24463,-2.42452},
@@ -4841,7 +2820,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{3.06445,0.760254,-2.42189}
 		};
 	};
-	
+
 	class Land_hala1: IndustrialNamalsk {
 		lootPos[] = {
 			{-0.0751953,-7.0127,-4.02072},
@@ -4853,7 +2832,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{4.55566,4.79199,-4.02072}
 		};
 	};
-	
+
 	class Land_naklad: IndustrialNamalsk {
 		lootPos[] = {
 			{4.53955,-5.32129,-1.51689},
@@ -4869,19 +2848,19 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-0.733887,0.65625,-2.50666}
 		};
 	};
-	
+
 	class Land_hlidac: ResidentialNamalsk {
 		lootPos[] = {
 			{0.519531,-0.0332031,-1.37757}
 		};
 	};
-	
+
 	class Land_bmp2_wrecked: MilitarySpecialNamalsk {
 		lootPos[] = {
 			{0.708984,3.3667,-0.584229}
 		};
 	};
-	
+
 	class Land_seb_mine_maringotka: ResidentialNamalsk {
 		lootPos[] = {
 			{0.291992,0.46582,-0.644005},
@@ -4891,7 +2870,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-1.28223,-5.20288,-1.55187}
 		};
 	};
-	
+
 	class Land_ural_wrecked: MilitaryNamalsk {
 		maxRoaming = 8;
 		minRoaming = 4;
@@ -4899,7 +2878,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{1.84521,-0.853027,-1.20325}
 		};
 	};
-	
+
 	class Land_uralt_prevraceny: IndustrialNamalsk {
 		maxRoaming = 6;
 		minRoaming = 2;
@@ -4910,7 +2889,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-1.80664,-2.17822,-1.34504}
 		};
 	};
-	
+
 	class Land_seb_nasypka: IndustrialNamalsk {
 		minRoaming = 5;
 		maxRoaming = 8;
@@ -4940,14 +2919,14 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{5.5791,9.14551,3.27461}
 		};
 	};
-	
+
 	class Land_seb_mine_near_bordel: IndustrialNamalsk {
 		zombieChance = 0;
 		lootPos[] = {
 			{2.39819,0.980469,-1.59698}
 		};
 	};
-	
+
 	class Land_part3: IndustrialNamalsk {
 		lootPos[] = {
 			{4.75635,4.22852,-9.7823},
@@ -4956,7 +2935,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-2.77124,-4.96875,-9.7823}
 		};
 	};
-	
+
 	class Land_chat_tr: FarmNamalsk {
 		lootPos[] = {
 			{-4.92725,2.23877,-2.32338},
@@ -4967,7 +2946,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{3.58594,-2.01172,-2.35669}
 		};
 	};
-	
+
 	class Land_seb_rozvodna: IndustrialNamalsk {
 		lootPos[] = {
 			{-5.91113,0.829102,-3.83514},
@@ -4975,14 +2954,14 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-1.27832,3.28809,0.584061}
 		};
 	};
-	
+
 	class Land_vor_piskoviste: ResidentialNamalsk {
 		lootChance = 0.1;
 		lootPos[] = {
 			{0.0361328,0.0136719,0.447613}
 		};
 	};
-	
+
 	class Land_vysilac_fm: MilitaryNamalsk {
 		lootChance = 0.25;
 		maxRoaming = 8;
@@ -4991,7 +2970,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{0.195313,-0.713379,-6.11732}
 		};
 	};
-	
+
 	class Land_budova5_winter: MilitaryNamalskWinter {
 		lootChance = 0.25;
 		maxRoaming = 10;
@@ -5006,7 +2985,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-7.01465,1.44971,-2.40863}
 		};
 	};
-	
+
 	class Land_budova2_winter: MilitaryNamalskWinter {
 		lootChance = 0.1;
 		maxRoaming = 10;
@@ -5017,7 +2996,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 		};
 		//zombieClass[] = {"z_nac_soldier","z_nac_soldier_heavy"};
 	};
-	
+
 	class Land_budova1_winter: MilitaryNamalskWinter {
 		lootChance = 0.1;
 		maxRoaming = 10;
@@ -5027,7 +3006,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 		};
 		//zombieClass[] = {"z_nac_soldier","z_nac_soldier_heavy"};
 	};
-	
+
 	class Land_budova3_winter: MilitaryNamalskWinter {
 		lootChance = 0.1;
 		maxRoaming = 10;
@@ -5036,7 +3015,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{5.39673,-0.0297852,-2.01859}
 		};
 	};
-	
+
 	class Land_ind_quarry: IndustrialNamalsk {
 		lootPos[] = {
 			{-3.25928,-15.5356,-7.47989},
@@ -5076,7 +3055,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 			{-0.147949,4.69434,9.71017}
 		};
 	};
-	
+
 	class Land_zspawn: MilitaryNamalsk {
 		maxRoaming = 5;
 		minRoaming = 2;
@@ -5087,7 +3066,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 		minRoaming = 0;
 		lootPos[] = {};
 	};
-	
+
 	class Land_espawn: MilitarySpecialNACER7 {
 		zombieChance = 0;
 		maxRoaming = 0;
@@ -5098,7 +3077,7 @@ class CfgBuildingLootNamalsk: CfgBuildingLoot {
 	};
 };
 
-class CfgBuildingLootNamalskNOER7: CfgBuildingLootNamalsk {
+class CfgBuildingLootNamalskNOER7Deprecated: CfgBuildingLootNamalskDeprecated {
 	class Land_AII_middle_floor: MilitarySpecialNamalskWinter {
 		zombieChance = 1;
 		maxRoaming = 0;
@@ -5136,7 +3115,7 @@ class CfgBuildingLootNamalskNOER7: CfgBuildingLootNamalsk {
 			{-4.37793,0.299316,-4.63377}
 		};
 	};
-	
+
 	class Land_aii_last_floor: MilitarySpecialNamalskWinter {
 		zombieChance = 1;
 		maxRoaming = 0;
@@ -5170,7 +3149,7 @@ class CfgBuildingLootNamalskNOER7: CfgBuildingLootNamalsk {
 	};
 };
 
-class CfgBuildingLootNamalskNO50s: CfgBuildingLootNamalskNOER7 {
+class CfgBuildingLootNamalskNO50sDeprecated: CfgBuildingLootNamalskNOER7Deprecated {
 	class HeliCrashNamalsk: HeliCrash {
 		zombieChance = 1;
 		maxRoaming = 8;
@@ -5208,7 +3187,7 @@ class CfgBuildingLootNamalskNO50s: CfgBuildingLootNamalskNOER7 {
 	};
 };
 
-class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
+class CfgBuildingLootNamalskNOSniperDeprecated: CfgBuildingLootNamalskNOER7Deprecated {
 	class HeliCrashNamalsk: HeliCrash {
 		zombieChance = 1;
 		maxRoaming = 5;
@@ -5356,7 +3335,7 @@ class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
 			{-4.37793,0.299316,-4.63377}
 		};
 	};
-	
+
 	class Land_aii_last_floor: MilitarySpecialNAC2 {
 		zombieChance = 1;
 		maxRoaming = 0;
@@ -5380,9 +3359,9 @@ class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
 			{-6.53662,11.2119,4.60709}
 		};
 	};
-	
-	
-	// special winter 
+
+
+	// special winter
 	class MilitarySpecialNamalskWinter2: MilitarySpecialNamalsk {
 		zombieChance = 0.8;
 		minRoaming = 2;
@@ -5504,9 +3483,9 @@ class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
 			{-1.81348,-6.23584,4.70062}
 		};
 	};
-	
+
 	// MODIFIED FARM!
-	
+
 	class FarmNamalsk2: FarmNamalsk {
 		lootType[] = {
 			{"WeaponHolder_ItemJerrycan","object", 0.02},
@@ -5524,9 +3503,9 @@ class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
 			{"","foodNamalsk", 0.04}
 		};
 	};
-	
+
 	// and farm objects of Namalsk..
-	
+
 	class Land_Barn_W_01: FarmNamalsk2 {
 		lootPos[] = {
 			{ 4.93188,-17.0444,-2.63063 },
@@ -5605,7 +3584,7 @@ class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
 			{7.45459,4.25195,-3.66339}
 		};
 	};
-	
+
 	class Land_marsh1: FarmNamalsk2 {
 		maxRoaming = 6;
 		minRoaming = 4;
@@ -5623,7 +3602,7 @@ class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
 			{-5.04639,-1.68945,-4.14698}
 		};
 	};
-	
+
 	class Land_marsh2: FarmNamalsk2 {
 		maxRoaming = 6;
 		minRoaming = 4;
@@ -5644,7 +3623,7 @@ class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
 			{-3.77588,-8.55469,-4.2973}
 		};
 	};
-	
+
 	class Land_dum_ras: FarmNamalsk2 {
 		lootPos[] = {
 			{-0.838867,-2.70898,-2.66958},
@@ -5760,7 +3739,7 @@ class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
 			{2.07031,-2.79541,-2.7193},
 			{4.58203,10.9131,-2.17065}
 		};
-		
+
 		hangPos[] = {
 			{-2.0332,-5.49414,-2.0021}
 		};
@@ -5854,7 +3833,7 @@ class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
 			{2.02393,-0.520508,1.39534}
 		};
 	};
-	
+
 	class Land_bud2: FarmNamalsk2 {
 		lootPos[] = {
 			{-1.46094,1.78418,-1.79692},
@@ -5872,30 +3851,5 @@ class CfgBuildingLootNamalskNOSniper: CfgBuildingLootNamalskNOER7 {
 			{1.4248,-1.81201,-2.57769},
 			{3.58594,-2.01172,-2.35669}
 		};
-	};
-};
-
-class CfgMusic {
-	class ns_namalsk_coast1
-	{
-		name="Namalsk ambient coast 1";
-		sound[]=
-		{
-			"\nst\ns_sounds\zonesounds\amb_namalsk_coast1.ogg",
-			1.000000,
-			1.000000
-		};
-		duration=72;
-	};
-	class ns_namalsk_coast2
-	{
-		name="Namalsk ambient coast 2";
-		sound[]=
-		{
-			"\nst\ns_sounds\zonesounds\amb_namalsk_coast2.ogg",
-			1.000000,
-			1.000000
-		};
-		duration=62;
 	};
 };

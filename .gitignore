@@ -98,7 +98,6 @@ publish
 # Others
 [Bb]in
 [Oo]bj
-sql
 TestResults
 *.Cache
 ClientBin
@@ -163,4 +162,4 @@ pip-log.txt
 
 .idea
 .vs
-dayz_1337.namalsk/config.sqf
+SQF/Missions/dayz_1337.namalsk/config.sqf
