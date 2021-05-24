@@ -55,9 +55,9 @@ if (_inVehicle) then {
 if (_doNothing) exitwith {};
 
 //Logging
-diag_log (format["%1 Local.Agents: %2/%3, NearBy.Agents: %8/%9, Global.Agents: %6/%7, W.holders: %10/%11, (radius:%4m %5fps).","SpawnCheck",
-    _maxlocalspawned, _maxControlledZombies, _radius, round diag_fpsmin,dayz_currentGlobalZombies, 
-    dayz_maxGlobalZeds, dayz_CurrentNearByZombies, dayz_maxNearByZombies, _currentWeaponHolders,_maxWeaponHolders]);
+//diag_log (format["%1 Local.Agents: %2/%3, NearBy.Agents: %8/%9, Global.Agents: %6/%7, W.holders: %10/%11, (radius:%4m %5fps).","SpawnCheck",
+//    _maxlocalspawned, _maxControlledZombies, _radius, round diag_fpsmin,dayz_currentGlobalZombies,
+//    dayz_maxGlobalZeds, dayz_CurrentNearByZombies, dayz_maxNearByZombies, _currentWeaponHolders,_maxWeaponHolders]);
 
 // nearObjects is faster than nearestObjects when sorting by distance isn't needed
 // "Building" includes House and all of its child classes (Crashsite, IC_Fireplace1, IC_Tent, etc.)
@@ -68,7 +68,7 @@ if (_maxlocalspawned > 0) then { _spawnZedRadius = _spawnZedRadius * 3; };
 //Spawn Zeds & loot in buildings
 {
     _type = typeOf _x;
-    _config = configFile >> "CfgLoot" >> "Buildings" >> _type;
+    _config = missionConfigFile >> dayz_nc_lootTable >> "Buildings" >> _type;
     _canSpawn = isClass (_config);
 
     if (_canSpawn) then {
@@ -126,7 +126,7 @@ if (_maxlocalspawned > 0) then { _spawnZedRadius = _spawnZedRadius * 3; };
 								//start spawn
 								[_x] call building_spawnZombies;
 							};							
-							//diag_log (format["%1 building. %2", __FILE__, _x]);
+							//diag_log (format["%1 building. %2 (Type %3)", __FILE__, _x, typeOf _x]);
 						};
 					} else {
 						_bPos = getPosATL _x;

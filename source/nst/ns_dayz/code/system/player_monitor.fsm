@@ -489,7 +489,7 @@ class FSM
        "};" \n
        "" \n
        "dayz_loadScreenMsg = localize 'str_player_creating_character'; " \n
-       "if (_isHiveOk) then { if (!_schedulerStarted) then { _schedulerStarted=true; execVM '\z\addons\dayz_code\system\scheduler\sched_init.sqf'; }; };" \n
+       "if (_isHiveOk) then { if (!_schedulerStarted) then { _schedulerStarted=true; execVM '\nst\ns_dayz\code\system\scheduler\sched_init.sqf'; }; };" \n
        "if (_debug == 1) then {" \n
        "diag_log (""PLOGIN: authenticated with : "" + str(_msg));" \n
        "	diag_log [""player_monitor:Parse_Login _isHiveOk,_isNew,isnil preload, preload:"",_isHiveOk,_isNew,!isNil 'dayz_preloadFinished',dayz_preloadFinished];" \n
@@ -728,7 +728,7 @@ class FSM
        "" \n
        "if ((_isNew) OR (count _inventory == 0)) then {" \n
        "	//player is new, add initial loadout" \n
-       "	_config = (configFile >> ""CfgSurvival"" >> ""Inventory"" >> ""Default"");" \n
+       "	_config = (missionConfigFile >> ""CfgSurvivalNamalsk"" >> ""Inventory"" >> ""Default"");" \n
        "	_totalrndmags = getNumber (_config >> ""RandomMagazines"");" \n
        "	_rndmags = getArray (_config >> ""RandomPossibilitieMagazines"");" \n
        "	_countmags = 0; " \n
@@ -1810,6 +1810,7 @@ class FSM
        "//Other Counters" \n
        "	dayz_currentGlobalAnimals = count entities ""CAAnimalBase"";" \n
        "	dayz_currentGlobalZombies = count entities ""zZombie_Base"";" \n
+       "	dayz_nc_currentGlobalBloodsuckers = count entities ""ns_bloodsucker"";" \n
        "" \n
        "{" \n
        "	call compile preprocessFileLineNumbers (""\z\addons\dayz_code\system\mission\chernarus\infectiousWaterholes\""+_x+"".sqf""); " \n

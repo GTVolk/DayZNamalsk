@@ -11,7 +11,17 @@ private["_ofn","_nfn"];
 		call compile format["%1=%2;%2={if((count _this>=3)AND{(!((_this select 2)IN%3))})then{diag_log(""WARNING RE %2 with illegal args:""+str(_this));}else{_this call %1}};",_nfn,_ofn,Stringify(WHITELISTED_EXECVM)];
 	}else{
 		#ifdef RESEC_VERBOSE
-		call compile format ["%1=%2;%2={diag_log(""RE %2 args:""+str(_this));_this call %1};",_nfn,_ofn];
+		switch (toLower _x) do {
+		    case "setobjecttexture": {
+		        call compile format ["%1=%2;%2={if ((typeOf (_this select 2))!=""ns_bloodsucker"") exitWith {diag_log(""WARNING illegal RE %1 with args:"" + str(_this));};_this call %1};",_nfn,_ofn];
+		    };
+		    case "rsaycode": {
+		        call compile format ["%1=%2;%2={if ((typeOf (_this select 1))!=""ns_bloodsucker"") then {diag_log(""RE %2 args:""+str(_this));};_this call %1};",_nfn,_ofn];
+		    };
+		    case default {
+		        call compile format ["%1=%2;%2={diag_log(""RE %2 args:""+str(_this));_this call %1};",_nfn,_ofn];
+		    };
+		};
 		#endif
 	};
 }foreach TRACED_LIB;

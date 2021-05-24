@@ -1,11 +1,13 @@
 // (c) facoptere@gmail.com, licensed to DayZMod for the community
+private["_base","_ns_dayz","_list"];
 
 _base="z\addons\dayz_code\system\scheduler\";
+_ns_dayz="\nst\ns_dayz\code\system\scheduler\";
 call compile preprocessFileLineNumbers (_base+"sched_oneachframe.sqf");
 call compile preprocessFileLineNumbers (_base+"sched_throwable.sqf");
 call compile preprocessFileLineNumbers (_base+"sched_bloodstains.sqf");
 call compile preprocessFileLineNumbers (_base+"sched_animals.sqf");
-call compile preprocessFileLineNumbers (_base+"sched_buriedZeds.sqf");
+call compile preprocessFileLineNumbers (_ns_dayz+"sched_buriedZeds.sqf");
 call compile preprocessFileLineNumbers (_base+"sched_gravity.sqf");
 call compile preprocessFileLineNumbers (_base+"sched_newDay.sqf");
 call compile preprocessFileLineNumbers (_base+"sched_spawnCheck.sqf");
@@ -22,7 +24,7 @@ if (dayz_antihack == 1) then {
 };
 
 if (dayz_townGenerator) then {
-	call compile preprocessFileLineNumbers (_base+"sched_towngenerator.sqf");
+	call compile preprocessFileLineNumbers (_ns_dayz+"sched_towngenerator.sqf");
 	call compile preprocessFileLineNumbers (_base+"sched_planthint.sqf");
 };
 
@@ -43,7 +45,7 @@ if (count _list == 0) then {
 	 [ 15,	 	3,		sched_humanityChange ],
 	 //[ 3,		2.70,	sched_achievement, sched_achievement_init ],
 	 [ 4,		2.38,	sched_bloodStains, sched_bloodStains_init ],
-	 [ 60, 	   10.44,	sched_animals ],
+	 [ 1200, 	10.44,	sched_animals ],
 	 [ 10, 	    5.44,	sched_medical_slow ],
 	 [ 15, 	   35.44,	sched_buildingBubble ],
 	 [ 60, 	   20.44,	sched_newDay ],

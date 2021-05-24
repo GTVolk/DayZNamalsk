@@ -1,4 +1,4 @@
-private ["_hunger","_thirst","_timeOut","_result","_randomSpot","_distance","_mylastPos","_lastTemp","_rnd","_messTimer","_PlayerNearby","_ZedsNearby","_saveTime"];
+private ["_hunger","_thirst","_timeOut","_result","_randomSpot","_distance","_mylastPos","_lastTemp","_rnd","_messTimer","_PlayerNearby","_ZedsNearby","_saveTime", "_refObj", "_outOfBound", "_plPos2D", "_isInA2", "_calc_dist_2d"];
 disableSerialization;
 _timeOut = 0;
 _messTimer = 0;
@@ -10,12 +10,20 @@ _timer30 = diag_Ticktime;
 _timer150 = diag_ticktime;
 _timerMonitor = diag_ticktime;
 
+waitUntil { player == player };
 player setVariable ["temperature",dayz_temperatur,true];
 
 [0,0] call player_humanityChange;
 
 //player addMagazine "Hatchet_swing";
 //player addWeapon "MeleeHatchet";
+
+_calc_dist_2d = {
+	private["_p1", "_p2"];
+	_p1 = _this select 0;
+	_p2 = _this select 1;
+	sqrt ((((_p1 select 0) - (_p2 select 0)) * ((_p1 select 0) - (_p2 select 0))) + (((_p1 select 1) - (_p2 select 1)) * ((_p1 select 1) - (_p2 select 1))))
+};
 
 while {1 == 1} do {
 	_start = diag_tickTime;
@@ -30,6 +38,14 @@ while {1 == 1} do {
 	//reset rating always
 	if (((rating player) > 0) or ((rating player) < 0)) then {
 		player setUnitRank "PRIVATE";
+	};
+
+	if (_refObj != player) then {
+		if ( (isEngineOn _refObj) && (!(_refObj isKindOf "Bicycle")) ) then {
+			[player,50,true,(getPosATL player)] call player_alertZombies;
+		} else {
+			[player,5,true,(getPosATL player)] call player_alertZombies;
+		};
 	};
 
 	dayz_myLoad = (((count dayz_myBackpackMags) * 0.2) + (count dayz_myBackpackWpns)) + (((count dayz_myMagazines) * 0.1) + (count dayz_myWeapons * 0.5));
@@ -129,7 +145,7 @@ while {1 == 1} do {
 	dayz_thirst = dayz_thirst + (_thirst / 60) * (dayz_temperatur / dayz_temperaturnormal);	//TeeChange Temperatur effects added Max Effects: -25% and + 16.6% waterloss
 	dayz_thirst = (dayz_thirst min SleepWater) max 0;
 	
-	//diag_log format ["playerSpawn2 %1/%2",dayz_hunger,dayz_thirst];
+	//diag_log format ["playerSpawn2 (Hunger/Thirst) %1 / %2", dayz_hunger, dayz_thirst];
 	
 	//Calories
 	if (dayz_nutrition > 0) then {
@@ -142,6 +158,8 @@ while {1 == 1} do {
 		r_player_Nutrition = 0;
 	};
 	dayz_nutrition = r_player_Nutrition;
+
+	//diag_log format ["playerSpawn2 (Nutrition) %1 / %2", dayz_nutrition];
 	
 	//Temperatur
 	2 call player_temp_calculation; //2 = sleep time of this loop //TeeChange
@@ -155,6 +173,8 @@ while {1 == 1} do {
 	};
 	dayz_temperatur = (dayz_temperatur min dayz_temperaturmax) max dayz_temperaturmin;
 
+	//diag_log format ["playerSpawn2 (Temperature Current/Min/Max/Normal) %1 / %2 / %3 / %4", dayz_temperatur, dayz_temperaturmin, dayz_temperaturmax, dayz_temperaturnormal];
+
 	//can get nearby infection
 	if (!r_player_infected) then {
 		//	Infectionriskstart
@@ -162,9 +182,11 @@ while {1 == 1} do {
 			{
 				if (_x getVariable["USEC_infected",false]) then {
 					_rnd = (random 1) * (((dayz_temperaturnormal - dayz_temperatur) * (100 /(dayz_temperaturnormal - dayz_temperaturmin)))/ 50);	//TeeChange
-					if (_rnd < 0.1) then {
+					//diag_log format ["playerSpawn2 (Temperature Infection Nearby Chance) %1 < 0.05 check", _rnd];
+					if (_rnd < 0.05) then {
 						_rnd = random 1;
-						if (_rnd > 0.7) then {
+						//diag_log format ["playerSpawn2 (Temperature Infection Nearby Chance) %1 > 0.9 check", _rnd];
+						if (_rnd > 0.9) then {
 							r_player_infected = true;
 							//player setVariable["USEC_infected",true];
 						};
@@ -173,9 +195,11 @@ while {1 == 1} do {
 			} count (_mylastPos nearEntities ["CAManBase",12]);
 			if (dayz_temperatur < ((50 / 100) * (dayz_temperaturnormal - dayz_temperaturmin) + dayz_temperaturmin)) then { //TeeChange
 				_rnd = (random 1) * (((dayz_temperaturnormal - dayz_temperatur) * (100 /(dayz_temperaturnormal - dayz_temperaturmin)))/ 25);	//TeeChange
-				if (_rnd < 0.05) then {
+				//diag_log format ["playerSpawn2 (Temperature Infection Chance) %1 < 0.1", _rnd];
+				if (_rnd < 0.1) then {
 					_rnd = random 1;
-					if (_rnd > 0.95) then {
+					//diag_log format ["playerSpawn2 (Temperature Infection Chance) %1 > 0.9", _rnd];
+					if (_rnd > 0.9) then {
 						r_player_infected = true;
 						//player setVariable["USEC_infected",true];
 					};
@@ -184,10 +208,42 @@ while {1 == 1} do {
 		};
 	};	
 
+	if (dayz_temperatur < ((2 / 10) * (dayz_temperaturnormal - dayz_temperaturmin) + dayz_temperaturmin)) then {
+	    //diag_log format ["playerSpawn2  Player is freezing..."];
+	    r_player_blood = r_player_blood - 5;
+
+		_rnd = (random 1);
+		//diag_log format ["playerSpawn2 (Hypothermia Unconscious) %1 < 0.01", _rnd];
+		if (_rnd < 0.01) then {
+			_rnd = (random 1);
+			if (_rnd > 0.9) then {
+			    _rnd = (random 15);
+                [player, _rnd] call fnc_usec_damageUnconscious;
+                localize "str_dzn_faint_from_hypothermia" call dayz_rollingMessages;
+                r_player_blood = r_player_blood - 1000;
+			};
+		};
+	};
+
 	//If has infection reduce blood cough and add shake
 	if (r_player_infected) then {
-		if !(player getVariable["USEC_infected",false]) then {
-			player setVariable["USEC_infected",true,true];
+	    if (dayz_temperatur > (dayz_temperaturmax - ((3 / 10) * (dayz_temperaturnormal - dayz_temperaturmin)))) then { //TeeChange
+            _rnd = random 1;	//TeeChange
+            //diag_log format ["playerSpawn2 (Temperature Cure Chance) %1 < 0.1", _rnd];
+            if (_rnd < 0.1) then {
+                _rnd = random 1;
+                //diag_log format ["playerSpawn2 (Temperature Cure Chance) %1 > 0.9", _rnd];
+                if (_rnd > 0.9) then {
+                    r_player_infected = false;
+                    player setVariable["USEC_infected",false,true];
+                };
+            };
+        };
+
+        if (r_player_infected) then {   // Double checked variable
+            if !(player getVariable["USEC_infected",false]) then {
+                player setVariable["USEC_infected",true,true];
+            };
 		};
 	};
 
@@ -274,17 +330,56 @@ while {1 == 1} do {
 	if ({isPlayer _x} count (player nearEntities ["AllVehicles", 5]) > 1) then {
 		_PlayerNearby = true;
 	};
-	if (count (player nearEntities ["zZombie_Base", 10]) > 0) then {
+	if (count (player nearEntities ["zZombie_Base", 10]) > 0 || count (player nearEntities ["ns_bloodsucker", 20]) > 0) then {
 		_ZedsNearby = true;
 	};
 
+	_plPos2D = getPosATL player;
+	_plPos2D set [2, 0];
+
+    _outOfBound = false;
+    _isInA2 = false;
+    _blowOut = false;
+
+    if ((toLower worldName) == "namalsk") then {
+        _outOfBound =
+            ([_plPos2D, [7080.3149,6560.1582, 0]] call _calc_dist_2d) > 2000 &&
+            ([_plPos2D, [7104.1665,8114.1445, 0]] call _calc_dist_2d) > 2000 &&
+            ([_plPos2D, [7759.1899,10245.227, 0]] call _calc_dist_2d) > 2000 &&
+            ([_plPos2D, [6890.6489,10751.282, 0]] call _calc_dist_2d) > 2000 &&
+            ([_plPos2D, [5028.1914,10172.437, 0]] call _calc_dist_2d) > 2000 &&
+            ([_plPos2D, [3825.1130,8158.0527, 0]] call _calc_dist_2d) > 2000 &&
+            ([_plPos2D, [3165.7341,6467.8218, 0]] call _calc_dist_2d) > 2000 &&
+            ([_plPos2D, [4750.5581,6085.7827, 0]] call _calc_dist_2d) > 2000;
+
+        _isInA2 = ([_plPos2D, [4977.15,6624.89, 0]] call _calc_dist_2d) < 80;
+
+        if (!(isNil "ns_blow_prep") && !(isNil "ns_blow_status")) then {
+            _blowOut = (ns_blow_prep || ns_blow_status);
+        };
+	};
+
 	_startcombattimer = player getVariable["startcombattimer", 0];
-	if (_startcombattimer == 1 || _PlayerNearby) then {
+	if (_startcombattimer == 1 || _PlayerNearby || _outOfBound || _isInA2 || _blowOut) then {
 		player setVariable["combattimeout", diag_tickTime + 30, false];
 		player setVariable["startcombattimer", 0, false];
+
+		if (!isNull findDisplay 49) then {
+			if (_outOfBound) then {
+				systemChat localize "str_dzn_exit_outbound";
+			};
+
+			if (_isInA2) then {
+				systemChat localize "str_dzn_exit_a2";
+			};
+
+			if (_blowOut) then {
+                systemChat localize "str_dzn_exit_blowout";
+            };
+		};
 	} else {
 		if (_ZedsNearby) then {
-			player setVariable["combattimeout", diag_tickTime + 10, false];
+			player setVariable["combattimeout", diag_tickTime + 15, false];
 			player setVariable["startcombattimer", 0, false];
 		};
 	};
@@ -312,6 +407,8 @@ while {1 == 1} do {
 			//Other Counters
 		dayz_currentGlobalAnimals = count entities "CAAnimalBase";
 		dayz_currentGlobalZombies = count entities "zZombie_Base";
+		dayz_nc_currentGlobalBloodsuckers = count entities "ns_bloodsucker";
+
 		_zeds = _position nearEntities ["zZombie_Base",200];
 		dayz_spawnZombies = 0;
 		dayz_CurrentNearByZombies = 0;
@@ -333,15 +430,15 @@ while {1 == 1} do {
 		{
 			//get contents
 			_weapons = getWeaponCargo _x;
-			diag_log (str(_weapons));
+			//diag_log (str(_weapons));
 			_magazines = getMagazineCargo _x;
-			diag_log (str(_magazines));
+			//diag_log (str(_magazines));
 			_backpacks = getBackpackCargo _x;
-			diag_log (str(_backpacks));
+			//diag_log (str(_backpacks));
 			
 			if ((count (_weapons select 0) < 1) and (count (_magazines select 0) < 1) and (count (_backpacks select 0) < 1)) then {
 				//remove vehicle, Need to ask server to remove.
-				diag_log format["Deleting empty nearby box: %1",_x];
+				//diag_log format["Deleting empty nearby box: %1",_x];
 				PVDZ_obj_Delete = [_x,player];
 				publicVariableServer "PVDZ_obj_Delete";
 			};

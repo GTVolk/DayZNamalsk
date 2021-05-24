@@ -16,7 +16,7 @@ while {true} do {
 		if (!isNil "dayZ_serverName") then {
 			5 cutRsc ["wm_disp","PLAIN"];
 			_watermark = (uiNamespace getVariable "wm_disp") displayCtrl 1;
-			_watermark ctrlSetText dayZ_serverName;
+			_watermark ctrlSetStructuredText parseText (format["<t valign='bottom' size='0.8'> %1</t>", dayZ_serverName]);
 			if (profileNamespace getVariable ["streamerMode",0] == 1) then {_watermark ctrlShow false;};
 		};
 		

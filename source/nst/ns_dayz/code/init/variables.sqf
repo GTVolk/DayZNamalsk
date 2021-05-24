@@ -23,7 +23,7 @@ Message_3_time = 0;
 OpenTarget_Time = 0;
 
 ///Player classes
-AllPlayers = ["Survivor_DZ","Survivor1_DZ","SurvivorW2_DZ","Survivor2_DZ","Sniper1_DZ","Soldier1_DZ","Camo1_DZ","BanditW1_DZ","Bandit1_DZ","Survivor3_DZ"];
+AllPlayers = ["Survivor_DZ","Survivor1_DZ","SurvivorW2_DZ","Survivor2_DZ","Sniper1_DZ","Soldier1_DZ","Camo1_DZ","BanditW1_DZ","Bandit1_DZ","Survivor3_DZ", "CamoWinter_DZN", "CamoWinterW_DZN", "Sniper1W_DZN"];
 DayZ_Male = ["Survivor_DZ","Survivor1_DZ","Survivor2_DZ","Survivor3_DZ","Sniper1_DZ","Soldier1_DZ","Camo1_DZ","Bandit1_DZ"];
 DayZ_Female = ["SurvivorW2_DZ","BanditW1_DZ"];
 
@@ -47,6 +47,7 @@ DayZ_RestingAnims = ["amovpsitmstpsnonwpstdnon_ground","amovpsitmstpsnonwpstdnon
 dayz_typedBags = ["bloodTester","bloodBagANEG","bloodBagAPOS","bloodBagBNEG","bloodBagBPOS","bloodBagABNEG","bloodBagABPOS","bloodBagONEG","bloodBagOPOS","wholeBloodBagANEG","wholeBloodBagAPOS","wholeBloodBagBNEG","wholeBloodBagBPOS","wholeBloodBagABNEG","wholeBloodBagABPOS","wholeBloodBagONEG","wholeBloodBagOPOS"];
 dayz_playerAchievements = []; //[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 dayz_trees = ["ind_timbers.p3d","t_picea2s_snow.p3d","b_corylus.p3d","t_quercus3s.p3d","t_larix3s.p3d","t_pyrus2s.p3d","str_briza_kriva.p3d","dd_borovice.p3d","les_singlestrom_b.p3d","les_singlestrom.p3d","smrk_velky.p3d","smrk_siroky.p3d","smrk_maly.p3d","les_buk.p3d","str krovisko vysoke.p3d","str_fikovnik_ker.p3d","str_fikovnik.p3d","str vrba.p3d","hrusen2.p3d","str dub jiny.p3d","str lipa.p3d","str briza.p3d","p_akat02s.p3d","jablon.p3d","p_buk.p3d","str_topol.p3d","str_topol2.p3d","p_osika.p3d","t_picea3f.p3d","t_picea2s.p3d","t_picea1s.p3d","t_fagus2w.p3d","t_fagus2s.p3d","t_fagus2f.p3d","t_betula1f.p3d","t_betula2f.p3d","t_betula2s.p3d","t_betula2w.p3d","t_alnus2s.p3d","t_acer2s.p3d","t_populus3s.p3d","t_quercus2f.p3d","t_sorbus2s.p3d","t_malus1s.p3d","t_salix2s.p3d","t_picea1s_w.p3d","t_picea2s_w.p3d","t_ficusb2s_ep1.p3d","t_populusb2s_ep1.p3d","t_populusf2s_ep1.p3d","t_amygdalusc2s_ep1.p3d","t_pistacial2s_ep1.p3d","t_pinuse2s_ep1.p3d","t_pinuss3s_ep1.p3d","t_prunuss2s_ep1.p3d","t_pinusn2s.p3d","t_pinusn1s.p3d","t_pinuss2f.p3d","t_poplar2f_dead_pmc.p3d","misc_torzotree_pmc.p3d","misc_burnspruce_pmc.p3d","brg_cocunutpalm8.p3d","brg_umbrella_acacia01b.p3d","brg_jungle_tree_canopy_1.p3d","brg_jungle_tree_canopy_2.p3d","brg_cocunutpalm4.p3d","brg_cocunutpalm3.p3d","palm_01.p3d","palm_02.p3d","palm_03.p3d","palm_04.p3d","palm_09.p3d","palm_10.p3d","brg_cocunutpalm2.p3d","brg_jungle_tree_antiaris.p3d","brg_cocunutpalm1.p3d","str habr.p3d","brg_bird_1.p3d","brg_bird_2.p3d","brg_bird_3.p3d","brg_umbrella_acacia02b.p3d","brg_africandoumpalm_1.p3d","brg_umbrella_acacia04b.p3d","brg_datepalm_4.p3d","brg_datepalm_1.p3d","brg_umbrella_acacia03b.p3d","brg_bottle_4.p3d","brg_aloe1.p3d","brg_umbrella_acacia03.p3d","brg_umbrella_acacia01.p3d","brg_umbrella_acacia04.p3d","brg_aloe2.p3d","brg_umbrella_acacia02.p3d","brg_aloe3.p3d","brg_bottle_1.p3d","brg_datepalm_3.p3d","brg_datepalm_2.p3d","brg_baobab_1.p3d","brg_bottle_2.p3d","brg_bottle_3.p3d","t_fraxinus2s.p3d","t_carpinus2s.p3d"];
+SecondaryWeapons = ["Revolver_DZ","PDW_DZ","Makarov_DZ","Makarov_SD_DZ","M1911_DZ","M9_DZ","M9_SD_DZ","G17_DZ","G17_FL_DZ","G17_MFL_DZ","G17_SD_DZ","G17_SD_FL_DZ","G17_SD_MFL_DZ"];
 
 Dayz_meatraw =
 [
@@ -175,6 +176,7 @@ dayz_resetSelfActions = {
 	s_player_setCode = -1;
 	s_player_BuildUnLock = -1;
 	s_player_BuildLock = -1;
+	s_player_suicide = -1;
 };
 call dayz_resetSelfActions;
 
@@ -294,7 +296,7 @@ dayz_maxPlants = 3;
 dayz_animalDistance = 600;
 dayz_plantDistance = 600;
 
-dayz_maxMaxModels = 80; // max quantity of Man models (player or Z, dead or alive) around players. Below this limit we can spawn Z // max quantity of loot piles around players. Below this limit we can spawn some loot
+dayz_maxMaxModels = 150; // max quantity of Man models (player or Z, dead or alive) around players. Below this limit we can spawn Z // max quantity of loot piles around players. Below this limit we can spawn some loot
 dayz_cantseeDist = 150; // distance from which we can spawn a Z in front of any player without ray-tracing and angle checks
 dayz_cantseefov = 70; // half player field-of-view. Visible Z won't be spawned in front of any near players
 dayz_canDelete = 350; // Z, further than this distance from its "owner", will be deleted
@@ -489,9 +491,9 @@ if (!isDedicated) then {
 	dayz_heartBeat = false;
 	dayz_spawnZombies = 0; // Current local
 	dayz_swarmSpawnZombies = 0;
-	dayz_maxLocalZombies = 15; // max quantity of Z controlled by local gameclient, used by player_spawnCheck. Below this limit we can spawn Z
+	dayz_maxLocalZombies = 20; // max quantity of Z controlled by local gameclient, used by player_spawnCheck. Below this limit we can spawn Z
 	dayz_CurrentNearByZombies = 0;
-	dayz_maxNearByZombies = 30; // max quantity of Z controlled by local gameclient, used by player_spawnCheck. Below this limit we can spawn Z
+	dayz_maxNearByZombies = 40; // max quantity of Z controlled by local gameclient, used by player_spawnCheck. Below this limit we can spawn Z
 	dayz_currentGlobalZombies = 0; // Current total
 	if(isNil "dayz_maxGlobalZeds") then {
 		dayz_maxGlobalZeds = 1000;
@@ -501,11 +503,11 @@ if (!isDedicated) then {
 	dayz_maxGlobalAnimals =	50;
 	//Plants	
 	dayz_currentGlobalPlants = 0;
-	dayz_maxGlobalPlants = 500;
+	dayz_maxGlobalPlants = 100;
 	//Loot
 	r_player_divideinvehicle = 0;
 	dayz_currentWeaponHolders = 0;
-	dayz_maxMaxWeaponHolders = 80;
+	dayz_maxMaxWeaponHolders = 250;
 	dayz_inVehicle = false;
 	dayz_unsaved = false;
 	dayz_scaleLight = 0;
@@ -522,4 +524,30 @@ if (!isDedicated) then {
 	skipGearSound = false;
 	TimeOutDisplayed = false;
 	playerHumanityCHK = 0;
+
+	// DayZ: Namalsk
+	if (isNil "dayz_nc_lootTable") then {
+	    dayz_nc_lootTable = "CfgLootNamalsk";
+	};
+	dzn_ns_bloodsucker = true;
+    dzn_ns_bloodsucker_tick = diag_tickTime;
+	dayz_nc_currentGlobalBloodsuckers = 0; // Current total
+    if(isNil "dayz_nc_maxGlobalBloodsuckers") then {
+    	dayz_nc_maxGlobalBloodsuckers = 5;
+    };
+    if(isNil "dayz_nc_BloodsuckerChance") then {
+    	dayz_nc_BloodsuckerChance = 0.25;
+    };
+    if(isNil "dayz_nc_BloodsuckerTimeout") then {
+        dayz_nc_BloodsuckerTimeout = 600;
+    };
+    ns_aii_l_status = 1;
+    ns_blow_ambient_music = false;
+    ns_blowout_dayz = true;
+    if(isNil "ns_blowout") then {
+        ns_blowout = true;
+    };
+    if(isNil "ns_blow_delaymod") then {
+        ns_blow_delaymod = 1;
+    };
 };

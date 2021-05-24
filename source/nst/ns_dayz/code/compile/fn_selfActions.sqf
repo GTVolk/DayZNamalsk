@@ -94,13 +94,24 @@ if ((_primaryWeapon in Dayz_fishingItems) && {!dayz_fishingInprogress} && {_inVe
 //Allows drinking from hands at ponds and ambient wells, but may negatively impact performance
 if (_canDo && !_inVehicle && !dayz_isSwimming && ((call fn_nearWaterHole) select 0)) then {
 	if (s_player_Drinkfromhands < 0) then {
-		s_player_Drinkfromhands = player addAction [localize "STR_ACTIONS_DRINK2", "\z\addons\dayz_code\actions\water_fill.sqf","hands", 0.5, false, true];
+		s_player_Drinkfromhands = player addAction [localize "STR_ACTIONS_DRINK2", "\nst\ns_dayz\code\actions\water_fill.sqf","hands", 0.5, false, true];
 	};
 } else {
 	if (s_player_Drinkfromhands >= 0) then {
 		player removeAction s_player_Drinkfromhands;
 		s_player_Drinkfromhands = -1;
 	};
+};
+
+if(_canDo && !_inVehicle && (speed player <= 1) && ((currentWeapon player) in SecondaryWeapons) && (player ammo (currentWeapon player) > 0)) then {
+    if (s_player_suicide < 0) then {
+        s_player_suicide = player addAction [format[localize "str_dzn_actions_suicide",_text],"\nst\ns_dayz\code\actions\suicide.sqf",(currentWeapon player),0,false,true];
+    };
+} else {
+    if (s_player_suicide >= 0) then {
+    	player removeAction s_player_suicide;
+    	s_player_suicide = -1;
+    };
 };
 
 // Increase distance only if AIR or SHIP
@@ -407,7 +418,7 @@ if (!isNull _cursorTarget && !_inVehicle && (player distance _cursorTarget < _al
 	//Break In
 	if ((_isHouse or _isLockableGate) && (_ownerPID != _uid) && !_isUnlocked && !_isActionInProgress) then {
 		if (s_player_breakinhouse < 0) then {
-			s_player_breakinhouse = player addAction [localize "STR_BLD_ACTIONS_BREAKIN", "\z\addons\dayz_code\actions\player_breakin.sqf",_cursorTarget, 1, true, true];
+			s_player_breakinhouse = player addAction [localize "STR_BLD_ACTIONS_BREAKIN", "\nst\ns_dayz\code\actions\player_breakin.sqf",_cursorTarget, 1, true, true];
 		};
 	} else {
 		player removeAction s_player_breakinhouse;

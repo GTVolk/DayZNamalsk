@@ -105,7 +105,7 @@ if (_unit == player) then {
 			// - Accidental Murder - \\  When wearing the garb of a non-civilian you are taking your life in your own hands
 			// Attackers humanity should not be punished for killing a survivor who has shrouded his identity in military garb.
 
-			_punishment = (_isBandit or {player getVariable ["OpenTarget",false]} or {_model in ["Sniper1_DZ","Soldier1_DZ","Camo1_DZ"]});
+			_punishment = (_isBandit or {player getVariable ["OpenTarget",false]} or {_model in ["Sniper1_DZ","Sniper1W_DZN","CamoWinter_DZN","CamoWinterW_DZN","Soldier1_DZ","Camo1_DZ"]});
             _humanityHit = 0;
 
             if (!_punishment) then {
@@ -224,7 +224,7 @@ _scale = 200;
 if (_damage > 0.4) then {    
 	//Scale damage based on headhits.
     if (_isHeadHit) then {
-        _scale = _scale * 2; //700 = Normal, 900 = Viral, 500 = wild
+        _scale = _scale * 4; //700 = Normal, 900 = Viral, 500 = wild
     };
     
     //End body part scale
@@ -246,7 +246,7 @@ if (_damage > 0.4) then {
 	//Explosions
         case 1: {_scale = _scale + 300};
 	//Bullet types
-        case 2: {_scale = _scale + 150};
+        case 2: {_scale = _scale + 250};
 	//Zombies
 		case 3: {_scale = getNumber (configFile >> "CfgVehicles" >> _sourceType >> "damageScale"); if (dayz_DamageMultiplier > 1) then {_scale = _scale * dayz_DamageMultiplier;};};
 	//RunOver

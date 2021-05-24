@@ -9,10 +9,6 @@ _damage = _this select 2;
 _hitter = _this select 3;
 _projectile = _this select 4;
 
-if (_projectile in MeleeAmmo) then {
-	_damage = _damage * 10;
-};
-
 if (local _zed) then {
 	if (_damage > 1 and _projectile != "") then {
 		//Record deliberate critical damages

@@ -41,10 +41,10 @@ _water = "containerwater" + _water;
 _filled = 0;
 
 if (_container == "hands") then {
-	_chance = 0.03;
+	_chance = 0.3;
 	_recover = 150;
 } else {
-	_chance = 0.06;
+	_chance = 0.1;
 	_recover = 300;
 };
 

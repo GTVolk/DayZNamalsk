@@ -34,7 +34,7 @@ _end = false;
 
 //[ChanceToBreakin,SledgeChance,CowbarChance]
 _values = switch (1==1) do {
-    case (_isWoodenGate): { [0.07,0.30,0.20] };
+    case (_isWoodenGate): { [0.07,0.15,0.10] };
     case (_isMetalGate): { [0.03,0.15,0.10] };
     default { [] };
 };
@@ -46,8 +46,8 @@ _breakinChance = [(_values select 0)] call fn_chance;
 
 while {_isOk} do {
 //check chance, for a maximum amount of 5 loops allowing 5 possiable chances to breakin we also now divide the max chance by the amount of trys. 
-	_sledgeChance = [((_values select 1) / _limit)] call fn_chance;
-	_crowBarChance = [((_values select 2) / _limit)] call fn_chance;
+	_sledgeChance = [(_values select 1)] call fn_chance;
+	_crowBarChance = [(_values select 2)] call fn_chance;
 	
 //Check if we have the tools to start
 	_hasSledgeHammer = "ItemSledgeHammer" in items player;

@@ -1,4 +1,4 @@
-private ["_brokenEquipType","_equipTypeStr","_reppedEquipType"];
+private ["_field","_itemType","_brokenEquipType","_equipTypeStr","_reppedEquipType","_onLadder","_bp","_content","_objWpnTypes","_objWpnQty","_x","_y","_hasEnough","_wpnType","_wpnCoun","_hasTools"];
 _field = _this select 1;
 _itemType = _field select 0;
 switch (_itemType) do {
@@ -31,10 +31,10 @@ if (_hasEnough) then {
 		if (player hasWeapon "ItemToolbox") then {
 			_hasTools = true;
 		} else {
-			cutText ["You need to have a tool box to combine & repair the broken equipment.", "PLAIN DOWN"];
+			cutText [localize "STR_DZN_REPAIR_TOOLBOX_NEEDED", "PLAIN DOWN"];
 		};
 	} else {
-		cutText ["You need to have a solder to combine & repair the broken equipment.", "PLAIN DOWN"];
+		cutText [localize "STR_DZN_REPAIR_SOLDER_NEEDED", "PLAIN DOWN"];
 	};
 	if (_hasTools) then {
 		clearWeaponCargoGlobal _bp;
@@ -54,8 +54,8 @@ if (_hasEnough) then {
 		player playActionNow "PutDown";
 		sleep 4;
 		_bp addWeaponCargoGlobal [_reppedEquipType, 1];
-		cutText [format ["You successfully combined & repaired 2 broken %1 into 1 functional.", _equipTypeStr], "PLAIN DOWN"];
+		cutText [format [localize "STR_DZN_REPAIR_SUCCESS", _equipTypeStr], "PLAIN DOWN"];
 	};
 } else {
-	cutText [format ["You don't have enough broken %1 to create one functional. (make sure the broken equipment is in backpack)", _equipTypeStr], "PLAIN DOWN"];
+	cutText [format [localize "STR_DZN_REPAIR_FAIL_NO_ITEMS", _equipTypeStr], "PLAIN DOWN"];
 };

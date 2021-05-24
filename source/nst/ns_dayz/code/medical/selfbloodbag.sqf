@@ -1,8 +1,10 @@
-private ["_unit","_blood","_lowBlood","_injured","_inPain","_animState","_started","_finished","_timer","_i","_isMedic","_isClose","_duration","_rhVal","_bloodBagArrayNeeded","_BBneeded","_bbselect","_bloodBagNeeded","_badBag","_wholeBag","_bagFound","_bagToRemove","_forceClose","_bloodType","_rh","_bloodBagArray","_bbarray_length","_bloodBagWholeNeeded","_haswholebag","_r"];
+private ["_unit","_blood","_lowBlood","_injured","_inPain","_animState","_started","_finished","_timer","_i","_isMedic","_isClose","_duration","_rhVal","_bloodBagArrayNeeded","_BBneeded","_bbselect","_bloodBagNeeded","_badBag","_wholeBag","_bagFound","_bagToRemove","_forceClose","_bloodType","_rh","_bloodBagArray","_bbarray_length","_bloodBagWholeNeeded","_haswholebag","_r","_bagBloodType","_bagBloodRS"];
 
 // bleed.sqf
 _unit = _this select 0;
 _bagUsed = _this select 1;
+_bagBloodType = _this select 2;
+_bagBloodRS = _this select 3;
 
 _blood = _unit getVariable ["USEC_BloodQty", 0];
 _lowBlood = _unit getVariable ["USEC_lowBlood", false];
@@ -21,29 +23,44 @@ _wholeBag = false;
 _bagFound = false;
 _BBneeded = false;
 _forceClose = false;
-
-
-if (_blood <= 4000) then {
-	_duration = 3;
-	} else {
-	_duration = 2;
-};
+_duration = 120;
 
 _bloodBagArray = ["wholeBloodBagANEG","wholeBloodBagAPOS","wholeBloodBagBNEG","wholeBloodBagBPOS","wholeBloodBagABNEG","wholeBloodBagABPOS","wholeBloodBagONEG","wholeBloodBagOPOS"];
 
 if (_rh) then {_rhVal = "POS";} else {_rhVal = "NEG";};
 
 
-//No subs for whole blood :(
-_bloodBagWholeNeeded = "wholeBloodBag" + _bloodType + _rhVal;
-_haswholebag = _bloodBagWholeNeeded in magazines player;
-
-if (_haswholebag) then {
-	_wholeBag = true;
-} else {
+// Fix
+if (_rhVal == "NEG" && _bagBloodRS == "POS") then {
 	_badBag = true;
+} else {
+	if (_bloodType == "O") then {
+		if (_bagBloodType == "O") then {
+			_wholeBag = true;
+		} else {
+			_badBag = true;
+		};
+	};
+	if (_bloodType == "A") then {
+		if (_bagBloodType == "O" || _bagBloodType == "A") then {
+			_wholeBag = true;
+		} else {
+			_badBag = true;
+		};
+	};
+	if (_bloodType == "B") then {
+		if (_bagBloodType == "O" || _bagBloodType == "B") then {
+			_wholeBag = true;
+		} else {
+			_badBag = true;
+		};
+	};
+	if (_bloodType == "AB") then {
+		_wholeBag = true;
+	};
 };
 
+_bloodBagWholeNeeded = "wholeBloodBag" + _bagBloodType + _bagBloodRS;
 if (dayz_classicBloodBagSystem) then {_wholeBag = true; _badBag = false;};
 
 call fnc_usec_medic_removeActions;
@@ -108,8 +125,20 @@ while {r_doLoop and (_i < 12)} do {
 					//publicVariableServer "PVDZ_send";
 				};
 			} else {
-				if (!_forceClose and (_i >= 12)) then {
+				if (!_forceClose) then {
 					[_unit, _duration] call fnc_usec_damageUnconscious;
+
+					r_player_infected = true;
+					player setVariable["USEC_infected",true,true];
+
+					localize "str_dzn_bad_blood_transfused" call dayz_rollingMessages;
+
+					while { r_player_blood > 500 } do {
+						r_player_blood = r_player_blood - 100;
+						sleep 0.5;
+					};
+
+					_i = 24;
 				};
 			};
 		};

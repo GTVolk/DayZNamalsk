@@ -33,7 +33,7 @@ if (_anim4 == "aswm") then {
 _initial = 20 + (sunOrMoon * 20);
 
 _scaleLight = (
-	(sunOrMoon * 2) //add sunlight
+	(sunOrMoon * 1.5) //add sunlight
 	+ moonIntensity //add moonlight
 	- (overcast * 0.2) //remove for cloud state
 	- (rain * 0.2) //remove for rain state

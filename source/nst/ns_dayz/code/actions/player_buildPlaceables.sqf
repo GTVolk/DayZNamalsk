@@ -65,6 +65,7 @@ if (!_ok) exitWith {
 
 // lets check player has requiredParts for upgrade
 _ok = true;
+_missing = "";
 _upgradeParts = [];
 {
 	if (!(_x IN magazines player)) exitWith {

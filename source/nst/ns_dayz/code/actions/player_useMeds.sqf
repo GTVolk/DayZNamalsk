@@ -70,28 +70,28 @@ switch (_item) do {
 		_id = [0,0,0,[player,"ItemSepsisBandage"]] execVM "\z\addons\dayz_code\medical\bandage.sqf";
 	};
 	case "wholeBloodBagANEG": {
-		_id = [player,"wholeBloodBagANEG"] execVM "\z\addons\dayz_code\medical\selfbloodbag.sqf";
+		_id = [player,"wholeBloodBagANEG","A","NEG"] execVM "\nst\ns_dayz\code\medical\selfbloodbag.sqf";
 	};
 	case "wholeBloodBagAPOS": {
-		_id = [player,"wholeBloodBagAPOS"] execVM "\z\addons\dayz_code\medical\selfbloodbag.sqf";
+		_id = [player,"wholeBloodBagAPOS","A","POS"] execVM "\nst\ns_dayz\code\medical\selfbloodbag.sqf";
 	};
 	case "wholeBloodBagBNEG": {
-		_id = [player,"wholeBloodBagBNEG"] execVM "\z\addons\dayz_code\medical\selfbloodbag.sqf";
+		_id = [player,"wholeBloodBagBNEG","B","NEG"] execVM "\nst\ns_dayz\code\medical\selfbloodbag.sqf";
 	};
 	case "wholeBloodBagBPOS": {
-		_id = [player,"wholeBloodBagBPOS"] execVM "\z\addons\dayz_code\medical\selfbloodbag.sqf";
+		_id = [player,"wholeBloodBagBPOS","B","POS"] execVM "\nst\ns_dayz\code\medical\selfbloodbag.sqf";
 	};
 	case "wholeBloodBagABNEG": {
-		_id = [player,"wholeBloodBagABNEG"] execVM "\z\addons\dayz_code\medical\selfbloodbag.sqf";
+		_id = [player,"wholeBloodBagABNEG","AB","NEG"] execVM "\nst\ns_dayz\code\medical\selfbloodbag.sqf";
 	};
 	case "wholeBloodBagABPOS": {
-		_id = [player,"wholeBloodBagABPOS"] execVM "\z\addons\dayz_code\medical\selfbloodbag.sqf";
+		_id = [player,"wholeBloodBagABPOS","AB","POS"] execVM "\nst\ns_dayz\code\medical\selfbloodbag.sqf";
 	};
 	case "wholeBloodBagONEG": {
-		_id = [player,"wholeBloodBagONEG"] execVM "\z\addons\dayz_code\medical\selfbloodbag.sqf";
+		_id = [player,"wholeBloodBagONEG","O","NEG"] execVM "\nst\ns_dayz\code\medical\selfbloodbag.sqf";
 	};
 	case "wholeBloodBagOPOS": {
-		_id = [player,"wholeBloodBagOPOS"] execVM "\z\addons\dayz_code\medical\selfbloodbag.sqf";
+		_id = [player,"wholeBloodBagOPOS","O","POS"] execVM "\nst\ns_dayz\code\medical\selfbloodbag.sqf";
 	};
 	case "ItemBloodbag": {
 		_id = [player,"ItemBloodbag"] execVM "\z\addons\dayz_code\medical\selfbloodbag.sqf";

@@ -9,21 +9,21 @@
 "hideObject", "hint", "hintC", "kbAddTopic", "kbreact", "kbRemoveTopic", "kbtell", "land", "move", "moveIn", \
 "playAction", "playActionnow", "playmovenow", "playMusic", "playsound", "removeAction", \
 "removeAllWeapons", "setCaptive", "setCurrentTask", "setCurrentTaskArrays", "setDate", "setDir", "setGroupID", \
-"setMarkerPosLocal", "setObjectTexture", "setSimpleTaskDescription", "setTaskState", "setWPdesc", "setWPtype", \
+"setMarkerPosLocal", "setSimpleTaskDescription", "setTaskState", "setWPdesc", "setWPtype", \
 "showCommandingMenu", "sideChat", "sideRadio", "skiptime", "spawn", "switchAction", "switchCamera", "taskHint", \
 "titleCut", "Hangender"]
 #endif
 
 // Allowed commands
 #ifndef TRACED_LIB
-#define TRACED_LIB [ "execVM", "JIPexec", "JIPrequest", "say", "playmove", "switchmove", "titleText" ]
+#define TRACED_LIB [ "execVM", "JIPexec", "JIPrequest", "say", "playmove", "switchmove", "titleText", "setObjectTexture" ]
 // uncomment following line to log all incoming allowed RE
 #define RESEC_VERBOSE
 #endif
 
 // Special logic for execVM, only these whitelisted scripts will be spawned
 #ifndef WHITELISTED_EXECVM
-#define WHITELISTED_EXECVM [ ""ca\Modules\Functions\init.sqf"", ""ca\modules\Functions\init.sqf"", ""\CorePatch\CorePatch_Modules\Functions\init.sqf"" ]
+#define WHITELISTED_EXECVM [ ""ca\Modules\Functions\init.sqf"", ""ca\modules\Functions\init.sqf"", ""\CorePatch\CorePatch_Modules\Functions\init.sqf"", ""\nst\ns_modules\mutants\scripts\blood_dayz_att.sqf"" ]
 // uncomment and put in the array above if you want your server be able to kick players (not used in DayZ for now)
 //""ca\Modules\MP\data\scriptCommands\endMission.sqf"" 
 #endif
