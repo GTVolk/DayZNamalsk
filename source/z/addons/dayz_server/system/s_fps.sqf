@@ -1,10 +1,4 @@
-while {isServer} do {
-	while {isServer} do {
-		while {isServer} do {
-			diag_log ("DEBUG FPS  : " + str(diag_fps) );
-			sleep 181;
-		};
-	sleep 181;
-	};
-sleep 181;
+while {true} do {
+	diag_log format["SERVER FPS: %1  PLAYERS: %2",round diag_fps,playersNumber west];
+	uiSleep 360;
 };

@@ -1,176 +1,141 @@
-private ["_isAir", "_inVehicle", "_dateNow", "_age", "_force", "_nearbyBuildings", "_position", "_fpsbias", "_maxControlledZombies", "_maxManModels", "_maxWeaponHolders", "_controlledZombies", "_currentManModels", "_currentWeaponHolders", "_type", "_locationstypes", "_nearestCity", "_townname", "_nearbytype", "_markerstr", "_markerstr1", "_markerstr2", "_markerstr3", "_nearby", "_zombieSpawnCtr", "_suitableBld", "_spwndoneBld", "_negstampBld", "_recyAgt", "_findAgt", "_maxtoCreate", "_config", "_canLoot", "_dis", "_checkLoot", "_looted", "_qty", "_fairSize", "_zombied", "_tmp", "_radius", "_point", "_islocal"];
-
-// compute building footprint just to check if it could hide a Zombie
-_fairSize = {
-	private ["_boundingBox","_cornerLow","_cornerHi", "_burried"];
-
-	_boundingBox = boundingBox _this;
-
-	_cornerLow = _this ModeltoWorld (_boundingBox select 0);
-	_cornerHi = _this ModeltoWorld (_boundingBox select 1);
-	_burried = _cornerLow select 2;
-	_cornerLow set [2, _cornerHi select 2];
-	//diag_log(format["Model:%1  Height:%2  Cross width:%3  _burried:%4", typeOf _this, _cornerHi select 2, _cornerLow distance _cornerHi, _burried]);
-	((_burried < 0.1) AND {(((_cornerHi select 2) > 2.6) AND {((_cornerLow distance _cornerHi) > 7)})}) // container size as reference
-};
-
-// find agents to recycle
-_findAgt = {
-	private ["_plr","_types","_y", "_point", "_ahead"];
-
-	_plr = player;
-	_ahead = 0 max (dayz_canDelete - dayz_spawnArea);
-	_point = _plr modelToWorld [0, _ahead, 0]; // we will recycle more zombies located behind the player
-	recyclableAgt=[];
-
-	{
-		_y = _x getVariable ["agentObject",objNull];
-		if (!isNil "_y") then {
-			if (((alive _y) AND {(local _y)}) AND {((damage _y == 0) AND {(_y distance _point > dayz_spawnArea+_ahead)})}) then {
-				if (0 == {(_x != _plr) AND (_x distance _y < dayz_cantseeDist)} count playableUnits) then {
-					recyclableAgt set [count recyclableAgt, _y];
-				};
-			};
-		};
-	} forEach agents;
-
-	recyclableAgt
-};
-
-_isAir = vehicle player iskindof "Air";
-_inVehicle = ((vehicle player != player) AND ((speed player > 10) OR _isAir));
-_dateNow = (DateToNumber date);
+private ["_isWreck","_maxControlledZombies","_looted","_zombied","_doNothing","_spawnZedRadius","_serverTime","_age","_nearbyBuildings","_position","_speed","_radius","_maxlocalspawned","_maxWeaponHolders","_currentWeaponHolders","_maxtoCreate","_inVehicle","_isAir","_isLand","_isSea","_Controlledzeddivided","_totalcrew","_nearby","_type","_config","_canSpawn","_dis","_checkLoot","_islocal","_bPos","_zombiesNum"];
 _age = -1;
-_force = false;
-_nearbyBuildings = [];
-_position = getPosATL player;
-_sp4wnAroundObjects = ["building", "SpawnableWreck"];
-
-_fpsbias = (60-(60-(diag_fpsmin min 60))/1.5)/60;
-_maxControlledZombies = round(dayz_maxLocalZombies * _fpsbias);
-_maxManModels = round(dayz_maxMaxModels * _fpsbias);
-_maxWeaponHolders = round(dayz_maxMaxWeaponHolders * _fpsbias);
-
-if (_inVehicle) then {
-	_maxManModels = 10; // Z + players in vehicle
-};
-if (_isAir) then {
-	_maxManModels = 0; // won't even try to move recycled Z
-};
-_controlledZombies = {local (_x getVariable ["agentObject",objNull])} count agents;
-
-_currentManModels = count (_position nearEntities ["CAManBase",dayz_spawnArea]);
-_currentWeaponHolders = count (_position nearObjects ["ReammoBox",dayz_spawnArea]); // ReammoBox = parent of all kinds of item holders
-
-diag_log (format["%1 Loc.Agents: %2/%3. Models: %5/%6 W.holders: %9/%10 (radius:%7m %8fps).","SpawnCheck",
-	_controlledZombies, _maxControlledZombies, time - dayz_spawnWait, _currentManModels, _maxManModels,
-	dayz_spawnArea, round diag_fpsmin, _currentWeaponHolders, _maxWeaponHolders]);
-// little hack so that only 1/5 of the max local spawnable zombies will be spawned in this round
-// make the spawn smoother along player's journey. Same for loot
-_controlledZombies = _controlledZombies max floor(_maxControlledZombies*.8);
-_currentWeaponHolders = _currentWeaponHolders max floor(_maxWeaponHolders*.8);
-
-// we start by the closest buildings. buildings too close from player are ditched.
-_nearby = (nearestObjects [_position, _sp4wnAroundObjects,dayz_spawnArea]) - (nearestObjects [_position, _sp4wnAroundObjects, dayz_safeDistPlr]);
-
-_nearbyCount = count _nearby;
-if ((_nearbyCount < 1) or (vehicle player != player)) exitwith {"Nothing close"};
-
-_zombieSpawnCtr = 0;
-_suitableBld = 0;
-_spwndoneBld = 0;
-_negstampBld = 0;
-_recyAgt = call _findAgt;
-_maxtoCreate = _maxControlledZombies - _controlledZombies;
-{
-	_type = typeOf _x;
-	_config = configFile >> dayzNam_buildingLoot >> _type;
-	_canLoot = isClass (_config);
-	_dis = _x distance player;
-	_checkLoot = ((count (getArray (_config >> "lootPos"))) > 0);
-	_islocal = _x getVariable ["", false]; // object created locally via TownGenerator. See stream_locationFill.sqf
-
-	////_x setVariable ["cleared",false,true]; // not used anymore
-
-	//Loot
-	if (_currentWeaponHolders < _maxWeaponHolders) then {
-		if ((_dis < 120) and (_dis > dayz_safeDistPlr) and _canLoot and !_inVehicle and _checkLoot) then {
-			_looted = (_x getVariable ["looted",-0.1]);
-			_dateNow = (DateToNumber date);
-			_age = (_dateNow - _looted) * 525948;
-			//diag_log ("SPAWN LOOT: " + _type + " Building is " + str(_age) + " old" );
-			if (_age < -0.1) then {
-					_x setVariable ["looted",(DateToNumber date),!_islocal];
-			} else {
-				if (_age > dayz_tagDelayWeaponHolders) then {
-					_x setVariable ["looted",_dateNow,!_islocal];
-					_qty = _x call building_spawnLoot;
-					_currentWeaponHolders = _currentWeaponHolders + _qty;
-				};
-			};
-		};
-	};
-
-	//Zeds
-	if ((_currentManModels < _maxManModels) AND {(_canLoot OR {(_x call _fairSize)})}) then {
-		if ((count _recyAgt > 0) OR {(_maxtoCreate > 0)}) then {
-			//[dayz_spawnArea, _position, _inVehicle, _dateNow, _age, _locationstypes, _nearestCity, _maxControlledZombies] call player_spawnzedCheck;
-			_suitableBld = _suitableBld +1;
-			_zombied = (_x getVariable ["zombieSpawn",-0.1]);
-			_dateNow = (DateToNumber date);
-			_age = (_dateNow - _zombied) * 525948; // in minutes
-			if (_age < -0.1) then {
-				_x setVariable ["zombieSpawn",(DateToNumber date),!_islocal]; // a SV for all objects on the map was a bit insane
-				_negstampBld = _negstampBld +1;
-			} else {
-				if (_age > dayz_tagDelayZombies) then {
-					_tmp = [_x, _recyAgt, _maxtoCreate];
-					_qty = _tmp call building_spawnZombies;
-					_recyAgt = _tmp select 1;
-					_maxtoCreate = _tmp select 2;
-					if (_qty > 0) then {
-						_currentManModels = _currentManModels + _qty;
-						_x setVariable ["zombieSpawn",_dateNow,!_islocal];
-					};
-					_spwndoneBld = _spwndoneBld +1;
-				}
-				else {
-					_zombieSpawnCtr = _zombieSpawnCtr +1;
-				};
-				//diag_log (format["%1 building. %2", __FILE__, _x]);
-			};
-		};
-	};
-} forEach _nearby;
+//_nearbyBuildings = [];
+_position = [player] call fnc_getPos;
+_speed = speed (vehicle player);
+_radius = 300; //150*0.707; Pointless Processing (106.5)
+_spawnZedRadius = 20;
 
 /*
-// spawn some a wild zombie if we can afford
-if ((_currentManModels < _maxManModels) AND {_maxtoCreate > 0}) then {
-	// we limit the surface because finding a typeless object is a CPU hog.
-	_radius = (0 max (dayz_canDelete - dayz_spawnArea))/2;
-	// search area is somewhere quite far, quite in the same direction as the player is facing
-	// Z will be spawned quite far, beyond the radius used for buildings
-	_tmp = (random 180) - 90;
-	_dis = dayz_spawnArea + _radius;
-	_point = player modelToWorld[sin(_tmp) * _dis, cos(_tmp) * _dis, 0];
-	_nearby = nil;
-	{
-		_tmp = str(_x);
-		// How not being seen? hide behind a bush! Great value = t_picea1s, t_picea2s, t_betula2w, b_craet2
-		if ((typeOf _x == "") AND {(
-			(((["t_picea1s", _tmp, false] call fnc_inString) OR
-			{(["t_picea2s", _tmp, false] call fnc_inString)})) OR
-			{((["t_betula2w", _tmp, false] call fnc_inString) OR
-			{(["b_craet2", _tmp, false] call fnc_inString)})})
-		}) then {
-			_suitableBld = _suitableBld +1;
-			_tmp = [_x, _recyAgt, _maxtoCreate, 10];
-			_qty = _tmp call building_spawnZombies;
-			_recyAgt = _tmp select 1;
-			_maxtoCreate = _tmp select 2;
-		};
-		sleep 0.001;
-	} forEach (nearestObjects [_point, [], _radius]);
-};
+//Tick Time
+PVDZ_getTickTime = player;
+publicVariableServer "PVDZ_getTickTime";
 */
-//diag_log (format["%1 End. Buildings checked:%2, newly zombied:%3, already zombied:%4, negative timestamp:%5.", __FILE__,_suitableBld, _spwndoneBld, _zombieSpawnCtr, _negstampBld ]);
+
+//Total Counts
+_maxlocalspawned = round(dayz_spawnZombies);
+_maxControlledZombies = round(dayz_maxLocalZombies);
+_maxWeaponHolders = round(dayz_maxMaxWeaponHolders);
+_currentWeaponHolders = round(dayz_currentWeaponHolders);
+
+//Limits (Land,Sea,Air)
+_inVehicle = (vehicle player != player);
+/*
+	_isAir = vehicle player iskindof "Air";
+	_isLand =  vehicle player iskindof "Land";
+	_isSea =  vehicle player iskindof "Sea";
+	if (_isLand) then { } else {  };
+	if (_isAir) then { } else {  };
+	if (_isSea) then { } else {  };
+*/
+
+_doNothing = false;
+if (_inVehicle) then {
+    _Controlledzeddivided = 0;
+    //exit if too fast
+    if (_speed > 25) exitwith {_doNothing = true;};
+
+    //Crew can spawn zeds.
+    _totalcrew = count (crew (vehicle player));
+    if (_totalcrew > 1) then {
+        _Controlledzeddivided = 2;
+        
+        //Dont allow driver to spawn if we have other crew members.
+        if (player == driver (vehicle player)) exitwith {_doNothing = true;};
+    } else {
+        _Controlledzeddivided = 4;
+    };
+    
+    if (_Controlledzeddivided > 0) then {
+        _maxControlledZombies = round(_maxControlledZombies / _Controlledzeddivided);
+        r_player_divideinvehicle = _Controlledzeddivided;
+    };
+};
+
+if (_doNothing) exitwith {};
+
+//Logging
+diag_log (format["%1 Local.Agents: %2/%3, NearBy.Agents: %8/%9, Global.Agents: %6/%7, W.holders: %10/%11, (radius:%4m %5fps).","SpawnCheck",
+    _maxlocalspawned, _maxControlledZombies, _radius, round diag_fpsmin,dayz_currentGlobalZombies, 
+    dayz_maxGlobalZeds, dayz_CurrentNearByZombies, dayz_maxNearByZombies, _currentWeaponHolders,_maxWeaponHolders]);
+
+// nearObjects is faster than nearestObjects when sorting by distance isn't needed
+// "Building" includes House and all of its child classes (Crashsite, IC_Fireplace1, IC_Tent, etc.)
+_nearby = _position nearObjects ["Building",_radius];
+_maxlocalspawned = _maxlocalspawned max floor(_maxControlledZombies*.8);
+if (_maxlocalspawned > 0) then { _spawnZedRadius = _spawnZedRadius * 3; };
+
+//Spawn Zeds & loot in buildings
+{
+    _type = typeOf _x;
+    _config = configFile >> "CfgLoot" >> "Buildings" >> _type;
+    _canSpawn = isClass (_config);
+
+    if (_canSpawn) then {
+	    _dis = _x distance player;
+		_checkLoot = (count (getArray (_config >> "lootPos"))) > 0;
+		_islocal = _x getVariable ["", false]; // object created locally via TownGenerator.
+
+		//Make sure wrecks always spawn Zeds
+		_isWreck = _x isKindOf "CrashSite";
+		
+	//Loot
+		if (getNumber(_config >> "lootChance") > 0) then {
+			if (_currentWeaponHolders < _maxWeaponHolders) then {
+				//Basic loot check
+				if ((_dis < 125) and (_dis > 30) and !_inVehicle and _checkLoot) then {
+					_serverTime = serverTime;
+					_looted = (_x getVariable ["looted",_serverTime]);
+					_age = _serverTime - _looted;
+					//Building refresh rate
+					if (_age == 0 or (_age > getNumber(_config >> "lootRefreshTimer"))) then { 
+						_x setVariable ["looted",_serverTime,!_islocal];
+						_x call building_spawnLoot;
+						if (!(_x in dayz_buildingBubbleMonitor)) then {
+							dayz_buildingBubbleMonitor set [count dayz_buildingBubbleMonitor, _x];
+						};
+						//diag_log [ diag_tickTime, "new loot at",_x,"age:", _age, "serverTime:", _serverTime];
+					}/*
+					else {
+						diag_log [ diag_tickTime, "won't spawn loot at",_x,"age:", _age, "serverTime:", _serverTime];
+					}*/;
+				};
+			};
+		};
+
+    //Zeds
+		if (getNumber(_config >> "zombieChance") > 0) then {
+			if (_dis > _spawnZedRadius) then {
+				_serverTime = serverTime;
+				_zombied = (_x getVariable ["zombieSpawn",_serverTime]);
+				_age = _serverTime - _zombied;
+				if ((_age == 0) or (_age > 300)) then { 			
+					if (!_isWreck) then {
+						if ((dayz_spawnZombies < _maxControlledZombies) and (dayz_CurrentNearByZombies < dayz_maxNearByZombies) and (dayz_currentGlobalZombies < dayz_maxGlobalZeds)) then {
+							_bPos = getPosATL _x;
+							_zombiesNum = count (_bPos nearEntities ["zZombie_Base",(((sizeOf _type) * 2) + 10)]);
+						
+							if (_zombiesNum == 0) then {    
+								_x setVariable ["zombieSpawn",_serverTime,!_islocal];
+								
+								if (!(_x in dayz_buildingBubbleMonitor)) then {
+									//add active zed to var
+									dayz_buildingBubbleMonitor set [count dayz_buildingBubbleMonitor, _x];
+								};
+								
+								//start spawn
+								[_x] call building_spawnZombies;
+							};							
+							//diag_log (format["%1 building. %2", __FILE__, _x]);
+						};
+					} else {
+						_bPos = getPosATL _x;
+						_zombiesNum = count (_bPos nearEntities ["zZombie_Base",(((sizeOf _type) * 2) + 30)]);
+						//Should be a wreck
+					   if (_zombiesNum == 0) then { [_x,_isWreck] call building_spawnZombies; };
+					};
+				};
+			};
+		};
+    };
+} forEach _nearby;

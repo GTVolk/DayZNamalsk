@@ -1,7 +1,4 @@
-/*
-        Created exclusively for ArmA2:OA - DayZMod.
-        Please request permission to use/alter/distribute from project leader (R4Z0R49) AND the author (facoptere@gmail.com)
-*/
+// (c) facoptere@gmail.com, licensed to DayZMod for the community
 
 #include "REsec.hpp"
 waitUntil{!isNil "BIS_MPF_InitDone"};
@@ -25,7 +22,7 @@ private["_ofn","_nfn"];
 
 #ifndef SKIP_REMOTEEXECUTIONSERVER
 []spawn{
-	while{(true)}do{
+	while{(1 == 1)}do{
 		private["_nfn"];
 		waitUntil{BIS_PathMPscriptCommandsCustom=="\ca\Modules\MP\data\scriptCommandsCustom\"};
 		_nfn="BIS_MPF_remoteExecutionServer"+str(round(random(100000)));

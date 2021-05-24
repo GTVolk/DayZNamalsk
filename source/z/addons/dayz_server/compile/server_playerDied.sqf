@@ -1,58 +1,75 @@
 #include "\z\addons\dayz_server\compile\server_toggle_debug.hpp"
 
-private ["_characterID","_minutes","_newObject","_playerID","_key"];
+private ["_characterID","_minutes","_newObject","_playerID","_playerName","_key","_pos","_infected","_sourceName","_sourceWeapon","_distance","_message","_method","_suicide","_bodyName","_type"];
 //[unit, weapon, muzzle, mode, ammo, magazine, projectile]
 
-_characterID = 	_this select 0;
-_minutes =	_this select 1;
-_newObject = 	_this select 2;
-_playerID = 	_this select 3;
-_playerName = 	name _newObject;
+_characterID = _this select 0;
+_minutes = _this select 1;
+_newObject = _this select 2;
+_playerID = _this select 3;
+_playerName = toString (_this select 4); //Sent as array to avoid publicVariable value restrictions
+_infected = _this select 5;
+_sourceName = toString (_this select 6);
+_sourceWeapon = _this select 7;
+_distance = _this select 8;
+_method = _this select 9;
 
-//dayz_disco = dayz_disco - [_playerID];
-_newObject setVariable["processedDeath",time];
-_newObject setVariable ["bodyName", _playerName, true];
+//Mark player as dead so we bypass the ghost system
+dayz_died set [count dayz_died, _playerID];
 
-/*
-diag_log ("DW_DEBUG: (isnil _characterID): " + str(isnil "_characterID"));
-if (isnil "_characterID") then {
-diag_log ("DW_DEBUG: _newObject: " + str(_newObject));	
-	};
-*/
+_newObject setVariable ["bodyName",_playerName,true];
+_pos = getPosATL _newObject;
 
-if (typeName _minutes == "STRING") then 
-{
-	_minutes = parseNumber _minutes;
-};
+// force to follow the terrain slope in sched_corpses.sqf
+if (_pos select 2 < 0.1) then {_pos set [2,0];};
+_newObject setVariable ["deathPos",_pos];
 
-if (_characterID != "0") then 
-{
+if (typeName _minutes == "STRING") then {_minutes = parseNumber _minutes;};
+
+if (_characterID != "0") then {
 	_key = format["CHILD:202:%1:%2:",_characterID,_minutes];
 	//diag_log ("HIVE: WRITE: "+ str(_key));
 	_key call server_hiveWrite;
-} 
-else 
-{
-	deleteVehicle _newObject;
 };
 
-#ifdef PLAYER_DEBUG
-format ["Player UID#%3 CID#%4 %1 as %5 died at %2", 
-	_newObject call fa_plr2str, (getPosATL _newObject) call fa_coor2str,
-	getPlayerUID _newObject,_characterID,
+diag_log format ["Player UID#%3 CID#%4 %1 as %5 died at %2", 
+	_newObject call fa_plr2str, _pos call fa_coor2str,
+	_playerID, _characterID,
 	typeOf _newObject
 ];
-#endif
 
-/*
-_eh = [_newObject] spawn {
-	_body = _this select 0;
-	_method = _body getVariable["deathType","unknown"];
-	_name = _body getVariable["bodyName","unknown"];
-	waitUntil{!isPlayer _body;sleep 1};
-	_body setVariable["deathType",_method,true];
-	_body setVariable["bodyName",_name,true];
-	diag_log ("PDEATH: Player Left Body " + _name);
+// DEATH MESSAGES
+_suicide = ((_sourceName == _playerName) or (_method == "suicide"));
+
+if (_method in ["explosion","melee","shot","shothead","shotheavy","suicide"] && !(_method == "explosion" && (_suicide or _sourceName == "unknown"))) then {
+	if (_suicide) then {
+		_message = ["suicide",_playerName];
+	} else {
+		if (_sourceWeapon == "") then {_sourceWeapon = "unknown weapon";};
+		_message = ["killed",_playerName,_sourceName,_sourceWeapon,_distance];
+	};
+} else {
+	// No source name, distance or weapon needed: "%1 died from %2" str_death_%1 (see stringtable)
+	// Possible methods: ["bled","combatlog","crash","crushed","dehyd","eject","fall","starve","sick","rad","runover","unknown","zombie"]
+	_message = ["died",_playerName,_method];
 };
-*/
+
+if (_playerName != "unknown" or _sourceName != "unknown") then {
+	_type = _message select 0;
+	_bodyName = _message select 1;
+	
+	if (_type == "killed" && _sourceName == "AI") then {
+		_message set [2, (localize "STR_PLAYER_AI")];
+	};
+	
+	_message = switch _type do {
+		case "died": {format [localize "str_player_death_died", _bodyName, localize format["str_death_%1",_message select 2]]};
+		case "killed": {format [localize "str_player_death_killed", _bodyName, _message select 2, _message select 3, _message select 4]};
+		case "suicide": {format [localize "str_player_death_suicide", _bodyName]};
+	};
+	diag_log format["DeathMessage: %1",_message];
+};
+
+_newObject setDamage 1;
+_newObject setOwner 0;
 //dead_bodyCleanup set [count dead_bodyCleanup,_newObject];
